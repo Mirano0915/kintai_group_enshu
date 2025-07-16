@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>給与計算</title>
+</head>
+<body>
+    <h1>給与計算</h1>
+    
+    <div>
+        <a href="/manager.html">管理者画面に戻る</a>
+    </div>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>名前</th>
+                <th>時給</th>
+                <th>出勤時間</th>
+                <th>深夜労働時間</th>
+                <th>出勤回数</th>
+                <th>賄い代と交通費の総額</th>
+                <th>月給の総額</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="payroll : ${payrollList}">
+                <td th:text="${payroll.name}"></td>
+                <td th:text="${payroll.hourlyWage}"></td>
+                <td th:text="${payroll.totalWorkHours}"></td>
+                <td th:text="${payroll.nightWorkHours}"></td>
+                <td th:text="${payroll.attendanceCount}"></td>
+                <td th:text="${payroll.allowanceAndTransportTotal}"></td>
+                <td th:text="${payroll.monthlyWageTotal}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
