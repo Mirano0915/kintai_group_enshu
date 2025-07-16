@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>管理者画面</title>
+</head>
+
+	<h1>管理者画面</h1>
+	<a href="/index.html">メインページに戻る</a>
+	
+	<form th:action="@{/attendanceAgree}" method="get">
+	  <button type="submit">打刻変更確認</button>
+	</form>
+	
+	<form th:action="@{/payroll}" method="get">
+	  <button type="submit">給与計算</button>
+	</form>
+	
+	<form th:action="@{/attendance}" method="get">
+	  <button type="submit">従業員管理</button>
+	</form>
+	
+</body>
+</html xmlns:th="http://www.thymeleaf.org">
