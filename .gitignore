@@ -1,0 +1,19 @@
+/.metadata/
+# IDE関連
+.classpath
+.project
+.settings/
+
+# OS関連
+.DS_Store
+Thumbs.db
+
+# ビルド関連
+build/
+.gradle/
+
+# ログファイル
+*.log
+
+# 環境ファイル
+.env
