@@ -1,9 +1,10 @@
-package com.kintai.enshu;
+package com.kintai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+
 public class KintaiAppApplication {
 
 	public static void main(String[] args) {
