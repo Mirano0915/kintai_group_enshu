@@ -20,4 +20,10 @@ public class IndexController {
 		indexService.readName(model);
 	return "index";
 	}
+	
+	//出勤処理（出勤ボタン）
+	@RequestMapping("/checkin")
+	public String checkin() {
+		return "complete";
+	}
 }
