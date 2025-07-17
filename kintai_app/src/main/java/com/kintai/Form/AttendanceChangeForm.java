@@ -13,9 +13,20 @@ public class AttendanceChangeForm {
 	
 	private Long nameId; 
 	
-	private Time preCheckinTime;
+	private String preCheckinTime;
 	
-	private Time preCheckoutTime;
+	private String preCheckoutTime;
 
 	private String comment;
+
+	
+	//入力フォームから受け取る時間がString型なのでTime型に変換
+	public Time getPreCheckinTimeAsSqlTime() {
+        // 直接 Time.valueOf(String) を使う。例："15:30:00"
+        return Time.valueOf(preCheckinTime + ":00");
+    }
+
+    public Time getPreCheckoutTimeAsSqlTime() {
+        return Time.valueOf(preCheckoutTime + ":00");
+    }
 }

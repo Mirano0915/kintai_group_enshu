@@ -26,8 +26,8 @@ public class StampsDAO {
 		db.update(
 				sql,
 				form.getNameId(),
-				form.getPreCheckinTime(), // java.sql.Time に変換
-				form.getPreCheckoutTime(), // java.sql.Time に変換
+				form.getPreCheckinTimeAsSqlTime(), // java.sql.Time に変換
+				form.getPreCheckoutTimeAsSqlTime(), // java.sql.Time に変換
 				form.getComment());
 
 	}

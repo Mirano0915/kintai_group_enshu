@@ -15,12 +15,13 @@ public class AttendanceChangeService {
 
 	//変更後の出勤・退勤時間、コメントを入力
 
-	public void attendanceRegister(AttendanceChangeForm form) {
-		stampsDAO.insertAttendanceTime //名前はくの君にきく  
-		(
-				form.getPreCheckinTime(),
-				form.getPreCheckoutTime(),
-				form.getComment());
+	public void attendanceRegister(AttendanceChangeForm f) {
+		AttendanceChangeForm form = new AttendanceChangeForm();
+		form.setNameId(f.getNameId());
+		form.setPreCheckinTime(f.getPreCheckinTime());
+		form.setPreCheckoutTime(f.getPreCheckoutTime());
+		form.setComment(f.getComment());
+		stampsDAO.insertAttendanceTime(form);
 
 	}
 
