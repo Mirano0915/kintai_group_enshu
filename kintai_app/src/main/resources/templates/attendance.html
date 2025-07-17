@@ -1,39 +1,202 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--</head>-->
+<!--<body>-->
+<!--	<h1>勤怠管理</h1>-->
+<!--	<a href="/index.html">メインページに戻る</a>	-->
+<!--	<table>-->
+<!--		<tr>-->
+<!--			<th>名前</th>-->
+<!--			<th>状況</th>-->
+<!--			<th>出勤時刻</th>-->
+<!--			<th>退勤時刻</th>-->
+<!--			<th></th>-->
+<!--			<th></th>-->
+<!--		</tr>-->
+		
+<!--		<tr>-->
+<!--			<td></td>-->
+<!--			<td></td>-->
+<!--			<td></td>-->
+<!--			<td></td>-->
+			
+<!--			<td>-->
+<!--				<form>-->
+<!--					<input type="submit" value="編集">-->
+<!--				</form>-->
+<!--			</td>-->
+			
+<!--			<td>-->
+<!--				<form>-->
+<!--					<input type="submit" value="削除">-->
+<!--				</form>-->
+<!--			</td>-->
+<!--		</tr>-->
+<!--	</table>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <title>勤怠管理</title>
 </head>
 <body>
-	<h1>勤怠管理</h1>
-	<a href="/index.html">メインページに戻る</a>	
-	<table>
-		<tr>
-			<th>名前</th>
-			<th>状況</th>
-			<th>出勤時刻</th>
-			<th>退勤時刻</th>
-			<th></th>
-			<th></th>
-		</tr>
-		
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			
-			<td>
-				<form>
-					<input type="submit" value="編集">
-				</form>
-			</td>
-			
-			<td>
-				<form>
-					<input type="submit" value="削除">
-				</form>
-			</td>
-		</tr>
-	</table>
+    <!-- 管理者画面の場合 -->
+    <h1 th:if="${mode == 'manager'}">勤怠管理（管理者画面）</h1>
+    <!-- 従業員画面の場合 -->
+    <h1 th:if="${mode == 'employee'}">勤怠管理（従業員画面）</h1>
+    
+    <div>
+        <!-- 管理者の場合はログアウトリンク表示 -->
+        <span th:if="${mode == 'manager'}">
+            <a href="/logout">ログアウト</a> |
+        </span>
+        <!-- 管理者の場合は従業員の追加ボタン -->
+        <span th:if="${mode == 'manager'}">
+            <button onclick="addEmployee()">従業員の追加</button> |
+        </span>
+        <a href="/">メインページに戻る</a>
+    </div>
+    
+    <br>
+    
+    <table border="1" id="attendanceTable">
+        <thead>
+            <tr>
+                <th>名前</th>
+                <th>状況</th>
+                <th>出勤時刻</th>
+                <th>退勤時刻</th>
+                <!-- 管理者モードの場合は編集・削除ボタン -->
+                <th th:if="${mode == 'manager'}">編集</th>
+                <th th:if="${mode == 'manager'}">削除</th>
+                <!-- 従業員モードの場合は編集ボタンのみ -->
+                <th th:if="${mode == 'employee'}">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- サンプルデータ1 -->
+            <tr data-id="1">
+                <td class="name">山川実羅乃</td>
+                <td class="status">出勤中</td>
+                <td class="checkin">09:00</td>
+                <td class="checkout">-</td>
+                
+                <!-- 管理者モード：AJAX編集・削除ボタン -->
+                <td th:if="${mode == 'manager'}">
+                    <button onclick="editAttendance(1, '山川実羅乃', '出勤中', '09:00', '-')">編集</button>
+                </td>
+                <td th:if="${mode == 'manager'}">
+                    <button onclick="deleteAttendance(1, '山川実羅乃')">削除</button>
+                </td>
+                
+                <!-- 従業員モード：ChangeRequestControllerに遷移 -->
+                <td th:if="${mode == 'employee'}">
+                    <form th:action="@{/change-request-form}" method="get" style="display: inline;">
+                        <input type="hidden" name="nameId" value="1">
+                        <input type="hidden" name="name" value="山川実羅乃">
+                        <button type="submit">変更申請</button>
+                    </form>
+                </td>
+            </tr>
+            
+            <!-- サンプルデータ2 -->
+            <tr data-id="2">
+                <td class="name">九野圭佑</td>
+                <td class="status">退勤済み</td>
+                <td class="checkin">08:30</td>
+                <td class="checkout">17:30</td>
+                
+                <!-- 管理者モード：AJAX編集・削除ボタン -->
+                <td th:if="${mode == 'manager'}">
+                    <button onclick="editAttendance(2, '九野圭佑', '退勤済み', '08:30', '17:30')">編集</button>
+                </td>
+                <td th:if="${mode == 'manager'}">
+                    <button onclick="deleteAttendance(2, '九野圭佑')">削除</button>
+                </td>
+                
+                <!-- 従業員モード：ChangeRequestControllerに遷移 -->
+                <td th:if="${mode == 'employee'}">
+                    <form th:action="@{/change-request-form}" method="get" style="display: inline;">
+                        <input type="hidden" name="nameId" value="2">
+                        <input type="hidden" name="name" value="九野圭佑">
+                        <button type="submit">変更申請</button>
+                    </form>
+                </td>
+            </tr>
+            
+            <!-- サンプルデータ3 -->
+            <tr data-id="3">
+                <td class="name">AI JINGYI</td>
+                <td class="status">未出勤</td>
+                <td class="checkin">-</td>
+                <td class="checkout">-</td>
+                
+                <!-- 管理者モード：AJAX編集・削除ボタン -->
+                <td th:if="${mode == 'manager'}">
+                    <button onclick="editAttendance(3, 'AI JINGYI', '未出勤', '-', '-')">編集</button>
+                </td>
+                <td th:if="${mode == 'manager'}">
+                    <button onclick="deleteAttendance(3, 'AI JINGYI')">削除</button>
+                </td>
+                
+                <!-- 従業員モード：ChangeRequestControllerに遷移 -->
+                <td th:if="${mode == 'employee'}">
+                    <form th:action="@{/change-request-form}" method="get" style="display: inline;">
+                        <input type="hidden" name="nameId" value="3">
+                        <input type="hidden" name="name" value="AI JINGYI">
+                        <button type="submit">変更申請</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 管理者モードの場合のみJavaScript -->
+    <script th:if="${mode == 'manager'}">
+        // 従業員追加機能（テスト用）
+        function addEmployee() {
+            alert('従業員追加機能（DAOが完成したら実装）');
+        }
+
+        // AJAX編集機能（テスト用）
+        function editAttendance(id, name, status, checkin, checkout) {
+            const newCheckin = prompt('新しい出勤時刻を入力してください（HH:MM形式）:', checkin === '-' ? '' : checkin);
+            if (newCheckin !== null) {
+                const newCheckout = prompt('新しい退勤時刻を入力してください（HH:MM形式）:', checkout === '-' ? '' : checkout);
+                if (newCheckout !== null) {
+                    // テスト用：実際のAJAXの代わりにテーブルを直接更新
+                    const row = document.querySelector(`tr[data-id="${id}"]`);
+                    row.querySelector('.checkin').textContent = newCheckin || '-';
+                    row.querySelector('.checkout').textContent = newCheckout || '-';
+                    
+                    // 状況を更新
+                    let newStatus = '未出勤';
+                    if (newCheckin && !newCheckout) {
+                        newStatus = '出勤中';
+                    } else if (newCheckin && newCheckout) {
+                        newStatus = '退勤済み';
+                    }
+                    row.querySelector('.status').textContent = newStatus;
+                    
+                    alert('テスト更新完了！');
+                }
+            }
+        }
+
+        // AJAX削除機能（テスト用）
+        function deleteAttendance(id, name) {
+            if (confirm(`本当に ${name}さん を削除しますか？`)) {
+                // テスト用：実際のAJAXの代わりにテーブルから行を削除
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                row.remove();
+                alert('テスト削除完了！');
+            }
+        }
+    </script>
 </body>
 </html>
