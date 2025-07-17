@@ -1,6 +1,6 @@
 package com.kintai.Form;
 
-import java.time.LocalTime;
+import java.sql.Time;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AttendanceChangeForm {
 	
+	private Long nameId; 
 	
-	private LocalTime preCheckinTime;
+	private Time preCheckinTime;
 	
-	private LocalTime preCheckOutTime;
+	private Time preCheckoutTime;
 
 	private String comment;
 }
