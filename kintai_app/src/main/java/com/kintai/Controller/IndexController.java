@@ -2,6 +2,7 @@ package com.kintai.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.kintai.Service.IndexService;
@@ -16,7 +17,7 @@ public class IndexController {
 	
 	//勤怠管理画面表示
 	@RequestMapping("/")
-	public String read(Model model) {
+	public String view(Model model) {
 		indexService.readName(model);
 		return "index";
 	}
