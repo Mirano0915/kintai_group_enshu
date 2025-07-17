@@ -22,7 +22,7 @@ public class AttendancesDAO {
 	
 	
 	//従業員の名前を取得
-	public List<AttendancesEntity> readDb(){
+	public List<AttendancesEntity> readNameDb(){
 		String sql = "SELECT DISTINCT name FROM attendances";
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
