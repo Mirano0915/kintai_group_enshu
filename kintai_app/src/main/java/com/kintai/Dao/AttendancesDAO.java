@@ -1,5 +1,6 @@
 package com.kintai.Dao;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,5 +32,12 @@ public class AttendancesDAO {
 			resultDb2.add(entitydb);
 		}
 		return resultDb2;
+	}
+	
+	
+	//出勤処理
+	public void checkin() {
+		LocalTime nowtime = LocalTime.now();
+		db.update("INSERT INTO attendances (checkin_time) VALUES(?)", java.sql.Time.valueOf(nowtime));
 	}
 }
