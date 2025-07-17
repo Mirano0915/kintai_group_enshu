@@ -1,7 +1,6 @@
 package com.kintai.Dao;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +31,16 @@ public class HourlyWagesDAO {
 		//勤怠テーブルから勤怠履歴を取得
 		for(Map<String, Object> result1:resultDb1) {
 			HourlyWagesEntity entitydb = new HourlyWagesEntity();
-			entitydb.setNameId((Long)result1.get("name_id"));
+			
+//			entitydb.setNameId((Long)result1.get("name_id"));
+			entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
 			entitydb.setName((String)result1.get("name"));
-			entitydb.setCheckinTime((LocalTime)result1.get("checkin_time"));
-			entitydb.setCheckoutTime((LocalTime)result1.get("checkout_time"));
-			entitydb.setDate((LocalDate)result1.get("date"));
-			entitydb.setHourlyWage((Integer)result1.get("hourly_wage"));
+			entitydb.setCheckinTime((Time)result1.get("checkin_time"));
+			entitydb.setCheckoutTime((Time)result1.get("checkout_time"));
+//			entitydb.setDate((Date)result1.get("date"));
+//			entitydb.setHourlyWage((Integer)result1.get("hourly_wage"));
+			entitydb.setHourlyWage(result1.get("hourly_wage") != null ? ((Number) result1.get("hourly_wage")).intValue() : null);
+
 			
 			resultDb2.add(entitydb);
 			

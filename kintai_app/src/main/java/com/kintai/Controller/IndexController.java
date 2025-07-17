@@ -19,6 +19,7 @@ public class IndexController {
 	@RequestMapping("/")
 	public String view(Model model) {
 		indexService.readName(model);
+		System.out.println("メソッド呼ばれた");
 		return "index";
 	}
 	

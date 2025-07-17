@@ -1,6 +1,5 @@
 package com.kintai.Entity;
 
-
 import java.sql.Date;
 import java.sql.Time;
 
@@ -17,6 +16,8 @@ public class HourlyWagesEntity {
 	private String name;
 	private Time checkinTime;
 	private Time checkoutTime;
+
 	private Date date;
+
 	private Integer hourlyWage;
 }
