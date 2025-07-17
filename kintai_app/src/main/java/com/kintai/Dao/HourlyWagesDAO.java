@@ -45,6 +45,6 @@ public class HourlyWagesDAO {
 		return resultDb2;
 			
 			
-		}
+		
 	}
 }
