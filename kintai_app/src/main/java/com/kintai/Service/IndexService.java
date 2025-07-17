@@ -14,7 +14,7 @@ public class IndexService {
 	private AttendancesDAO attendancesDAO;
 	
 	
-	//従業員の名前を所得
+	//従業員の名前取得
 	public void readName(Model model) {
 		
 	}
