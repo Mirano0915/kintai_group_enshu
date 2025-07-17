@@ -1,5 +1,6 @@
 package com.kintai.Dao;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,15 +37,18 @@ public class AttendancesDAO {
 	
 	
 	//出勤処理
-	public void checkin() {
+	public void checkin(String name) {
+		System.out.println("出勤処理を行いました");
 		LocalTime nowtime = LocalTime.now();
-		db.update("INSERT INTO attendances (checkin_time) VALUES(?)", java.sql.Time.valueOf(nowtime));
+		LocalDate today = LocalDate.now(); 
+		db.update("INSERT INTO attendances (name, checkin_time, date) VALUES(?,?,?)",name, java.sql.Time.valueOf(nowtime),java.sql.Date.valueOf(today));
 	}
 	
 	
-	//出勤処理
-	public void checkout() {
+	//退勤処理
+	public void checkout(String name) {
+		System.out.println("退勤処理を行いました");
 		LocalTime nowtime = LocalTime.now();
-		db.update("INSERT INTO attendances (checkout_time) VALUES(?)", java.sql.Time.valueOf(nowtime));
+		db.update("UPDATE attendances SET checkout_time = ? WHERE name = ? ",java.sql.Time.valueOf(nowtime), name);
 	}
 }
