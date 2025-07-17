@@ -25,13 +25,13 @@ public class IndexService {
 	
 	
 	//出勤処理
-	public void checkin() {
-		attendancesDAO.checkin();
+	public void checkin(String name) {
+		attendancesDAO.checkin(name);
 	}
 	
 	
 	//退勤処理
-	public void checkout() {
-		attendancesDAO.checkout();
+	public void checkout(String name) {
+		attendancesDAO.checkout(name);
 	}
 }

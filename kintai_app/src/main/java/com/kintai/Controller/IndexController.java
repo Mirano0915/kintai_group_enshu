@@ -26,16 +26,16 @@ public class IndexController {
 	
 	//出勤処理（出勤ボタン）
 	@RequestMapping("/checkin")
-	public String checkin() {
-		indexService.checkin();
+	public String checkin(String name) {
+		indexService.checkin(name);
 		return "complete";
 	}
 	
 	
 	//退勤処理(退勤ボタン)
 	@RequestMapping("/checkout")
-	public String checkout() {
-		indexService.checkout();
+	public String checkout(String name) {
+		indexService.checkout(name);
 		return "complete";
 	}
 	
