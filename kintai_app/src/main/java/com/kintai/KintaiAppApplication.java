@@ -1,4 +1,4 @@
-package com.kintai.enshu;
+package com.kintai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
