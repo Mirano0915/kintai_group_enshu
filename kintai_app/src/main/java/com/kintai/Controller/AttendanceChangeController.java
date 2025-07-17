@@ -1,5 +1,30 @@
 package com.kintai.Controller;
 
-public class AttendanceChangeController {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kintai.Form.AttendanceChangeForm;
+import com.kintai.Service.AttendanceChangeService;
+
+@Controller
+public class AttendanceChangeController {
+	
+	@Autowired
+	private AttendanceChangeService attendanceChangeService;
+	
+	//変更申請画面表示
+		@RequestMapping("/attendanceChange")
+		public String view() {
+			return "attendanceChange";
+		}
+
+	//送信処理
+		@PostMapping("/completeChange")
+		public String submitAttendanceForm(@ModelAttribute AttendanceChangeForm form) {
+		    attendanceChangeService.attendanceRegister(form);
+		    return "completeChange";
+		}
 }
