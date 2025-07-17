@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>管理者ログイン</title>
+</head>
+<body>
+    <h1>管理者ログイン</h1>
+    
+    <!-- Thymeleafエラーメッセージ表示 -->
+    <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+    </div>
+    
+    <!-- サーバーサイド処理用のフォーム -->
+    <form th:action="@{/auth}" method="post">
+        <div>
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        
+        <div>
+            <button type="submit">ログイン</button>
+        </div>
+    </form>
+    
+    <div>
+        <a href="/">勤怠管理システムページへ戻る</a>
+    </div>
+</body>
+</html>
