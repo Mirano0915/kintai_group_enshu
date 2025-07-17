@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kintai.Entity.AttendancesEntity;
+import com.kintai.Form.AttendanceChangeForm;
 
 @Repository
 public class StampsDAO {
@@ -18,7 +19,16 @@ public class StampsDAO {
 	}
 
 	//打刻申請を追加
-	public void updateAttendanceTime() {
+	public void insertAttendanceTime(AttendanceChangeForm form) {
+
+		String sql = "INSERT INTO stamps (name_id, pre_checkin_time, pre_checkout_time, comment) VALUES (?, ?, ?, ?)";
+
+		db.update(
+				sql,
+				form.getNameId(),
+				form.getPreCheckinTime(), // java.sql.Time に変換
+				form.getPreCheckoutTime(), // java.sql.Time に変換
+				form.getComment());
 
 	}
 
@@ -29,7 +39,7 @@ public class StampsDAO {
 
 	//勤怠テーブルと打刻変更テーブルを外部結合
 
-	public List<AttendancesEntity> showAttendanceAgreeTable(){
-		
+	public List<AttendancesEntity> showAttendanceAgreeTable() {
+
 	}
 }
