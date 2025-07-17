@@ -33,13 +33,19 @@ public class StampsDAO {
 	}
 
 	//打刻申請を削除
-	public void deleteAttendanceTime() {
+	public void deleteAttendanceTime(Long stampId) {
+		
+		String sql = "DELETE FROM stamps WHERE stamp_id=?";
+		
+		db.update(sql, stampId);
 
 	}
 
 	//勤怠テーブルと打刻変更テーブルを外部結合
 
 	public List<AttendancesEntity> showAttendanceAgreeTable() {
+		
+		
 
 	}
 }
