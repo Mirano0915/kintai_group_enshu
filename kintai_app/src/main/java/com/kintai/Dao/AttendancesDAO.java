@@ -40,4 +40,11 @@ public class AttendancesDAO {
 		LocalTime nowtime = LocalTime.now();
 		db.update("INSERT INTO attendances (checkin_time) VALUES(?)", java.sql.Time.valueOf(nowtime));
 	}
+	
+	
+	//出勤処理
+	public void checkout() {
+		LocalTime nowtime = LocalTime.now();
+		db.update("INSERT INTO attendances (checkout_time) VALUES(?)", java.sql.Time.valueOf(nowtime));
+	}
 }
