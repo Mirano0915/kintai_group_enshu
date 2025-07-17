@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AttendanceChangeForm {
 	
+	private Long nameId; 
 	
 	private LocalTime preCheckinTime;
 	
-	private LocalTime preCheckOutTime;
+	private LocalTime preCheckoutTime;
 
 	private String comment;
 }
