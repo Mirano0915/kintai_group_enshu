@@ -25,9 +25,4 @@ public class AttendanceChangeService {
 
 	}
 
-
-	//送信処理
-	public void submitChange() {
-
-	}
 }
