@@ -1,8 +1,7 @@
 package com.kintai.Entity;
 
-
+import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +16,8 @@ public class HourlyWagesEntity {
 	private String name;
 	private Time checkinTime;
 	private Time checkoutTime;
-	private LocalDate date;
+
+	private Date date;
+
 	private Integer hourlyWage;
 }
