@@ -29,7 +29,7 @@ public class AttendancesDAO {
 		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
 		for(Map<String,Object> result1:resultDb1) {
 			AttendancesEntity entitydb = new AttendancesEntity();
-			entitydb.setName((String)result1.get("name_id"));
+			entitydb.setName((String)result1.get("name"));
 			resultDb2.add(entitydb);
 		}
 		return resultDb2;

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kintai.Service.IndexService;
 
@@ -26,7 +27,7 @@ public class IndexController {
 	
 	//出勤処理（出勤ボタン）
 	@RequestMapping("/checkin")
-	public String checkin(String name) {
+	public String checkin(@RequestParam("employeeName") String name) {
 		indexService.checkin(name);
 		return "complete";
 	}
@@ -34,7 +35,7 @@ public class IndexController {
 	
 	//退勤処理(退勤ボタン)
 	@RequestMapping("/checkout")
-	public String checkout(String name) {
+	public String checkout(@RequestParam("employeeName") String name) {
 		indexService.checkout(name);
 		return "complete";
 	}
