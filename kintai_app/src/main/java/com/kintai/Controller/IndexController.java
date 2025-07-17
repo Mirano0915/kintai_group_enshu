@@ -21,9 +21,17 @@ public class IndexController {
 	return "index";
 	}
 	
+	
 	//出勤処理（出勤ボタン）
 	@RequestMapping("/checkin")
 	public String checkin() {
+		return "complete";
+	}
+	
+	
+	//退勤処理(退勤ボタン)
+	@RequestMapping("/checkout")
+	public String checkout() {
 		return "complete";
 	}
 }
