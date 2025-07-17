@@ -20,6 +20,6 @@ public class StampsEntity {
 	private LocalTime checkoutTime;
 	private LocalDate date;
 	private LocalTime preCheckinTime;
-	private LocalTime preCkoutTime;
+	private LocalTime  preCheckOutTime;;
 	private String comment;
 }
