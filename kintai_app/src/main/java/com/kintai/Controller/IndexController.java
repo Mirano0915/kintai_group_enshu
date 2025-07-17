@@ -16,8 +16,8 @@ public class IndexController {
 	
 	//勤怠管理画面表示
 	@RequestMapping("/")
-	public String read() {
-		
+	public String read(Model model) {
+		indexService.readName(model);
 	return "index";
 	}
 }
