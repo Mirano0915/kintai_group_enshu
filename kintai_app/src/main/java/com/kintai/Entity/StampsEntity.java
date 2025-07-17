@@ -1,8 +1,8 @@
 package com.kintai.Entity;
 
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Date;
+import java.sql.Time;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +16,10 @@ public class StampsEntity {
 	private Long stampId; //Primary Key
 	private Long nameId;  //Foreign Key
 	private String name;
-	private LocalTime checkinTime;
-	private LocalTime checkoutTime;
-	private LocalDate date;
-	private LocalTime preCheckinTime;
-	private LocalTime  preCheckOutTime;;
+	private Time checkinTime;
+	private Time checkoutTime;
+	private Date date;
+	private Time preCheckinTime;
+	private Time  preCheckOutTime;;
 	private String comment;
 }
