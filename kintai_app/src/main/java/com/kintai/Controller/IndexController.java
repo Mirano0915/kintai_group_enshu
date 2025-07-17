@@ -18,13 +18,14 @@ public class IndexController {
 	@RequestMapping("/")
 	public String read(Model model) {
 		indexService.readName(model);
-	return "index";
+		return "index";
 	}
 	
 	
 	//出勤処理（出勤ボタン）
 	@RequestMapping("/checkin")
 	public String checkin() {
+		indexService.checkin();
 		return "complete";
 	}
 	
@@ -32,6 +33,8 @@ public class IndexController {
 	//退勤処理(退勤ボタン)
 	@RequestMapping("/checkout")
 	public String checkout() {
+		indexService.checkout();
 		return "complete";
 	}
+	
 }
