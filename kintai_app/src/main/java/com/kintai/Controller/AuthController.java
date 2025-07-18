@@ -39,7 +39,7 @@ public class AuthController {
         if (authService.authenticateAdmin(password)) {
             // ログイン成功 → Session設定
             authService.setManagerSession(session);
-            return "redirect:/manager";
+            return "redirect:/manager-main";  // ManagerControllerの申請件数付きページへ
         } else {
             // ログイン失敗
             model.addAttribute("error", "パスワードが間違っています");
@@ -57,7 +57,7 @@ public class AuthController {
     }
 
     /**
-     * 管理者画面表示
+     * 管理者画面表示（シンプル版）
      */
     @GetMapping("/manager")
     public String showManagerPage(HttpSession session) {
