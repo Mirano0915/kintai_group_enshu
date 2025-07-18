@@ -1,10 +1,10 @@
 CREATE TABLE attendances (
-  name_id BIGINT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(30) NOT NULL,
+  attendance_id BIGINT NOT NULL AUTO_INCREMENT,
+  name_id BIGINT NOT NULL,
   checkin_time TIME,
   checkout_time TIME,
   date DATE,
-  PRIMARY KEY(name_id)
+  PRIMARY KEY(attendance_id)
 );
 
 CREATE TABLE stamps (
@@ -19,6 +19,7 @@ CREATE TABLE stamps (
 
 CREATE TABLE hourly_wages (
   name_id BIGINT NOT NULL,
+  name VARCHAR(30) NOT NULL,
   hourly_wage INT NOT NULL DEFAULT 1000,
   PRIMARY KEY(name_id),
   FOREIGN KEY (name_id) REFERENCES attendances(name_id)

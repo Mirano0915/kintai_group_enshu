@@ -12,7 +12,7 @@ public class HourlyWagesEntity {
 	private Long nameId; //Primary Key
 	private String name;
 	private int hourlyWage;
-	private int totalWorkingTime;
+	private String totalWorkingTime;
 	private int nightWorkingTime;
 	private int daysWorked;
 	private int transportation;
