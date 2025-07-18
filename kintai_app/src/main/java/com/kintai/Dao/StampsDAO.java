@@ -50,13 +50,13 @@ public class StampsDAO {
 
 	public List<StampsEntity> showAttendanceAgreeTable() {
 		
-		String sql ="SELECT"
+		String sql ="SELECT "
 				+ "NAME, "
 				+ "CHECKIN_TIME, "
 				+ "CHECKOUT_TIME, "
 				+ "PRE_CHECKIN_TIME, "
 				+ "PRE_CHECKOUT_TIME, "
-				+ "DATE "
+				+ "DATE, "
 				+ "COMMENT "
 				+ "FROM STAMPS "
 				+ "INNER JOIN "

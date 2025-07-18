@@ -19,6 +19,7 @@
                 <th>退勤時間</th>
                 <th>変更後の出勤時間</th>
                 <th>変更後の退勤時間</th>
+				<th>日付</th>
                 <th>コメント</th>
                 <th>操作</th>
             </tr>
@@ -30,6 +31,7 @@
                 <td th:text="${request.checkoutTime}"></td>
                 <td th:text="${request.preCheckinTime}"></td>
                 <td th:text="${request.preCheckoutTime}"></td>
+				<td th:text="${request.date}"></td>
                 <td th:text="${request.comment}"></td>
                 <td>
                     <form th:action="@{/approve-request}" method="post">
