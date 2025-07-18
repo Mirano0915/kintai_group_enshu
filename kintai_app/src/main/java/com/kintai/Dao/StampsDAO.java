@@ -50,6 +50,7 @@ public class StampsDAO {
 	public List<StampsEntity> showAttendanceAgreeTable() {
 		
 		String sql ="SELECT "
+				+ "STAMPS.STAMP_ID, "
 				+ "NAME, "
 				+ "CHECKIN_TIME, "
 				+ "CHECKOUT_TIME, "
@@ -69,6 +70,7 @@ public class StampsDAO {
 		for(Map<String, Object> result1:resultDb1) {
 			StampsEntity entitydb = new StampsEntity();
 			
+			entitydb.setStampId((Long)result1.get("stamp_id"));
 			entitydb.setName((String)result1.get("name"));
 			entitydb.setCheckinTime((Time)result1.get("checkin_time"));
 			entitydb.setCheckoutTime((Time)result1.get("checkout_time"));
