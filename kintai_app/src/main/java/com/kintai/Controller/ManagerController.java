@@ -27,7 +27,7 @@ public class ManagerController {
     @GetMapping("/manager-main")
     public String showManagerPage(HttpSession session, Model model) {
         
-        // 🔒 管理者Session権限验证
+        //  管理者Session権限验证
         if (!authService.isManagerLoggedIn(session)) {
             return "redirect:/auth";
         }
