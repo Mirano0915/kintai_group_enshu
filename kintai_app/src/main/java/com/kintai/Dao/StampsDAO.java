@@ -37,8 +37,7 @@ public class StampsDAO {
 	}
 
 	//打刻申請を削除
-	//これはajax対応あるのでいらないかも
-	public void deleteAttendanceTime(Long stampId) {
+	public void deleteAttendanceAgree(Long stampId) {
 		
 		String sql = "DELETE FROM stamps WHERE stamp_id=?";
 		
