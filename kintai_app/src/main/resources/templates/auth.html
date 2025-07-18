@@ -6,13 +6,13 @@
 </head>
 <body>
     <h1>管理者ログイン</h1>
-    
-    <!-- Thymeleafエラーメッセージ表示 -->
-    <div th:if="${error}" style="color: red;">
-        <p th:text="${error}"></p>
+
+    <!-- エラーメッセージ表示 -->
+    <div th:if="${error}">
+        <p th:text="${error}" style="color: red;"></p>
     </div>
-    
-    <!-- サーバーサイド処理用のフォーム -->
+
+    <!-- ログインフォーム -->
     <form th:action="@{/auth}" method="post">
         <div>
             <label for="password">パスワード:</label>
@@ -23,9 +23,12 @@
             <button type="submit">ログイン</button>
         </div>
     </form>
-    
+
     <div>
         <a href="/">勤怠管理システムページへ戻る</a>
     </div>
+
+    <!-- 研修用情報 -->
+    <p>研修用パスワード: team3</p>
 </body>
 </html>
