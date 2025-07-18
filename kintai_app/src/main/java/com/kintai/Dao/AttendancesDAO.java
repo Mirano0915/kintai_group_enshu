@@ -47,8 +47,25 @@ public class AttendancesDAO {
 	
 	//退勤処理
 	public void checkout(String name) {
+//		System.out.println("退勤処理を行いました");
+//		LocalTime nowtime = LocalTime.now();
+//		db.update("UPDATE attendances SET checkout_time = ? WHERE name = ? ",java.sql.Time.valueOf(nowtime), name);
 		System.out.println("退勤処理を行いました");
-		LocalTime nowtime = LocalTime.now();
-		db.update("UPDATE attendances SET checkout_time = ? WHERE name = ? ",java.sql.Time.valueOf(nowtime), name);
+	    LocalTime nowtime = LocalTime.now();
+	    
+	    // 最新の出勤記録を取得するSQL文
+	    String query = "SELECT MAX(checkin_time) FROM attendances WHERE name = ? AND date = ?";
+	    
+	    // 最新の出勤時間を取得
+	    java.sql.Time latestCheckinTime = db.queryForObject(query, java.sql.Time.class, name, java.sql.Date.valueOf(LocalDate.now()));
+
+	    if (latestCheckinTime != null) {
+	        // 最新の出勤時間のレコードをUPDATEする
+	        String updateQuery = "UPDATE attendances SET checkout_time = ? WHERE name = ? AND checkin_time = ? AND date = ?";
+	        db.update(updateQuery, java.sql.Time.valueOf(nowtime), name, latestCheckinTime, java.sql.Date.valueOf(LocalDate.now()));
+	        System.out.println("最新の出勤記録に退勤時間を登録しました");
+	    } else {
+	        System.out.println("該当する出勤記録が見つかりませんでした");
+	    }
 	}
 }
