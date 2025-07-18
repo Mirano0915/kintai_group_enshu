@@ -23,12 +23,21 @@ public class HourlyWagesDAO {
 	
 	//勤怠テーブルと時給テーブルを内部結合して読み取り
 	public List<HourlyWagesEntity> readDb(){
-		String sql = "SELECT * FROM attendances INNER JOIN hourly_wages ON attendances.name_id = hourly_wages.name_id";
+		
+		
+//		String sql = "SELECT * FROM attendances INNER JOIN hourly_wages ON attendances.name_id = hourly_wages.name_id";
+//		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
+		
+		String sql = "SELECT attendances.name_id, attendances.name, SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) AS total_work_minutes " +
+	             "FROM attendances " +
+	             "INNER JOIN hourly_wages ON attendances.name_id = hourly_wages.name_id " +
+	             "GROUP BY attendances.name_id, attendances.name";
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		
-		List<HourlyWagesEntity>resultDb2 = new ArrayList<HourlyWagesEntity>();//勤怠履歴を入れておくリスト
 		
-		//勤怠テーブルから勤怠履歴を取得
+		List<HourlyWagesEntity>resultDb2 = new ArrayList<HourlyWagesEntity>();//従業員ごとの出勤時間を入れておくリスト
+		
+		//勤怠時間を取得
 		for(Map<String, Object> result1:resultDb1) {
 			HourlyWagesEntity entitydb = new HourlyWagesEntity();
 			
