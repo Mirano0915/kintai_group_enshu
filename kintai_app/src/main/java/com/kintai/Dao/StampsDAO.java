@@ -59,8 +59,8 @@ public class StampsDAO {
 				+ "DATE, "
 				+ "COMMENT "
 				+ "FROM STAMPS "
-				+ "INNER JOIN "
-				+ "ATTENDANCES ON STAMPS.NAME_ID = ATTENDANCES.NAME_ID";
+				+ "INNER JOIN ATTENDANCES ON STAMPS.NAME_ID = ATTENDANCES.NAME_ID "
+				+ "INNER JOIN HOURLY_WAGES ON ATTENDANCES.NAME_ID = HOURLY_WAGES.NAME_ID";
 		
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		
