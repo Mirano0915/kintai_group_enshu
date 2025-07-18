@@ -1,3 +1,10 @@
+CREATE TABLE hourly_wages (
+  name_id BIGINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(30) NOT NULL,
+  hourly_wage INT NOT NULL DEFAULT 1000,
+  PRIMARY KEY (name_id)
+);
+
 CREATE TABLE attendances (
   attendance_id BIGINT NOT NULL AUTO_INCREMENT,
   name_id BIGINT NOT NULL,
@@ -14,13 +21,6 @@ CREATE TABLE stamps (
   pre_checkout_time TIME DEFAULT NULL,
   comment VARCHAR(100) DEFAULT NULL,
   PRIMARY KEY (stamp_id),
-  FOREIGN KEY (name_id) REFERENCES attendances(name_id)
+  FOREIGN KEY (name_id) REFERENCES hourly_wages(name_id)
 );
 
-CREATE TABLE hourly_wages (
-  name_id BIGINT NOT NULL,
-  name VARCHAR(30) NOT NULL,
-  hourly_wage INT NOT NULL DEFAULT 1000,
-  PRIMARY KEY(name_id),
-  FOREIGN KEY (name_id) REFERENCES attendances(name_id)
-);

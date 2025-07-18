@@ -1,3 +1,10 @@
+INSERT INTO hourly_wages (name, hourly_wage) VALUES 
+('山川実羅乃', 1000),
+('九野圭佑', 1100),
+('AI JINGYI', 1200),
+('増田帆伽', 1400),
+('磯辺玲菜', 1000);
+
 INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES 
 (1, '09:03:00', '17:00:00', '2025-01-15'),
 (2, '08:30:00', '17:30:00', '2025-01-15'),
@@ -8,7 +15,6 @@ INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES
 (2, '08:30:00', '17:30:00', '2025-01-14'),
 (3, '09:10:00', '18:10:00', '2025-01-14');
 
-
   
 INSERT INTO stamps (name_id, pre_checkin_time, pre_checkout_time, comment) VALUES 
 (1, '08:55:00', '17:00:00', '電車遅延のため出勤時刻を変更申請'),
@@ -16,12 +22,4 @@ INSERT INTO stamps (name_id, pre_checkin_time, pre_checkout_time, comment) VALUE
 (3, '09:00:00', '19:00:00', '残業時間の修正申請'),
 (4, '09:30:00', '15:30:00', '体調不良のため、早退しました'),
 (5, '09:00:00', '17:00:00', '打刻が忘れました');
-
-
-INSERT INTO hourly_wages (name_id, hourly_wage, name) VALUES 
-(1, 1000, '山川実羅乃'),
-(2, 1100, '九野圭佑'),
-(3, 1200, 'AI JINGYI'),
-(4, 1400, '増田帆伽'),
-(5, 1000, '磯辺玲菜');
 

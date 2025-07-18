@@ -22,7 +22,7 @@ public class HourlyWagesDAO {
 	
 	//勤怠テーブルと時給テーブルを内部結合して読み取り
 	public List<HourlyWagesEntity> readDb(){	
-		String sql = "SELECT attendances.name, hourly_wages.hourly_wage, " + //name_id、名前、時給を従業員ごとにSELECT
+		String sql = "SELECT hourly_wages.name, hourly_wages.hourly_wage, " + //name_id、名前、時給を従業員ごとにSELECT
 				 "SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) AS total_work_minutes, " + //合計出勤時間を算出
 	             "SUM(CASE WHEN attendances.checkin_time >= '22:00:00' THEN TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time) ELSE 0 END) AS night_work_minutes, " + //深夜労働時間を算出
 	             "COUNT(*) AS days_worked, " + //出勤回数
@@ -30,7 +30,7 @@ public class HourlyWagesDAO {
 	             "(SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) * hourly_wages.hourly_wage / 60) + (COUNT(*) * 210) AS total_amount " + //月給算出
 	             "FROM attendances " +
 	             "INNER JOIN hourly_wages ON attendances.name_id = hourly_wages.name_id " +
-	             "GROUP BY attendances.name";
+	             "GROUP BY attendances.name_id, hourly_wages.name_id";
 
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		
