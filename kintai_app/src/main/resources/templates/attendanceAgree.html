@@ -4,9 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>打刻変更申請一覧</title>
-	<meta name="_csrf" th:content="${_csrf.token}">
-	<meta name="_csrf_header" th:content="${_csrf.headerName}">
-	<script src="/js/approveAgree.js"></script>
+
 </head>
 
 <body>
@@ -30,7 +28,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr th:each="request : ${changeRequests}">
+
+
+			<!--			申請があるとき-->
+			<tr th:each="request : ${changeRequests}" th:attr="data-stamp-id=${request.stampId}">
 				<td th:text="${request.name}"></td>
 				<td th:text="${request.checkinTime}"></td>
 				<td th:text="${request.checkoutTime}"></td>
@@ -39,14 +40,18 @@
 				<td th:text="${request.date}"></td>
 				<td th:text="${request.comment}"></td>
 				<td>
-					<form th:action="@{/approve-request}" method="post">
-						<input type="hidden" name="stampId" th:value="${request.stampId}">
-						<button type="button" class="approve-btn" th:data-stamp-id="${request.stampId}">承認</button>
-					</form>
+					<button type="button" class="approve-btn">承認</button>
 				</td>
 			</tr>
+			<!--			申請がないとき-->
+			<tr th:if="${#lists.isEmpty(changeRequests)}">
+				<td colspan="8">申請はありません</td>
+			</tr>
 		</tbody>
+
 	</table>
 </body>
+
+<script src="/js/approveAgree.js"></script>
 
 </html>

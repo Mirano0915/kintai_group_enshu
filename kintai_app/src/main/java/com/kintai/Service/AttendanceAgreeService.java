@@ -17,7 +17,6 @@ public class AttendanceAgreeService {
 	//勤怠テーブルと時給テーブルを呼びだし＆給与計算
 	public List<StampsEntity> getAttendanceAgreeList() {
 		List<StampsEntity> resultDb2 = stampsDAO.showAttendanceAgreeTable();
-		System.out.println(resultDb2.get(0).getNameId());
 		
 		return resultDb2;
 

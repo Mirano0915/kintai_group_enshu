@@ -2,30 +2,39 @@
  * 
  */
 document.addEventListener("DOMContentLoaded", function () {
-    const csrfToken = document.querySelector("meta[name='_csrf']").getAttribute("content");
-    const csrfHeader = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+    console.log("✅ approve.js 読み込み完了");
 
-    document.querySelectorAll(".approve-btn").forEach(function (button) {
+    document.querySelectorAll(".approve-btn").forEach(function (button, index) {
+        console.log(`🔎 承認ボタン${index + 1}を取得:`, button);
+
         button.addEventListener("click", function () {
-            const stampId = button.getAttribute("data-stamp-id");
+            const row = button.closest("tr");
+            const stampId = row.getAttribute("data-stamp-id");
+
+            console.log("🆔 クリックされた行の stampId:", stampId);
+
+            if (!stampId) {
+                alert("stampIdが取得できませんでした。データ属性を確認してください。");
+                return;
+            }
 
             fetch("/approve-request", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    [csrfHeader]: csrfToken
+                    "Content-Type": "application/x-www-form-urlencoded"
                 },
                 body: `stampId=${encodeURIComponent(stampId)}`
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error("通信エラー");
-                }
-                // 成功時に行を削除
-                button.closest("tr").remove();
+                console.log("📡 サーバーからのレスポンス:", response);
+
+                if (!response.ok) throw new Error("通信エラー");
+                row.remove();
+                console.log("🧹 承認された行を削除しました");
             })
             .catch(error => {
-                alert("承認処理に失敗しました: " + error.message);
+                console.error("⚠️ 承認処理に失敗しました:", error);
+                alert("承認に失敗しました: " + error.message);
             });
         });
     });
