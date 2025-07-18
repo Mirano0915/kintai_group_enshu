@@ -20,19 +20,19 @@
                 <th>深夜労働時間</th>
                 <th>出勤回数</th>
                 <th>賄い代と交通費の総額</th>
-                <th>月給の総額</th>
+                <th>月給</th>
             </tr>
         </thead>
         <tbody>
-<!--            <tr th:each="payroll : ${payrollList}">-->
-<!--                <td th:text="${payroll.name}"></td>-->
-<!--                <td th:text="${payroll.hourlyWage}"></td>-->
-<!--                <td th:text="${payroll.totalWorkHours}"></td>-->
-<!--                <td th:text="${payroll.nightWorkHours}"></td>-->
-<!--                <td th:text="${payroll.attendanceCount}"></td>-->
-<!--                <td th:text="${payroll.allowanceAndTransportTotal}"></td>-->
-<!--                <td th:text="${payroll.monthlyWageTotal}"></td>-->
-<!--            </tr>-->
+            <tr th:each="payroll : ${payrollList}">
+                <td th:text="${payroll.name}">名前</td>
+                <td th:text="${payroll.hourlyWage}">時給</td>
+				<td th:text="${payroll.totalWorkingTime}">出勤時間</td>
+                <td th:text="${payroll.nightWorkingTime}">深夜労働時間</td>
+                <td th:text="${payroll.daysWorked}">出勤回数</td>
+                <td th:text="${payroll.transportation}">賄い代と交通費の総額</td>
+                <td th:text="${payroll.totalAmount}">月給</td>
+            </tr>
         </tbody>
     </table>
 </body>
