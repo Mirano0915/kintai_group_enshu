@@ -11,15 +11,14 @@
     <h1 th:if="${mode == 'employee'}">勤怠管理（従業員画面）</h1>
     
     <div>
-<!--         管理者の場合はログアウトリンク表示 -->
-<!--        <span th:if="${mode == 'manager'}">-->
-<!--            <a href="/logout">ログアウト</a> |-->
-<!--        </span>-->
         <!-- 管理者の場合は従業員の追加ボタン -->
         <span th:if="${mode == 'manager'}">
-            <button onclick="addEmployee()">従業員の追加</button> |
+            <button onclick="addEmployee()">従業員の追加</button> 
         </span>
-        <a href="/manager">管理者画面に戻る</a>
+		
+		<!-- 管理者と従業員モードによって遷移URL変わる-->
+        <a th:if="${mode == 'manager'}" th:href="@{/manager}">管理者画面に戻る</a>
+	    <a th:if="${mode == 'employee'}" th:href="@{/}">勤怠管理システムに戻る</a>
     </div>
     
     <br>
