@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AttendanceChangeForm {
 	
+	private Long attendanceId;
+	
 	private Long nameId; 
 	
 	private String preCheckinTime;

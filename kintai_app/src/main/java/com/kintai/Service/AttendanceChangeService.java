@@ -17,6 +17,7 @@ public class AttendanceChangeService {
 
 	public void attendanceRegister(AttendanceChangeForm f) {
 		AttendanceChangeForm form = new AttendanceChangeForm();
+		form.setAttendanceId(f.getAttendanceId());
 		form.setNameId(f.getNameId());
 		form.setPreCheckinTime(f.getPreCheckinTime());
 		form.setPreCheckoutTime(f.getPreCheckoutTime());
