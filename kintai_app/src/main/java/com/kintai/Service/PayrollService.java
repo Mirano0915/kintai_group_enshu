@@ -18,10 +18,10 @@ public class PayrollService {
 	private HourlyWagesDAO hourlyWagesDAO;
 	
 	
-	//勤怠テーブルと時給テーブルを呼びだし＆給与計算
+	//給与情報を取得
 	public void payroll(Model model) {
 		List<HourlyWagesEntity>resultDb2 = hourlyWagesDAO.readDb();
-		System.out.println(resultDb2.get(0).getNameId());
+		model.addAttribute("payrollList", resultDb2);
 		
 	}
 }

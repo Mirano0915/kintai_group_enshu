@@ -1,6 +1,7 @@
 package com.kintai.Controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jakarta.servlet.http.HttpSession;
@@ -13,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kintai.Entity.AttendancesEntity;
 import com.kintai.Service.AttendanceService;
 import com.kintai.Service.AuthService;
 
 @Controller
 public class AttendanceController {
-
+    
     private final AttendanceService attendanceService;
     private final AuthService authService;
     
@@ -27,9 +29,9 @@ public class AttendanceController {
         this.authService = authService;
     }
 
-    /**
-     * 勤怠一覧画面表示
-     */
+    
+//      勤怠一覧画面表示
+     
     @GetMapping("/attendance")
     public String showAttendanceList(HttpSession session, Model model) {
         
@@ -43,14 +45,17 @@ public class AttendanceController {
             model.addAttribute("mode", "employee");
         }
         
+        //  データベースから従業員データを取得
+        List<AttendancesEntity> employeeList = attendanceService.getEmployeeNames();
+        model.addAttribute("employeeList", employeeList);
         model.addAttribute("attendanceService", attendanceService);
         
         return "attendance";
     }
 
-    /**
-     * 変更申請画面
-     */
+    
+//     変更申請画面
+     
     @GetMapping("/attendance-change-form")
     public String showAttendanceChangeForm(@RequestParam("nameId") Long nameId,
                                          @RequestParam("name") String name,
@@ -73,9 +78,9 @@ public class AttendanceController {
         return "attendanceChange";
     }
 
-    /**
-     * AJAX削除API（管理者のみ）
-     */
+    
+//     AJAX削除API（管理者のみ）
+     
     @PostMapping("/api/delete-attendance")
     @ResponseBody
     public Map<String, Object> deleteAttendanceAjax(@RequestBody Map<String, Object> requestData,
@@ -107,10 +112,10 @@ public class AttendanceController {
         return response;
     }
 
-    /**
-     * メインページに戻る
-     */
-    @GetMapping("/back-to-index")
+    
+//     メインページに戻る
+     
+    @GetMapping("/back-to-main")
     public String backToMain() {
         return "redirect:/";
     }

@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class AttendancesEntity{
-	private Long nameId;  //Primary Key
+	private Long attendance_id;//Primary Key
+	private Long nameId;  
 	private String name;
 	private Time checkinTime;
 	private Time checkoutTime;

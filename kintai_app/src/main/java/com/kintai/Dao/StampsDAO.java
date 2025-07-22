@@ -49,19 +49,23 @@ public class StampsDAO {
 
 	public List<StampsEntity> showAttendanceAgreeTable() {
 		
-		String sql ="SELECT "
-				+ "STAMPS.STAMP_ID, "
-				+ "NAME, "
-				+ "CHECKIN_TIME, "
-				+ "CHECKOUT_TIME, "
-				+ "PRE_CHECKIN_TIME, "
-				+ "PRE_CHECKOUT_TIME, "
-				+ "DATE, "
-				+ "COMMENT "
-				+ "FROM STAMPS "
-				+ "INNER JOIN "
-				+ "ATTENDANCES ON STAMPS.NAME_ID = ATTENDANCES.NAME_ID";
+		String sql = "SELECT "
+		        + "STAMPS.stamp_id, "
+		        + "STAMPS.attendance_id, "
+		        + "ATTENDANCES.name_id, "
+		        + "HOURLY_WAGES.name, "
+		        + "ATTENDANCES.checkin_time, "
+		        + "ATTENDANCES.checkout_time, "
+		        + "STAMPS.pre_checkin_time, "
+		        + "STAMPS.pre_checkout_time, "
+		        + "ATTENDANCES.date, "
+		        + "STAMPS.comment "
+		        + "FROM STAMPS "
+		        + "INNER JOIN ATTENDANCES ON STAMPS.attendance_id = ATTENDANCES.attendance_id "
+		        + "INNER JOIN HOURLY_WAGES ON ATTENDANCES.name_id = HOURLY_WAGES.name_id";
+
 		
+        
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		
 		List<StampsEntity>resultDb2 = new ArrayList<StampsEntity>();//勤怠履歴を入れておくリスト

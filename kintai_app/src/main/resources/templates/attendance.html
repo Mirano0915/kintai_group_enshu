@@ -11,15 +11,14 @@
     <h1 th:if="${mode == 'employee'}">勤怠管理（従業員画面）</h1>
     
     <div>
-<!--         管理者の場合はログアウトリンク表示 -->
-<!--        <span th:if="${mode == 'manager'}">-->
-<!--            <a href="/logout">ログアウト</a> |-->
-<!--        </span>-->
         <!-- 管理者の場合は従業員の追加ボタン -->
         <span th:if="${mode == 'manager'}">
-            <button onclick="addEmployee()">従業員の追加</button> |
+            <button onclick="addEmployee()">従業員の追加</button> 
         </span>
-        <a href="/manager">管理者画面に戻る</a>
+        
+        <!-- 管理者と従業員モードによって遷移URL変わる -->
+        <a th:if="${mode == 'manager'}" th:href="@{/manager}">管理者画面に戻る</a>
+        <a th:if="${mode == 'employee'}" th:href="@{/}">勤怠管理システムに戻る</a>
     </div>
     
     <br>
@@ -39,91 +38,43 @@
             </tr>
         </thead>
         <tbody>
-            <!-- サンプルデータ1 -->
-            <tr data-id="1">
-                <td class="name">山川実羅乃</td>
-                <td class="status">出勤中</td>
-                <td class="checkin">09:00</td>
-                <td class="checkout">-</td>
-                
-                <!-- 管理者モード：編集（画面遷移）・削除（AJAX）ボタン -->
-                <td th:if="${mode == 'manager'}">
-                    <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="nameId" value="1">
-                        <input type="hidden" name="name" value="山川実羅乃">
-                        <button type="submit">編集</button>
-                    </form>
+            <!-- データベースからの実際の従業員データを表示 -->
+            <tr th:each="employee : ${employeeList}" th:data-id="${employee.nameId}">
+                <td class="name" th:text="${employee.name}">名前</td>
+                <td class="status">
+                    <!-- 出勤状況の判定 -->
+                    <span>未出勤</span>
                 </td>
-                <td th:if="${mode == 'manager'}">
-                    <button onclick="deleteAttendance(1, '山川実羅乃')">削除</button>
-                </td>
-                
-                <!-- 従業員モード：変更申請 -->
-                <td th:if="${mode == 'employee'}">
-                    <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="nameId" value="1">
-                        <input type="hidden" name="name" value="山川実羅乃">
-                        <button type="submit">変更申請</button>
-                    </form>
-                </td>
-            </tr>
-            
-            <!-- サンプルデータ2 -->
-            <tr data-id="2">
-                <td class="name">九野圭佑</td>
-                <td class="status">退勤済み</td>
-                <td class="checkin">08:30</td>
-                <td class="checkout">17:30</td>
-                
-                <!-- 管理者モード：編集（画面遷移）・削除（AJAX）ボタン -->
-                <td th:if="${mode == 'manager'}">
-                    <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="nameId" value="2">
-                        <input type="hidden" name="name" value="九野圭佑">
-                        <button type="submit">編集</button>
-                    </form>
-                </td>
-                <td th:if="${mode == 'manager'}">
-                    <button onclick="deleteAttendance(2, '九野圭佑')">削除</button>
-                </td>
-                
-                <!-- 従業員モード：変更申請 -->
-                <td th:if="${mode == 'employee'}">
-                    <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="nameId" value="2">
-                        <input type="hidden" name="name" value="九野圭佑">
-                        <button type="submit">変更申請</button>
-                    </form>
-                </td>
-            </tr>
-            
-            <!-- サンプルデータ3 -->
-            <tr data-id="3">
-                <td class="name">AI JINGYI</td>
-                <td class="status">未出勤</td>
                 <td class="checkin">-</td>
                 <td class="checkout">-</td>
                 
                 <!-- 管理者モード：編集（画面遷移）・削除（AJAX）ボタン -->
                 <td th:if="${mode == 'manager'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="nameId" value="3">
-                        <input type="hidden" name="name" value="AI JINGYI">
+                        <input type="hidden" name="nameId" th:value="${employee.nameId}">
+                        <input type="hidden" name="name" th:value="${employee.name}">
                         <button type="submit">編集</button>
                     </form>
                 </td>
                 <td th:if="${mode == 'manager'}">
-                    <button onclick="deleteAttendance(3, 'AI JINGYI')">削除</button>
+                    <button onclick="deleteAttendance(this)" 
+                            th:data-name-id="${employee.nameId}" 
+                            th:data-name="${employee.name}">削除</button>
                 </td>
                 
                 <!-- 従業員モード：変更申請 -->
                 <td th:if="${mode == 'employee'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="nameId" value="3">
-                        <input type="hidden" name="name" value="AI JINGYI">
+                        <input type="hidden" name="nameId" th:value="${employee.nameId}">
+                        <input type="hidden" name="name" th:value="${employee.name}">
                         <button type="submit">変更申請</button>
                     </form>
                 </td>
+            </tr>
+            
+            <!-- データがない場合 -->
+            <tr th:if="${employeeList == null or #lists.isEmpty(employeeList)}">
+                <td colspan="7" style="text-align: center;">従業員データがありません</td>
             </tr>
         </tbody>
     </table>
@@ -135,13 +86,35 @@
             alert('従業員追加機能（DAOが完成したら実装）');
         }
 
-        // AJAX削除機能（テスト用）
-        function deleteAttendance(id, name) {
-            if (confirm(`本当に ${name}さん を削除しますか？`)) {
-                // テスト用：実際のAJAXの代わりにテーブルから行を削除
-                const row = document.querySelector(`tr[data-id="${id}"]`);
-                row.remove();
-                alert('テスト削除完了！（実際のDBは削除されません）');
+        // AJAX削除機能
+        function deleteAttendance(button) {
+            const nameId = button.getAttribute('data-name-id');
+            const name = button.getAttribute('data-name');
+            
+            if (confirm('本当に ' + name + 'さん を削除しますか？')) {
+                // 実際のAJAX呼び出し
+                fetch('/api/delete-attendance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nameId: nameId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message);
+                        // 削除成功：ページをリロード
+                        location.reload();
+                    } else {
+                        alert('削除に失敗しました: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert('エラーが発生しました: ' + error);
+                });
             }
         }
     </script>
