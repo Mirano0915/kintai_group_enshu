@@ -1,10 +1,16 @@
 package com.kintai.Dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,6 +26,9 @@ public class AttendancesDAO {
 	public AttendancesDAO(JdbcTemplate db) {
 		this.db = db;
 	}
+	
+	//
+	private DataSource dataSource;
 	
 	
 	//従業員の名前を取得
@@ -109,6 +118,37 @@ public class AttendancesDAO {
 		        resultDb2.add(entitydb);
 		    }
 		    return resultDb2;
+		}
+
+		
+		
+		//	JDBCへの接続
+
+		public Connection getConnection() throws SQLException {
+	        return dataSource.getConnection(); // ここで自動的にプールされた Connection を取得するにゃ！
+	    }
+		
+		//	出勤ボタンを押したとき、出勤済みか判定
+		public boolean hasCheckedInToday(Long nameId) {
+		    String sql = """
+		        SELECT COUNT(*) FROM attendances
+		        WHERE name_id = ? AND date = ? AND checkin IS NOT NULL
+		    """;
+
+		    try (Connection conn = getConnection();
+		         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+		        stmt.setLong(1, nameId);
+		        stmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+
+		        try (ResultSet rs = stmt.executeQuery()) {
+		            return rs.next() && rs.getInt(1) > 0;
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        return false;
+		    }
 		}
 
 }
