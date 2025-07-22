@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kintai.Form.AttendanceChangeForm;
 import com.kintai.Service.AttendanceChangeService;
@@ -28,7 +27,7 @@ public class AttendanceChangeController {
 
 	//変更申請画面表示
 	@GetMapping("/attendance-change-form")
-	public String showAttendanceChangeForm(@RequestParam("attendanceId") Long attendanceId,
+	public String showAttendanceChangeForm(AttendanceChangeForm form,
 			HttpSession session,
 			Model model) {
 
@@ -47,8 +46,7 @@ public class AttendanceChangeController {
 //		model.addAttribute("nameId", nameId);
 //		model.addAttribute("name", name);
 
-		AttendanceChangeForm attendanceChangeForm = new AttendanceChangeForm();
-		model.addAttribute("form",attendanceChangeForm);
+		model.addAttribute("form",form);
 		return "attendanceChange";
 	}
 
