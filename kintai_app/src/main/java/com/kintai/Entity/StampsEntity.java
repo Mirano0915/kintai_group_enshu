@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 public class StampsEntity {
 	private Long stampId; //Primary Key
-	private Long attendanceId;
+	private Long attendanceId; //Foreign Key
 	private Long nameId;  //Foreign Key
 	private String name;
 	private Time checkinTime;
