@@ -60,8 +60,11 @@ public class StampsDAO {
 				+ "COMMENT "
 				+ "FROM STAMPS "
 				+ "INNER JOIN ATTENDANCES ON STAMPS.NAME_ID = ATTENDANCES.NAME_ID "
-				+ "INNER JOIN HOURLY_WAGES ON ATTENDANCES.NAME_ID = HOURLY_WAGES.NAME_ID";
+				+ "INNER JOIN HOURLY_WAGES ON ATTENDANCES.NAME_ID = HOURLY_WAGES.NAME_ID "
+				+ "WHERE (STAMPS.NAME_ID, DATE) IN ( "
+				+ "SELECT NAME_ID, MAX(DATE) FROM ATTENDANCES GROUP BY NAME_ID)";
 		
+        
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		
 		List<StampsEntity>resultDb2 = new ArrayList<StampsEntity>();//勤怠履歴を入れておくリスト

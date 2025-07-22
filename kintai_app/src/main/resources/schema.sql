@@ -16,6 +16,7 @@ CREATE TABLE attendances (
 
 CREATE TABLE stamps (
   stamp_id BIGINT NOT NULL AUTO_INCREMENT,
+  attendance_id BIGINT NOT NULL,
   name_id BIGINT NOT NULL,
   pre_checkin_time TIME DEFAULT NULL,
   pre_checkout_time TIME DEFAULT NULL,
