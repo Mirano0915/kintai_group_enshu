@@ -34,48 +34,49 @@
                 <th th:if="${mode == 'manager'}">編集</th>
                 <th th:if="${mode == 'manager'}">削除</th>
                 <!-- 従業員モードの場合は編集ボタンのみ -->
-                <th th:if="${mode == 'employee'}">操作</th>
+                <th th:if="${mode == 'employee'}">編集</th>
             </tr>
         </thead>
         <tbody>
             <!-- データベースからの実際の従業員データを表示 -->
-            <tr th:each="employee : ${employeeList}" th:data-id="${employee.attendanceId}">
+            <tr th:each="employee : ${employeeList}">
                 <td class="name" th:text="${employee.name}">名前</td>
                 <td class="status">
                     <!-- 出勤状況の判定 -->
-                    <span>未出勤</span>
+                    <span th:if="${employee.checkinTime == null}">未出勤</span>
+                    <span th:if="${employee.checkinTime != null && employee.checkoutTime == null}">出勤中</span>
+                    <span th:if="${employee.checkinTime != null && employee.checkoutTime != null}">退勤済み</span>
                 </td>
-                <td class="checkin">-</td>
-                <td class="checkout">-</td>
+                <td class="checkin" th:text="${employee.checkinTime != null ? employee.checkinTime : '-'}">-</td>
+                <td class="checkout" th:text="${employee.checkoutTime != null ? employee.checkoutTime : '-'}">-</td>
                 
-                <!-- 管理者モード：編集（画面遷移）・削除（AJAX）ボタン -->
+                <!-- 管理者モード：編集・削除ボタン -->
                 <td th:if="${mode == 'manager'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-						<input type="hidden" name="nameId" th:value="${employee.attendanceId}">
-<!--						<input type="hidden" name="nameId" th:value="${employee.nameId}">-->
-<!--                        <input type="hidden" name="name" th:value="${employee.name}">-->
+	                  <input type="hidden" name="attendanceId" th:value="${employee.attendance_id}">
+                        <input type="hidden" name="name" th:value="${employee.name}">
                         <button type="submit">編集</button>
                     </form>
                 </td>
                 <td th:if="${mode == 'manager'}">
                     <button onclick="deleteAttendance(this)" 
-                            th:data-name-id="${employee.nameId}" 
+                            th:data-attendance-id="${employee.attendance_id}" 
                             th:data-name="${employee.name}">削除</button>
                 </td>
                 
-                <!-- 従業員モード：変更申請 -->
+                <!-- 従業員モード：編集ボタンのみ -->
                 <td th:if="${mode == 'employee'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="nameId" th:value="${employee.nameId}">
+                        <input type="hidden" name="attendanceId" th:value="${employee.attendance_id}">
                         <input type="hidden" name="name" th:value="${employee.name}">
-                        <button type="submit">変更申請</button>
+                        <button type="submit">編集</button>
                     </form>
                 </td>
             </tr>
             
             <!-- データがない場合 -->
             <tr th:if="${employeeList == null or #lists.isEmpty(employeeList)}">
-                <td colspan="7" style="text-align: center;">従業員データがありません</td>
+                <td th:colspan="${mode == 'manager' ? 6 : 5}" style="text-align: center;">従業員データがありません</td>
             </tr>
         </tbody>
     </table>
@@ -89,7 +90,7 @@
 
         // AJAX削除機能
         function deleteAttendance(button) {
-            const nameId = button.getAttribute('data-name-id');
+            const attendanceId = button.getAttribute('data-attendance-id');
             const name = button.getAttribute('data-name');
             
             if (confirm('本当に ' + name + 'さん を削除しますか？')) {
@@ -100,7 +101,7 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        nameId: nameId
+                        attendanceId: attendanceId
                     })
                 })
                 .then(response => response.json())
