@@ -47,6 +47,8 @@ public class AttendanceChangeController {
 //		model.addAttribute("nameId", nameId);
 //		model.addAttribute("name", name);
 
+		AttendanceChangeForm attendanceChangeForm = new AttendanceChangeForm();
+		model.addAttribute("form",attendanceChangeForm);
 		return "attendanceChange";
 	}
 
