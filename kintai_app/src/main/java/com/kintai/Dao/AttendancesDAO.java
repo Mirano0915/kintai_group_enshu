@@ -74,4 +74,44 @@ public class AttendancesDAO {
 	        System.out.println("該当する出勤記録が見つかりませんでした");
 	    }
 	}
+	
+	
+	
+		
+//		 勤怠データを削除（管理者のみ）
+		 
+		public void deleteDB(Long nameId) {
+			String sql = "DELETE FROM attendances WHERE name_id = ?";
+			db.update(sql, nameId);
+			System.out.println("勤怠データを削除しました: nameId = " + nameId);
+		}
+		
+		
+//		 勤怠データを更新（管理者のみ）
+		 
+		public void updateDB(AttendancesEntity attendance) {
+			String sql = "UPDATE attendances SET checkin_time = ?, checkout_time = ?, date = ? WHERE name_id = ? AND date = ?";
+			db.update(sql, 
+					attendance.getCheckinTime(),
+					attendance.getCheckoutTime(),
+					attendance.getDate(), 
+					attendance.getNameId(),
+					attendance.getDate() != null ? attendance.getDate() : java.time.LocalDate.now()
+			);
+			System.out.println("勤怠データを更新しました: nameId = " + attendance.getNameId());
+		}
+		
+		
+//		  新規勤怠データを作成
+
+		public void createDB(AttendancesEntity attendance) {
+			String sql = "INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES (?, ?, ?, ?)";
+			db.update(sql,
+					attendance.getNameId(),
+					attendance.getCheckinTime(),
+					attendance.getCheckoutTime(),
+					attendance.getDate() != null ? attendance.getDate() : java.time.LocalDate.now()
+			);
+			System.out.println("新規勤怠データを作成しました: nameId = " + attendance.getNameId());
+		}
 }
