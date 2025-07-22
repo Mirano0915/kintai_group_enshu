@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
-	<meta charset="UTF-8">
-	<title>従業員の追加</title>
+    <meta charset="UTF-8">
+    <title>従業員の追加</title>
 </head>
-
 <body>
-
-	<h1>従業員の追加</h1>
-	<a href="/">勤怠一覧に戻る</a>
-
-	<form>
-
-		<p>名前<input type="text" name="name"></p>
-		<p>時給<input type="text" name="hourly_wage"></p>
-
-		<input type="submit" value="送信">
-
-	</form>
-
+    <h1>従業員の追加</h1>
+    
+    <a href="/attendance">勤怠一覧に戻る</a>
+    
+    <br><br>
+    
+    <!-- 成功メッセージ -->
+    <div th:if="${successMessage}">
+        <strong th:text="${successMessage}"></strong>
+    </div>
+    
+    <!-- エラーメッセージ -->
+    <div th:if="${errorMessage}">
+        <strong th:text="${errorMessage}"></strong>
+    </div>
+    
+    <form th:action="@{/add-employee}" th:object="${payrollForm}" method="post">
+        
+        <p>
+            名前: <input type="text" th:field="*{name}" required>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </p>
+        
+        <p>
+            時給: <input type="number" th:field="*{hourlyWage}" min="900" max="2000" required> 円
+            <span th:if="${#fields.hasErrors('hourlyWage')}" th:errors="*{hourlyWage}"></span>
+        </p>
+        
+        <input type="submit" value="従業員を追加">
+        
+    </form>
+    
 </body>
-
 </html>
