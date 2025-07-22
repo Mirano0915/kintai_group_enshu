@@ -24,13 +24,13 @@ public class AttendancesDAO {
 	
 	//従業員の名前を取得
 	public List<AttendancesEntity> readNameDb(){
-		String sql = "SELECT DISTINCT name FROM hourly_wages";
+		String sql = "SELECT * FROM hourly_wages";
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
 		for(Map<String,Object> result1:resultDb1) {
 			AttendancesEntity entitydb = new AttendancesEntity();
 			
-			entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
+//			entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
 			entitydb.setName((String)result1.get("name"));
 			resultDb2.add(entitydb);
 		}
