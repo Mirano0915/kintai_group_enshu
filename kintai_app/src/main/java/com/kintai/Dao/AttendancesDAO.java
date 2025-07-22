@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +29,7 @@ public class AttendancesDAO {
 	}
 	
 	//
+	@Autowired
 	private DataSource dataSource;
 	
 	
@@ -48,17 +50,17 @@ public class AttendancesDAO {
 	
 	
 	//出勤処理
-	public void checkin(String name) {
+	public void checkin(Long nameId) {
 		System.out.println("出勤処理を行いました");
-		LocalTime nowtime = LocalTime.now();
-		LocalDate today = LocalDate.now(); 
-		
-		
-		//勤怠登録をした従業員のname_idを取得
-		String sql = "SELECT name_id FROM hourly_wages WHERE name = ?";
-		Long nameId = db.queryForObject(sql, Long.class, name);
-		
-		db.update("INSERT INTO attendances (name_id, checkin_time, date) VALUES(?,?,?)",nameId, java.sql.Time.valueOf(nowtime),java.sql.Date.valueOf(today));
+		LocalTime nowTime = LocalTime.now();
+	    LocalDate today = LocalDate.now();
+
+	    db.update(
+	        "INSERT INTO attendances (name_id, checkin_time, date) VALUES (?, ?, ?)",
+	        nameId,
+	        java.sql.Time.valueOf(nowTime),
+	        java.sql.Date.valueOf(today)
+	    );
 	}
 	
 	
@@ -132,7 +134,7 @@ public class AttendancesDAO {
 		public boolean hasCheckedInToday(Long nameId) {
 		    String sql = """
 		        SELECT COUNT(*) FROM attendances
-		        WHERE name_id = ? AND date = ? AND checkin IS NOT NULL
+		        WHERE name_id = ? AND date = ? AND checkin_time IS NOT NULL
 		    """;
 
 		    try (Connection conn = getConnection();
