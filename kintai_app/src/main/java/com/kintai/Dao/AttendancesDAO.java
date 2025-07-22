@@ -76,42 +76,39 @@ public class AttendancesDAO {
 	}
 	
 	
-	
-		
-//		 勤怠データを削除（管理者のみ）
 		 
-		public void deleteDB(Long nameId) {
-			String sql = "DELETE FROM attendances WHERE name_id = ?";
-			db.update(sql, nameId);
-			System.out.println("勤怠データを削除しました: nameId = " + nameId);
-		}
+//	 従業員データを削除（管理者のみ）
+	 
+	public void deleteDB(Long attendanceId) {  
+	    String sql = "DELETE FROM attendances WHERE attendance_id = ?";  
+	    db.update(sql, attendanceId);
+	    System.out.println("勤怠データを削除しました: attendanceId = " + attendanceId);
+	}
 		
-		
-//		 勤怠データを更新（管理者のみ）
-		 
-		public void updateDB(AttendancesEntity attendance) {
-			String sql = "UPDATE attendances SET checkin_time = ?, checkout_time = ?, date = ? WHERE name_id = ? AND date = ?";
-			db.update(sql, 
-					attendance.getCheckinTime(),
-					attendance.getCheckoutTime(),
-					attendance.getDate(), 
-					attendance.getNameId(),
-					attendance.getDate() != null ? attendance.getDate() : java.time.LocalDate.now()
-			);
-			System.out.println("勤怠データを更新しました: nameId = " + attendance.getNameId());
-		}
-		
-		
-//		  新規勤怠データを作成
 
-		public void createDB(AttendancesEntity attendance) {
-			String sql = "INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES (?, ?, ?, ?)";
-			db.update(sql,
-					attendance.getNameId(),
-					attendance.getCheckinTime(),
-					attendance.getCheckoutTime(),
-					attendance.getDate() != null ? attendance.getDate() : java.time.LocalDate.now()
-			);
-			System.out.println("新規勤怠データを作成しました: nameId = " + attendance.getNameId());
+		// 勤怠一覧取得 - 最新の打刻順で表示
+		public List<AttendancesEntity> readAllAttendanceDb(){
+		    String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
+		                 "FROM attendances a " +
+		                 "INNER JOIN hourly_wages h ON a.name_id = h.name_id " +
+		                 "ORDER BY a.attendance_id DESC"; 
+		    
+		    List<Map<String, Object>> resultDb1 = db.queryForList(sql);
+		    List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
+		    
+		    for(Map<String,Object> result1:resultDb1) {
+		        AttendancesEntity entitydb = new AttendancesEntity();
+		        
+		        entitydb.setAttendance_id(result1.get("attendance_id") != null ? ((Number) result1.get("attendance_id")).longValue() : null);
+		        entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
+		        entitydb.setName((String)result1.get("name"));
+		        entitydb.setCheckinTime((java.sql.Time)result1.get("checkin_time"));
+		        entitydb.setCheckoutTime((java.sql.Time)result1.get("checkout_time"));
+		        entitydb.setDate((java.sql.Date)result1.get("date"));
+		        
+		        resultDb2.add(entitydb);
+		    }
+		    return resultDb2;
 		}
+
 }
