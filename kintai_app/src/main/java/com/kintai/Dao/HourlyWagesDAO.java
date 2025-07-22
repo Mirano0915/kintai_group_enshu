@@ -1,9 +1,16 @@
 package com.kintai.Dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,14 +19,22 @@ import com.kintai.Entity.HourlyWagesEntity;
 @Repository
 public class HourlyWagesDAO {
 
-	
 	//DB操作専用オブジェクトを準備
 	private final JdbcTemplate db;
+
 	public HourlyWagesDAO(JdbcTemplate db) {
 		this.db = db;
 	}
 	
 	
+	//idとってくるようのおまじない
+	@Autowired
+    private DataSource dataSource;
+
+    public Connection getConnection() throws SQLException {
+        return dataSource.getConnection(); // これで接続にゃ！
+    }
+
 	//勤怠テーブルと時給テーブルを内部結合して読み取り
 	public List<HourlyWagesEntity> readDb(){	
 		String sql = "SELECT hourly_wages.name, hourly_wages.hourly_wage, " + //name_id、名前、時給を従業員ごとにSELECT
@@ -60,7 +75,31 @@ public class HourlyWagesDAO {
 		}
 		return resultDb2;
 			
-			
+	}
+		
+		//index.html用　idで名前をとってくる
+		public Long getNameIdByName(String name) {
+		    String sql = "SELECT name_id FROM hourly_wages WHERE name = ?";
+
+		    try (Connection conn = getConnection();
+		         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+		        stmt.setString(1, name);
+
+		        try (ResultSet rs = stmt.executeQuery()) {
+		            if (rs.next()) {
+		                return rs.getLong("name_id");
+		            } else {
+		                return null; // 該当なしにゃ
+		            }
+		        }
+
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+		        return null;
+		    }
+		
+
 		
 	}
 }

@@ -25,8 +25,8 @@ public class IndexService {
 	
 	
 	//出勤処理
-	public void checkin(String name) {
-		attendancesDAO.checkin(name);
+	public void checkin(Long nameId) {
+		attendancesDAO.checkin(nameId);
 	}
 	
 	

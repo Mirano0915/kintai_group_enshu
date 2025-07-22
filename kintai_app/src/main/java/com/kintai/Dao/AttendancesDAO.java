@@ -31,6 +31,8 @@ public class AttendancesDAO {
 	public AttendancesDAO(JdbcTemplate db) {
 		this.db = db;
 	}
+	@Autowired
+	private DataSource dataSource;
 
 	//従業員の名前を取得
 	public List<AttendancesEntity> readNameDb() {
@@ -48,8 +50,9 @@ public class AttendancesDAO {
 	}
 
 	//出勤処理
-	public void checkin(String name) {
+	public void checkin(Long nameId) {
 		System.out.println("出勤処理を行いました");
+
 		LocalTime nowtime = LocalTime.now();
 		LocalDate today = LocalDate.now();
 
@@ -59,6 +62,7 @@ public class AttendancesDAO {
 
 		db.update("INSERT INTO attendances (name_id, checkin_time, date) VALUES(?,?,?)", nameId,
 				java.sql.Time.valueOf(nowtime), java.sql.Date.valueOf(today));
+
 	}
 
 	//退勤処理
@@ -182,6 +186,5 @@ public class AttendancesDAO {
 		    }
 		    return resultDb2;
 		}
-
 
 }

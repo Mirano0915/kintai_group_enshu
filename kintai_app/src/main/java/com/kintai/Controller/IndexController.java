@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kintai.Dao.AttendancesDAO;
+import com.kintai.Dao.HourlyWagesDAO;
 import com.kintai.Service.IndexService;
 
 @Controller
@@ -15,6 +16,9 @@ public class IndexController {
 	//Viewのサービスオブジェクト準備
 	@Autowired
 	private IndexService indexService;
+	
+	@Autowired
+	private HourlyWagesDAO hourlyWagesDAO;
 	
 	@Autowired
 	private AttendancesDAO attendancesDAO;
@@ -32,19 +36,20 @@ public class IndexController {
 	//出勤処理（出勤ボタン）
 	@RequestMapping("/checkin")
 	public String checkin(@RequestParam("employeeName") String name, Model model) {
-	    Long nameId = attendancesDAO.getNameIdByName(name);
 
+	    Long nameId = hourlyWagesDAO.getNameIdByName(name);
 
 	    if (attendancesDAO.hasCheckedInToday(nameId)) {
-	        model.addAttribute("errorMessage", "今日はもう出勤済みですにゃ！");
-	        return "checkinForm";
+	        model.addAttribute("errorMessage", "今日はもう出勤済みです！");
+	        indexService.readName(model);
+	        return "index";
+
 	    }
 
 	    indexService.checkin(nameId); // nameIdで処理するにゃ！
 	    return "complete";
 	}
 
-	
 	
 	//退勤処理(退勤ボタン)
 	@RequestMapping("/checkout")
