@@ -57,20 +57,20 @@
                 <!-- 管理者モード：編集・削除ボタン -->
                 <td th:if="${mode == 'manager'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-	                  <input type="hidden" name="attendanceId" th:value="${employee.attendance_id}">
+	                  <input type="hidden" name="attendanceId" th:value="${employee.attendanceId}">
                         <button type="submit">編集</button>
                     </form>
                 </td>
                 <td th:if="${mode == 'manager'}">
                     <button onclick="deleteAttendance(this)" 
-                            th:data-attendance-id="${employee.attendance_id}" 
+                            th:data-attendance-id="${employee.attendanceId}" 
                             th:data-name="${employee.name}">削除</button>
                 </td>
                 
                 <!-- 従業員モード：編集ボタンのみ -->
                 <td th:if="${mode == 'employee'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="attendanceId" th:value="${employee.attendance_id}">
+                        <input type="hidden" name="attendanceId" th:value="${employee.attendanceId}">
                         <button type="submit">編集</button>
                     </form>
                 </td>
