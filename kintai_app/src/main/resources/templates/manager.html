@@ -7,16 +7,6 @@
 <body>
     <h1>管理者画面</h1>
     
-    <!-- 承認待ちの申請件数表示 -->
-    <div th:if="${pendingCount > 0}">
-        <p th:text="'承認待ちの打刻変更が' + ${pendingCount} + '件あります'"></p>
-    </div>
-    
-    <!-- 申請がない場合 -->
-    <div th:if="${pendingCount == 0}">
-        <p>承認待ちの申請はありません</p>
-    </div>
-    
     <div>
         <a href="/logout">ログアウト</a>
         <a href="/">メインページに戻る</a>
@@ -34,5 +24,7 @@
         <input type="hidden" name="mode" value="manager">
         <button type="submit">従業員管理</button>
     </form>
+	
+	<script th:src="@{/js/manager.js}"></script>
 </body>
 </html>
