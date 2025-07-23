@@ -28,8 +28,14 @@
 	</form>
 
 	<div>
-		<a href="/auth">管理者ページへ</a>
-		<a href="/attendance">打刻管理</a>
+		<form th:action="@{/auth}" method="get">
+		        <button type="submit">管理者ページへ</button>
+		    </form>
+
+		<form th:action="@{/attendance}" method="get">
+				<button type="submit">打刻管理ページへ</button>
+			</form>
+		
 	</div>
 	</div>
 </body>
