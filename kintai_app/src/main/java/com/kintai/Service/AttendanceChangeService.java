@@ -14,14 +14,17 @@ public class AttendanceChangeService {
 	private StampsDAO stampsDAO;
 
 	//変更後の出勤・退勤時間、コメントを入力
+	
+	
+	public Long getNameId(Long attendanceId) {
+		return stampsDAO.readNameId(attendanceId);
+	}
 
-	public void attendanceRegister(AttendanceChangeForm f) {
-		AttendanceChangeForm form = new AttendanceChangeForm();
-		form.setNameId(f.getNameId());
-		form.setPreCheckinTime(f.getPreCheckinTime());
-		form.setPreCheckoutTime(f.getPreCheckoutTime());
-		form.setComment(f.getComment());
-		stampsDAO.insertAttendanceTime(form);
+	public void attendanceRegister(AttendanceChangeForm f, String preCheckinTime, String preCheckoutTime, String comment) {
+		f.setPreCheckinTime(preCheckinTime);
+		f.setPreCheckoutTime(preCheckoutTime);
+		f.setComment(comment);
+		stampsDAO.insertAttendanceTime(f);
 
 	}
 
