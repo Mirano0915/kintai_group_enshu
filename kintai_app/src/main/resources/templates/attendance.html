@@ -67,7 +67,6 @@
                 <td th:if="${mode == 'employee'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
                         <input type="hidden" name="attendanceId" th:value="${employee.attendance_id}">
-                        <input type="hidden" name="name" th:value="${employee.name}">
                         <button type="submit">編集</button>
                     </form>
                 </td>

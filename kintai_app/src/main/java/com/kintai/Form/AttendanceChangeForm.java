@@ -12,13 +12,9 @@ import lombok.NoArgsConstructor;
 public class AttendanceChangeForm {
 	
 	private Long attendanceId;
-	
 	private Long nameId; 
-	
 	private String preCheckinTime;
-	
 	private String preCheckoutTime;
-
 	private String comment;
 
 	

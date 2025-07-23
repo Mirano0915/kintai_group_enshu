@@ -8,7 +8,8 @@
 	<h1>変更申請</h1>
 	<a href="/attendance.html">勤怠一覧に戻る</a>	
 	<form th:action="@{/completeChange}" th:object="${form}" method="post">
-		<input type="hidden" name="attendanceId" th:field="*{attendanceId}"> 
+		<input type="hidden" name="attendanceId" th:field="*{attendanceId}">
+		<input type="hidden" name="nameId" th:field="*{nameId}"> 
 <!--		inputのvalueは最終的にvalue="${targetNameId}"になる-->
 	  <p>出勤時間<input type="time" name="preCheckinTime" th:field="*{preCheckinTime}"></p>
 	  <p>退勤時間<input type="time" name="preCheckoutTime" th:field="*{preCheckoutTime}"></p>

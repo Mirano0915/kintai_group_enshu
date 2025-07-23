@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kintai.Form.AttendanceChangeForm;
 import com.kintai.Service.AttendanceChangeService;
@@ -27,11 +28,10 @@ public class AttendanceChangeController {
 
 	//変更申請画面表示
 	@GetMapping("/attendance-change-form")
-	public String showAttendanceChangeForm(AttendanceChangeForm form,
+	public String showAttendanceChangeForm(@RequestParam Long attendanceId,
 			HttpSession session,
 			Model model) {
 
-		
 		
 		// 管理者かどうかチェック
 		boolean isManager = authService.isManagerLoggedIn(session);
@@ -42,18 +42,24 @@ public class AttendanceChangeController {
 		} else {
 			model.addAttribute("mode", "employee");
 		}
-
-//		model.addAttribute("nameId", nameId);
-//		model.addAttribute("name", name);
-
-		model.addAttribute("form",form);
+	
+		AttendanceChangeForm attendanceChangeForm = new AttendanceChangeForm();
+		attendanceChangeForm.setAttendanceId(attendanceId);
+		attendanceChangeForm.setNameId(attendanceChangeService.getNameId(attendanceId));
+		
+		
+		System.out.println(attendanceChangeForm.getAttendanceId());
+		model.addAttribute("form",attendanceChangeForm);
+		
+	
+		
 		return "attendanceChange";
 	}
 
 	//送信処理
 	@PostMapping("/completeChange")
-	public String submitAttendanceForm(@ModelAttribute AttendanceChangeForm form) {
-		attendanceChangeService.attendanceRegister(form);
+	public String submitAttendanceForm(@ModelAttribute AttendanceChangeForm form, String preCheckinTime, String preCheckoutTime, String comment) {
+		attendanceChangeService.attendanceRegister(form, preCheckinTime, preCheckoutTime, comment);
 		return "completeChange";
 	}
 }
