@@ -1,5 +1,7 @@
 package com.kintai.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -7,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.kintai.Dao.AttendancesDAO;
 import com.kintai.Dao.StampsDAO;
 import com.kintai.Entity.AttendancesEntity;
-import com.kintai.Entity.StampsEntity;
 import com.kintai.Form.AttendanceChangeForm;
 
 @Service
@@ -52,19 +53,45 @@ public class AttendanceService {
         stampsDAO.insertAttendanceTime(changeForm);
     }
 
-    // 打刻変更申請一覧を取得
-    public List<StampsEntity> getChangeRequestList() {
-        return stampsDAO.showAttendanceAgreeTable();
-    }
-
     // 出勤状況を判定（出勤済み、退勤済み、未出勤）
     public String getAttendanceStatus(AttendancesEntity attendance) {
-        if (attendance.getCheckinTime() == null) {
-            return "未出勤";
-        } else if (attendance.getCheckoutTime() == null) {
-            return "出勤中";
-        } else {
-            return "退勤済み";
-        }
+    	
+    	
+  	if (attendance.getDate() == null) {
+    	    return "未入力"; // 念のため日付未登録をカバー
+    	}
+  	Date today = Date.valueOf(LocalDate.now());
+
+    	if (attendance.getDate().equals(today)) {
+    	    if (attendance.getCheckinTime() == null && attendance.getCheckoutTime() == null) {
+    	        return "未出勤";
+    	    } else if (attendance.getCheckinTime() != null && attendance.getCheckoutTime() == null) {
+    	        return "出勤中";
+    	    } else if (attendance.getCheckinTime() == null && attendance.getCheckoutTime() != null) {
+    	        return "未入力";
+    	    } else {
+    	        return "退勤済み";
+    	    }
+    	} else {
+    	    // 今日以外の日付
+    	    if (attendance.getCheckinTime() == null || attendance.getCheckoutTime() == null) {
+    	        return "未入力";
+    	    } else {
+    	        return "退勤済み";
+    	    }
+    	}
+    	
+    	
     }
 }
+
+
+//今日
+//出勤のみ→出勤中
+//出勤・退勤→退勤済み
+//退勤のみ→未入力
+
+//
+//昨日以前
+//nullがある：未入力
+//出勤・退勤→退勤済み

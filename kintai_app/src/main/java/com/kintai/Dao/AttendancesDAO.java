@@ -82,22 +82,25 @@ public class AttendancesDAO {
 	
 
 	//退勤処理
+
 	public String checkout(Long nameId) {
 		System.out.println("退勤処理を行いました");
 		LocalTime nowtime = LocalTime.now();
 		LocalDate today = LocalDate.now();
 
-		// 退勤した従業員の最新の出勤時間を取得
-		java.sql.Time latestCheckinTime = db.queryForObject(
-				"SELECT MAX(checkin_time) FROM attendances WHERE name_id = ?", java.sql.Time.class, nameId);
+		// 今日の勤怠レコードを探す
+		String sql = "SELECT attendance_id FROM attendances WHERE name_id = ? AND date = ?";
+		List<Long> ids = db.queryForList(sql, Long.class, nameId, today);
 
-		if (latestCheckinTime != null) {
 
-			String updateQuery = "UPDATE attendances SET checkout_time = ? WHERE name_id = ? AND checkin_time = ?";
-			db.update(updateQuery, java.sql.Time.valueOf(nowtime), nameId, latestCheckinTime);
-			System.out.println("最新の出勤記録に退勤時間を登録しました");
+		// 存在するなら → そのレコードに退勤を記録
+		if (!ids.isEmpty()) {
+		    String update = "UPDATE attendances SET checkout_time = ? WHERE attendance_id = ?";
+		    db.update(update, java.sql.Time.valueOf(nowtime), ids.get(0));
 		} else {
-			System.out.println("該当する出勤記録が見つかりませんでした");
+		    // 出勤なし → 今日のレコードを新規作成（出勤 = null、退勤 = 現在時刻）
+		    String insert = "INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES (?, null, ?, ?)";
+		    db.update(insert, nameId, java.sql.Time.valueOf(nowtime), today);
 		}
 		
 		
@@ -112,6 +115,7 @@ public class AttendancesDAO {
 	     // 日付と時間を結合
 	     return formattedDate + " " + formattedTime;
 	}
+
 
 	//		 勤怠データを更新（管理者のみ）
 
@@ -167,6 +171,12 @@ public class AttendancesDAO {
 	    }
 	}
 	
+	public boolean forgotCheckedInToday(Long nameId) {
+	    String sql = "SELECT COUNT(*) FROM attendances WHERE name_id = ? AND date = CURRENT_DATE AND checkout_time IS NOT NULL";
+	    Integer count = db.queryForObject(sql, Integer.class, nameId);
+	    return count != null && count > 0;
+	}
+	
 
 //	退勤ボタンを押したとき、退勤済みか判定
 	public boolean hasCheckedoutToday(Long nameId) {
@@ -214,7 +224,7 @@ public class AttendancesDAO {
 		for (Map<String, Object> result1 : resultDb1) {
 			AttendancesEntity entitydb = new AttendancesEntity();
 
-			entitydb.setAttendance_id(
+			entitydb.setAttendanceId(
 					result1.get("attendance_id") != null ? ((Number) result1.get("attendance_id")).longValue() : null);
 			entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
 			entitydb.setName((String) result1.get("name"));

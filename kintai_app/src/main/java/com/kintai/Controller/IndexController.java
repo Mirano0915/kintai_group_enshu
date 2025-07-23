@@ -44,6 +44,11 @@ public class IndexController {
 	        indexService.readName(model);
 	        return "index";
 
+	    } else if (attendancesDAO.forgotCheckedInToday(nameId)) {
+	        model.addAttribute("errorMessage", "不正な操作です　勤務時間の変更は申請を行って下さい");
+	        indexService.readName(model);
+	        return "index";
+
 	    }
 
 	    model.addAttribute("checkTime",indexService.checkin(nameId)); // nameIdで処理するにゃ！
