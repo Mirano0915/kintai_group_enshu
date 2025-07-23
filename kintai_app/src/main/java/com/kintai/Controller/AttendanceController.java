@@ -20,8 +20,10 @@ import com.kintai.Service.AuthService;
 @Controller
 public class AttendanceController {
 
+	
     private final AttendanceService attendanceService;
     private final AuthService authService;
+    
 
     public AttendanceController(AttendanceService attendanceService, AuthService authService) {
         this.attendanceService = attendanceService;
@@ -41,6 +43,7 @@ public class AttendanceController {
         } else {
             model.addAttribute("mode", "employee");
         }
+  
 
         // データベースから従業員データを取得
         List<AttendancesEntity> employeeList = attendanceService.getAllAttendanceData();

@@ -11,7 +11,8 @@ CREATE TABLE attendances (
   checkin_time TIME,
   checkout_time TIME,
   date DATE,
-  PRIMARY KEY(attendance_id)
+  PRIMARY KEY(attendance_id),
+  UNIQUE (name_id, date)
 );
 
 CREATE TABLE stamps (
