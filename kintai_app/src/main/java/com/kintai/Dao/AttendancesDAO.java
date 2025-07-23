@@ -196,6 +196,9 @@ public class AttendancesDAO {
 
 			resultDb2.add(entitydb);
 		}
+		
+		return resultDb2;
+	}
 
 		
 		// stampsテーブルの変更時間をattendancesに適用
@@ -213,9 +216,9 @@ public class AttendancesDAO {
 			String updateSql = "UPDATE attendances SET checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
 			db.update(updateSql, preCheckinTime, preCheckoutTime, attendanceId);
  
-		}
+		
 
-		return resultDb2;
+		
 	}
 
 		
