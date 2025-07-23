@@ -33,7 +33,7 @@ public class AttendanceService {
     }
 
     // 出勤処理
-    public void checkin(String name) {
+    public void checkin(Long name) {
         attendancesDAO.checkin(name);
     }
 

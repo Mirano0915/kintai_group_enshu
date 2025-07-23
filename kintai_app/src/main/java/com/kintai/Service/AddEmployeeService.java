@@ -16,24 +16,6 @@ public class AddEmployeeService {
 
     // 従業員を追加
     public void addEmployee(PayrollForm payrollForm) {
-        // 名前の空チェック
-        if (payrollForm.getName() == null || payrollForm.getName().trim().isEmpty()) {
-            throw new IllegalArgumentException("名前を入力してください");
-        }
-        
-        // 時給の範囲チェック
-        if (payrollForm.getHourlyWage() == null) {
-            throw new IllegalArgumentException("時給を入力してください");
-        }
-        
-        if (payrollForm.getHourlyWage() < 900) {
-            throw new IllegalArgumentException("時給は900円以上で入力してください");
-        }
-        
-        if (payrollForm.getHourlyWage() > 2000) {
-            throw new IllegalArgumentException("時給は2000円以下で入力してください");
-        }
-        
         String sql = "INSERT INTO hourly_wages (name, hourly_wage) VALUES (?, ?)";
         
         db.update(sql, 
