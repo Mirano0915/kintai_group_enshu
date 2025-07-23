@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kintai.Entity.AttendancesEntity;
@@ -50,17 +49,6 @@ public class AttendanceController {
         return "attendance";
     }
 
-    // 変更申請画面 - attendance_idを使用
-    @GetMapping("/attendance-change-form")
-    public String showAttendanceChangeForm(@RequestParam("attendanceId") Long attendanceId,
-                                         @RequestParam("name") String name,
-                                         Model model) {
-
-        model.addAttribute("attendanceId", attendanceId);
-        model.addAttribute("name", name);
-
-        return "attendanceChange";
-    }
 
     // AJAX削除API（管理者のみ）
     @PostMapping("/api/delete-attendance")
