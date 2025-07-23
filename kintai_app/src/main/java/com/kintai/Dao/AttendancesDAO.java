@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -51,7 +53,7 @@ public class AttendancesDAO {
 	}
 
 	//出勤処理
-	public void checkin(Long nameId) {
+	public String checkin(Long nameId) {
 		System.out.println("出勤処理を行いました");
 
 		LocalTime nowtime = LocalTime.now();
@@ -63,16 +65,33 @@ public class AttendancesDAO {
 		db.update("INSERT INTO attendances (name_id, checkin_time, date) VALUES(?,?,?)", nameId,
 				java.sql.Time.valueOf(nowtime), java.sql.Date.valueOf(today));
 
+		
+		
+		 // フォーマットパターンを定義
+		 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
+	     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+
+	     // LocalDate と LocalTime をフォーマット
+	     String formattedDate = today.format(dateFormatter);
+	     String formattedTime = nowtime.format(timeFormatter);
+
+	     // 日付と時間を結合
+	     return formattedDate + " " + formattedTime;
 	}
+	
+	
 
 	//退勤処理
-	public void checkout(Long nameId) {
+
+	public String checkout(Long nameId) {
+		System.out.println("退勤処理を行いました");
 		LocalTime nowtime = LocalTime.now();
 		LocalDate today = LocalDate.now();
 
 		// 今日の勤怠レコードを探す
 		String sql = "SELECT attendance_id FROM attendances WHERE name_id = ? AND date = ?";
 		List<Long> ids = db.queryForList(sql, Long.class, nameId, today);
+
 
 		// 存在するなら → そのレコードに退勤を記録
 		if (!ids.isEmpty()) {
@@ -83,6 +102,18 @@ public class AttendancesDAO {
 		    String insert = "INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES (?, null, ?, ?)";
 		    db.update(insert, nameId, java.sql.Time.valueOf(nowtime), today);
 		}
+		
+		
+		 // フォーマットパターンを定義
+		 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
+	     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+
+	     // LocalDate と LocalTime をフォーマット
+	     String formattedDate = today.format(dateFormatter);
+	     String formattedTime = nowtime.format(timeFormatter);
+
+	     // 日付と時間を結合
+	     return formattedDate + " " + formattedTime;
 	}
 
 

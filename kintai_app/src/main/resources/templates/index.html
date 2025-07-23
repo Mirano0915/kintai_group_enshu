@@ -39,6 +39,23 @@
 
 	</div>
 	</div>
+	
+	
+	<p>現在の日時: <span id="datetime"></span></p>
+	
+	<script>
+		function updateDateTime(){
+			const now = new Date();
+			const date = now.toLocaleDateString();
+			const time = now.toLocaleTimeString();
+			document.getElementById('datetime').textContent = date + ' ' + time;
+		}
+		
+		updateDateTime();
+		setInterval(updateDateTime, 1000);
+	 </script>
+	
+	
 </body>
 
 </html>
