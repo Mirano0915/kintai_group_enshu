@@ -64,15 +64,12 @@ public class AttendancesDAO {
 	}
 
 	//退勤処理
-	public void checkout(String name) {
+	public void checkout(Long nameId) {
 		System.out.println("退勤処理を行いました");
 		LocalTime nowtime = LocalTime.now();
 
-		//勤怠登録をした従業員のname_idを取得
-		String sql = "SELECT name_id FROM hourly_wages WHERE name = ?";
-		Long nameId = db.queryForObject(sql, Long.class, name);
 
-		// 最新の出勤時間を取得
+		// 退勤した従業員の最新の出勤時間を取得
 		java.sql.Time latestCheckinTime = db.queryForObject(
 				"SELECT MAX(checkin_time) FROM attendances WHERE name_id = ?", java.sql.Time.class, nameId);
 
@@ -121,7 +118,7 @@ public class AttendancesDAO {
 	public boolean hasCheckedInToday(Long nameId) {
 	    String sql = """
 	        SELECT COUNT(*) FROM attendances
-	        WHERE name_id = ? AND date = ? AND checkin IS NOT NULL
+	        WHERE name_id = ? AND date = ? AND checkin_time IS NOT NULL
 	    """;
 
 	    try (Connection conn = getConnection();
@@ -139,8 +136,30 @@ public class AttendancesDAO {
 	        return false;
 	    }
 	}
-
 	
+
+//	退勤ボタンを押したとき、退勤済みか判定
+	public boolean hasCheckedoutToday(Long nameId) {
+	    String sql = """
+	        SELECT COUNT(*) FROM attendances
+	        WHERE name_id = ? AND date = ? AND checkout_time IS NOT NULL
+	    """;
+
+	    try (Connection conn = getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setLong(1, nameId);
+	        stmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            return rs.next() && rs.getInt(1) > 0;
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 	
 		 
 //	 従業員データを削除（管理者のみ）

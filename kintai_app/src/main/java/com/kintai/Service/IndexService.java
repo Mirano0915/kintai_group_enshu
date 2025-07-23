@@ -31,7 +31,7 @@ public class IndexService {
 	
 	
 	//退勤処理
-	public void checkout(String name) {
-		attendancesDAO.checkout(name);
+	public void checkout(Long nameId) {
+		attendancesDAO.checkout(nameId);
 	}
 }
