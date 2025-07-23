@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.kintai.Dao.AttendancesDAO;
 import com.kintai.Dao.StampsDAO;
 import com.kintai.Entity.AttendancesEntity;
-import com.kintai.Entity.StampsEntity;
 import com.kintai.Form.AttendanceChangeForm;
 
 @Service
@@ -50,11 +49,6 @@ public class AttendanceService {
     // 変更申請を送信
     public void submitChangeRequest(AttendanceChangeForm changeForm) {
         stampsDAO.insertAttendanceTime(changeForm);
-    }
-
-    // 打刻変更申請一覧を取得
-    public List<StampsEntity> getChangeRequestList() {
-        return stampsDAO.showAttendanceAgreeTable();
     }
 
     // 出勤状況を判定（出勤済み、退勤済み、未出勤）
