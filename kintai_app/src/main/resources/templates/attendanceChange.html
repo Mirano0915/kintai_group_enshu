@@ -10,7 +10,7 @@
   	<!-- 従業員画面の場合 -->
 	<h1 th:if="${mode == 'employee'}">変更申請（従業員画面）</h1>
 	
-	<a href="/attendance">勤怠一覧に戻る</a>	
+	<a href="/attendance">勤怠管理ページに戻る</a>	
 	
 	
 	<form th:action="@{/completeChange}" th:object="${form}" method="post">
