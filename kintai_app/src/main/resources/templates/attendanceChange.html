@@ -6,7 +6,7 @@
 </head>
 <body>
 	<h1>変更申請</h1>
-	<a href="/attendance.html">勤怠一覧に戻る</a>	
+	<a href="/">勤怠一覧に戻る</a>	
 	<form th:action="@{/completeChange}" th:object="${form}" method="post">
 		<input type="hidden" name="attendanceId" th:field="*{attendanceId}">
 		<input type="hidden" name="nameId" th:field="*{nameId}"> 
