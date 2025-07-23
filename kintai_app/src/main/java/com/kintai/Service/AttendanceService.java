@@ -33,13 +33,13 @@ public class AttendanceService {
     }
 
     // 出勤処理
-    public void checkin(Long name) {
-        attendancesDAO.checkin(name);
+    public void checkin(Long nameId) {
+        attendancesDAO.checkin(nameId);
     }
 
     // 退勤処理
-    public void checkout(String name) {
-        attendancesDAO.checkout(name);
+    public void checkout(Long nameId) {
+        attendancesDAO.checkout(nameId);
     }
 
     // 勤怠データを削除（管理者のみ）- attendance_idを使用
