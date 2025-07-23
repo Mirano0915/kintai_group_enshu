@@ -31,8 +31,7 @@ public class AttendancesDAO {
 	public AttendancesDAO(JdbcTemplate db) {
 		this.db = db;
 	}
-	@Autowired
-	private DataSource dataSource;
+	
 
 	//従業員の名前を取得
 	public List<AttendancesEntity> readNameDb() {
@@ -58,7 +57,6 @@ public class AttendancesDAO {
 
 		//勤怠登録をした従業員のname_idを取得
 		String sql = "SELECT name_id FROM hourly_wages WHERE name = ?";
-		Long nameId = db.queryForObject(sql, Long.class, name);
 
 		db.update("INSERT INTO attendances (name_id, checkin_time, date) VALUES(?,?,?)", nameId,
 				java.sql.Time.valueOf(nowtime), java.sql.Date.valueOf(today));
@@ -86,14 +84,6 @@ public class AttendancesDAO {
 		} else {
 			System.out.println("該当する出勤記録が見つかりませんでした");
 		}
-	}
-
-	//		 勤怠データを削除（管理者のみ）
-
-	public void deleteDB(Long nameId) {
-		String sql = "DELETE FROM attendances WHERE name_id = ?";
-		db.update(sql, nameId);
-		System.out.println("勤怠データを削除しました: nameId = " + nameId);
 	}
 
 	//		 勤怠データを更新（管理者のみ）
