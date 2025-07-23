@@ -94,4 +94,12 @@ public class StampsDAO {
 		
 		return db.queryForObject(sql, Long.class, attendanceId);
 	}
+	
+	
+ //	承認待ちの打刻変更申請の件数を取得
+	public int countPendingRequests() {
+		String sql = "SELECT COUNT(*) FROM stamps";
+		return db.queryForObject(sql, Integer.class);
+	}
+	
 }
