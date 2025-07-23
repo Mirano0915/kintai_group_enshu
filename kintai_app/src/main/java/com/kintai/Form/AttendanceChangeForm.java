@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AttendanceChangeForm {
 	
+	private Long attendanceId;
 	private Long nameId; 
 	
 	@NotBlank(message = "必須入力")

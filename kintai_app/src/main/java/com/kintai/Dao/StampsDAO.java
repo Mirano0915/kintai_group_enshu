@@ -25,10 +25,11 @@ public class StampsDAO {
 	//打刻申請を追加
 	public void insertAttendanceTime(AttendanceChangeForm form) {
 
-		String sql = "INSERT INTO stamps (name_id, pre_checkin_time, pre_checkout_time, comment) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO stamps (attendance_id, name_id, pre_checkin_time, pre_checkout_time, comment) VALUES (?, ?, ?, ?, ?)";
 
 		db.update(
 				sql,
+				form.getAttendanceId(),
 				form.getNameId(),
 				form.getPreCheckinTimeAsSqlTime(), // java.sql.Time に変換
 				form.getPreCheckoutTimeAsSqlTime(), // java.sql.Time に変換
@@ -85,5 +86,12 @@ public class StampsDAO {
 			
 		}
 		return resultDb2;
+	}
+	
+	
+	public Long readNameId(Long attendanceId) {
+		String sql = "SELECT name_id FROM attendances WHERE attendance_id = ?";
+		
+		return db.queryForObject(sql, Long.class, attendanceId);
 	}
 }
