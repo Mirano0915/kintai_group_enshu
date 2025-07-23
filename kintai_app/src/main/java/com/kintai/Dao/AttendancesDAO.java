@@ -7,8 +7,10 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.sql.DataSource;
@@ -51,7 +53,7 @@ public class AttendancesDAO {
 	}
 
 	//出勤処理
-	public void checkin(Long nameId) {
+	public String checkin(Long nameId) {
 		System.out.println("出勤処理を行いました");
 
 		LocalTime nowtime = LocalTime.now();
@@ -63,13 +65,27 @@ public class AttendancesDAO {
 		db.update("INSERT INTO attendances (name_id, checkin_time, date) VALUES(?,?,?)", nameId,
 				java.sql.Time.valueOf(nowtime), java.sql.Date.valueOf(today));
 
+		
+		
+		 // フォーマットパターンを定義
+		 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
+	     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+
+	     // LocalDate と LocalTime をフォーマット
+	     String formattedDate = today.format(dateFormatter);
+	     String formattedTime = nowtime.format(timeFormatter);
+
+	     // 日付と時間を結合
+	     return formattedDate + " " + formattedTime;
 	}
+	
+	
 
 	//退勤処理
-	public void checkout(Long nameId) {
+	public String checkout(Long nameId) {
 		System.out.println("退勤処理を行いました");
 		LocalTime nowtime = LocalTime.now();
-
+		LocalDate today = LocalDate.now();
 
 		// 退勤した従業員の最新の出勤時間を取得
 		java.sql.Time latestCheckinTime = db.queryForObject(
@@ -83,6 +99,18 @@ public class AttendancesDAO {
 		} else {
 			System.out.println("該当する出勤記録が見つかりませんでした");
 		}
+		
+		
+		 // フォーマットパターンを定義
+		 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
+	     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+
+	     // LocalDate と LocalTime をフォーマット
+	     String formattedDate = today.format(dateFormatter);
+	     String formattedTime = nowtime.format(timeFormatter);
+
+	     // 日付と時間を結合
+	     return formattedDate + " " + formattedTime;
 	}
 
 	//		 勤怠データを更新（管理者のみ）

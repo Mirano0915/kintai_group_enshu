@@ -46,7 +46,8 @@ public class IndexController {
 
 	    }
 
-	    indexService.checkin(nameId); // nameIdで処理するにゃ！
+	    model.addAttribute("checkTime",indexService.checkin(nameId)); // nameIdで処理するにゃ！
+	    
 	    return "complete";
 	}
 
@@ -63,7 +64,7 @@ public class IndexController {
 		        return "index";
 
 		    }
-		indexService.checkout(nameId);
+		model.addAttribute("checkTime",indexService.checkout(nameId));
 		return "complete";
 	}
 	
