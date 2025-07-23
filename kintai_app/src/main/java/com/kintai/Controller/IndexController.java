@@ -53,8 +53,17 @@ public class IndexController {
 	
 	//退勤処理(退勤ボタン)
 	@RequestMapping("/checkout")
-	public String checkout(@RequestParam("employeeName") String name) {
-		indexService.checkout(name);
+	public String checkout(@RequestParam("employeeName") String name, Model model) {
+		
+		 Long nameId = hourlyWagesDAO.getNameIdByName(name);
+
+		    if (attendancesDAO.hasCheckedoutToday(nameId)) {
+		        model.addAttribute("errorMessage", "今日はもう退勤済みです！");
+		        indexService.readName(model);
+		        return "index";
+
+		    }
+		indexService.checkout(nameId);
 		return "complete";
 	}
 	
