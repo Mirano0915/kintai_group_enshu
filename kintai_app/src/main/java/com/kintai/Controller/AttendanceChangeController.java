@@ -42,7 +42,7 @@ public class AttendanceChangeController {
 		} else {
 			model.addAttribute("mode", "employee");
 		}
-	
+		
 		AttendanceChangeForm attendanceChangeForm = new AttendanceChangeForm();
 		attendanceChangeForm.setAttendanceId(attendanceId);
 		attendanceChangeForm.setNameId(attendanceChangeService.getNameId(attendanceId));
@@ -58,8 +58,29 @@ public class AttendanceChangeController {
 
 	//送信処理
 	@PostMapping("/completeChange")
-	public String submitAttendanceForm(@ModelAttribute AttendanceChangeForm form, String preCheckinTime, String preCheckoutTime, String comment) {
-		attendanceChangeService.attendanceRegister(form, preCheckinTime, preCheckoutTime, comment);
+	public String submitAttendanceForm(@ModelAttribute AttendanceChangeForm form, 
+										String preCheckinTime, 
+										String preCheckoutTime, 
+										String comment,
+										HttpSession session,
+										Model model) {
+		
+		
+		
+		// 管理者かどうかチェック
+		boolean isManager = authService.isManagerLoggedIn(session);
+
+		// 管理者なら"manager"、そうでなければ"employee"
+		if (isManager) {
+			model.addAttribute("mode", "manager");
+			attendanceChangeService.managerUpdateDB(form, preCheckinTime, preCheckoutTime, comment);
+			
+		} else {
+			model.addAttribute("mode", "employee");
+			attendanceChangeService.attendanceRegister(form, preCheckinTime, preCheckoutTime, comment);
+		}
+		
+		
 		return "completeChange";
 	}
 }
