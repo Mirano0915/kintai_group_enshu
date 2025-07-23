@@ -14,10 +14,10 @@ public class AttendanceAgreeService {
 	@Autowired
 	private StampsDAO stampsDAO;
 
-	//勤怠テーブルと時給テーブルを呼びだし＆給与計算
+	//打刻変更申請の一覧表示
 	public List<StampsEntity> getAttendanceAgreeList() {
 		List<StampsEntity> resultDb2 = stampsDAO.showAttendanceAgreeTable();
-		
+
 		return resultDb2;
 
 	}
