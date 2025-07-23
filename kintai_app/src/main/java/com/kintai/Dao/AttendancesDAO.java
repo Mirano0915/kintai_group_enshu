@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -195,5 +196,21 @@ public class AttendancesDAO {
 		    }
 		    return resultDb2;
 		}
+		
+		// stampsテーブルの変更時間をattendancesに適用
+		public void updateWorkTime(Long stampId) {
+			// stamp_idに紐づくデータ取得
+			String selectSql = "SELECT pre_checkin_time, pre_checkout_time, attendance_id FROM stamps WHERE stamp_id = ?";
+			Map<String, Object> result = db.queryForMap(selectSql, stampId);
 
+			// Mapから個別の値を取り出す
+			Time preCheckinTime = (Time) result.get("pre_checkin_time");
+			Time preCheckoutTime = (Time) result.get("pre_checkout_time");
+			Long attendanceId = ((Number) result.get("attendance_id")).longValue(); // Number → Long にキャスト
+
+			// attendancesテーブルの更新
+			String updateSql = "UPDATE attendances SET checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
+			db.update(updateSql, preCheckinTime, preCheckoutTime, attendanceId);
+ 
+		}
 }
