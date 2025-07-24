@@ -45,9 +45,11 @@ public class AttendanceChangeController {
 			model.addAttribute("mode", "employee");
 		}
 		
-		AttendanceChangeForm attendanceChangeForm = new AttendanceChangeForm();
+		AttendanceChangeForm attendanceChangeForm = attendanceChangeService.setCheckTime(attendanceId);
+		
 		attendanceChangeForm.setAttendanceId(attendanceId);
 		attendanceChangeForm.setNameId(attendanceChangeService.getNameId(attendanceId));
+		
 		
 		
 		System.out.println(attendanceChangeForm.getAttendanceId());

@@ -25,6 +25,9 @@ public class AttendanceChangeForm {
 
 	@NotBlank(message = "変更理由を入力してください！")
 	private String comment;
+	
+	private String checkinTime;
+	private String checkouttime;
 
 	
 	//入力フォームから受け取る時間がString型なのでTime型に変換
