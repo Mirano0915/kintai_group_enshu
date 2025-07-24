@@ -1,10 +1,12 @@
 package com.kintai.Controller;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,10 +60,8 @@ public class AttendanceChangeController {
 
 	//送信処理
 	@PostMapping("/completeChange")
-	public String submitAttendanceForm(@ModelAttribute AttendanceChangeForm form, 
-										String preCheckinTime, 
-										String preCheckoutTime, 
-										String comment,
+	public String submitAttendanceForm(@Valid @ModelAttribute("form") AttendanceChangeForm form, 
+										BindingResult bindingResult,
 										HttpSession session,
 										Model model) {
 		
@@ -73,12 +73,20 @@ public class AttendanceChangeController {
 		// 管理者なら"manager"、そうでなければ"employee"
 		if (isManager) {
 			model.addAttribute("mode", "manager");
-			attendanceChangeService.managerUpdateDB(form, preCheckinTime, preCheckoutTime, comment);
+			attendanceChangeService.managerUpdateDB(form);
 			
 		} else {
+			
 			model.addAttribute("mode", "employee");
-			attendanceChangeService.attendanceRegister(form, preCheckinTime, preCheckoutTime, comment);
+			//コメントがあるかのバリデーション
+			if (bindingResult.hasErrors()) {
+				model.addAttribute("form",form);
+				return "attendanceChange";
+			}
+				attendanceChangeService.attendanceRegister(form);
 		}
+		
+		
 		
 		
 		return "completeChange";

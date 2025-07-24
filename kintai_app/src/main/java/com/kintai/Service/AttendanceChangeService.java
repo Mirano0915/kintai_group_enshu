@@ -25,19 +25,19 @@ public class AttendanceChangeService {
 
 	
 	//変更後の出勤・退勤時間、コメントを入力
-	public void attendanceRegister(AttendanceChangeForm f, String preCheckinTime, String preCheckoutTime, String comment) {
-		f.setPreCheckinTime(preCheckinTime);
-		f.setPreCheckoutTime(preCheckoutTime);
-		f.setComment(comment);
+	public void attendanceRegister(AttendanceChangeForm f) {
+//		f.setPreCheckinTime(f.getPreCheckinTime());
+//		f.setPreCheckoutTime(f.getPreCheckoutTime());
+//		f.setComment(comment);
 		stampsDAO.insertAttendanceTime(f);
 
 	}
 	
 	
-	public void managerUpdateDB(AttendanceChangeForm f, String preCheckinTime, String preCheckoutTime, String comment) {
-		f.setPreCheckinTime(preCheckinTime);
-		f.setPreCheckoutTime(preCheckoutTime);
-		attendancesDAO.managerUpdateDB(f);
+	public void managerUpdateDB(AttendanceChangeForm f) {
+//		f.setPreCheckinTime(preCheckinTime);
+//		f.setPreCheckoutTime(preCheckoutTime);
+//		attendancesDAO.managerUpdateDB(f);
 	}
 
 }
