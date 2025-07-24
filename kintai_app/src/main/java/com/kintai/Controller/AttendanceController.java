@@ -1,5 +1,6 @@
 package com.kintai.Controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kintai.Entity.AttendancesEntity;
@@ -31,9 +33,12 @@ public class AttendanceController {
         this.authService = authService;
     }
 
-    // 勤怠一覧画面表示
+ // 勤怠一覧画面表示 - フィルター対応版
     @GetMapping("/attendance")
-    public String showAttendanceList(HttpSession session, Model model) {
+    public String showAttendanceList(HttpSession session, 
+                                   @RequestParam(value = "filterName", required = false) String filterName,
+                                   @RequestParam(value = "filterDate", required = false) String filterDate,
+                                   Model model) {
 
         // 管理者かどうかチェック
         boolean isManager = authService.isManagerLoggedIn(session);
@@ -45,19 +50,54 @@ public class AttendanceController {
             model.addAttribute("mode", "employee");
         }
 
-        // データベースから従業員データを取得
-        List<AttendancesEntity> employeeList = attendanceService.getAllAttendanceData();      
-        List<Map<String, Object>> attendanceViewList = new ArrayList<>();
+        // フィルターに応じてデータを取得
+        List<AttendancesEntity> employeeList;
         
+        // 日付文字列をLocalDateに変換
+        LocalDate date = null;
+        if (filterDate != null && !filterDate.isEmpty()) {
+            try {
+                date = LocalDate.parse(filterDate);
+                System.out.println("解析された日付: " + date);
+            } catch (Exception e) {
+                System.out.println("日付解析エラー: " + e.getMessage());
+            }
+        }
+        
+        // フィルター条件に応じて適切なServiceメソッドを呼び出し
+        if (filterName != null && !filterName.isEmpty() && date != null) {
+            // 名前と日付の両方でフィルター
+            employeeList = attendanceService.getAllAttendanceDataBothFilters(filterName, date);
+        } else if (filterName != null && !filterName.isEmpty()) {
+            // 名前のみでフィルター
+            employeeList = attendanceService.getAttendanceByName(filterName);
+        } else if (date != null) {
+            // 日付のみでフィルター
+            employeeList = attendanceService.getAttendanceByDate(date);
+        } else {
+            // フィルターなし - 全件表示
+            employeeList = attendanceService.getAllAttendanceData();
+        }
+        
+        
+        List<Map<String, Object>> attendanceViewList = new ArrayList<>();
         for (AttendancesEntity attendance : employeeList) {
             Map<String, Object> map = new HashMap<>();
             map.put("attendance", attendance);
             map.put("status", attendanceService.getAttendanceStatus(attendance));
             attendanceViewList.add(map);
         }
-
+        
+        // 正确的属性名で渡す
         model.addAttribute("attendanceList", attendanceViewList);
         
+        // フィルター用の従業員名リストを取得
+        List<String> employeeNames = attendanceService.getAllEmployeeNames();
+        model.addAttribute("employeeNames", employeeNames);
+        
+        // 現在のフィルター値を保持（フォームに表示するため）
+        model.addAttribute("currentFilterName", filterName);
+        model.addAttribute("currentFilterDate", filterDate);
 
         return "attendance";
     }
