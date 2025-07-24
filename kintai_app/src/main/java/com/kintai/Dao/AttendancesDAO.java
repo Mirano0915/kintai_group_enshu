@@ -50,6 +50,18 @@ public class AttendancesDAO {
 		}
 		return resultDb2;
 	}
+	
+//	全ての従業員名を取得 (フィルター用) 
+	public List<String> getAllEmployeeNames() {
+	    List<AttendancesEntity> entities = readNameDb(); 
+	    List<String> names = new ArrayList<>();
+	    
+	    for (AttendancesEntity entity : entities) {
+	        names.add(entity.getName());
+	    }
+	    
+	    return names;
+	}
 
 	//出勤処理
 	public String checkin(Long nameId) {
