@@ -232,21 +232,28 @@ public class AttendancesDAO {
 	    List<Object> params = new ArrayList<>();
 	    
 	    // 日付と名前フィルターの分岐
-	    if (name != null && !name.isEmpty() && date != null) {
+	    if (name != null && !name.isEmpty() && !name.trim().isEmpty() && date != null) {
 	        sql += "WHERE h.name = ? AND a.date = ? ";
-	        params.add(name);
-	        params.add(java.sql.Date.valueOf(date));
-	    } else if (name != null && !name.isEmpty()) {
+	        params.add(name.trim());
+	        params.add(java.sql.Date.valueOf(date)); // 将LocalDate转换为sql.Date
+	        System.out.println("Filter: name AND date");
+	    } else if (name != null && !name.isEmpty() && !name.trim().isEmpty()) {
 	        sql += "WHERE h.name = ? ";
-	        params.add(name);
+	        params.add(name.trim());
+	        System.out.println("Filter: name only");
 	    } else if (date != null) {
 	        sql += "WHERE a.date = ? ";
-	        params.add(java.sql.Date.valueOf(date));
+	        params.add(java.sql.Date.valueOf(date)); 
+	        System.out.println("Filter: date only");
+	    } else {
+	        System.out.println("Filter: none (all data)");
 	    }
 	    
 	    sql += "ORDER BY a.attendance_id DESC";
 
-		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
+	    List<Map<String, Object>> resultDb1 = params.isEmpty() ? 
+	    	    db.queryForList(sql) : 
+	    	    db.queryForList(sql, params.toArray());
 		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
 
 		for (Map<String, Object> result1 : resultDb1) {
