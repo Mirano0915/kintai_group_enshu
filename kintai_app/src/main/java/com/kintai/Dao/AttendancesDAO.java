@@ -38,7 +38,7 @@ public class AttendancesDAO {
 
 	//従業員の名前を取得
 	public List<AttendancesEntity> readNameDb() {
-		String sql = "SELECT * FROM hourly_wages";
+		String sql = "SELECT * FROM hourly_wages WHERE is_retired = false";
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
 		for (Map<String, Object> result1 : resultDb1) {
