@@ -35,7 +35,6 @@ public class AttendancesDAO {
 	public AttendancesDAO(JdbcTemplate db) {
 		this.db = db;
 	}
-	
 
 	//従業員の名前を取得
 	public List<AttendancesEntity> readNameDb() {
@@ -65,21 +64,17 @@ public class AttendancesDAO {
 		db.update("INSERT INTO attendances (name_id, checkin_time, date) VALUES(?,?,?)", nameId,
 				java.sql.Time.valueOf(nowtime), java.sql.Date.valueOf(today));
 
-		
-		
-		 // フォーマットパターンを定義
-		 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
-	     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+		// フォーマットパターンを定義
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
 
-	     // LocalDate と LocalTime をフォーマット
-	     String formattedDate = today.format(dateFormatter);
-	     String formattedTime = nowtime.format(timeFormatter);
+		// LocalDate と LocalTime をフォーマット
+		String formattedDate = today.format(dateFormatter);
+		String formattedTime = nowtime.format(timeFormatter);
 
-	     // 日付と時間を結合
-	     return formattedDate + " " + formattedTime;
+		// 日付と時間を結合
+		return formattedDate + " " + formattedTime;
 	}
-	
-	
 
 	//退勤処理
 
@@ -92,30 +87,27 @@ public class AttendancesDAO {
 		String sql = "SELECT attendance_id FROM attendances WHERE name_id = ? AND date = ?";
 		List<Long> ids = db.queryForList(sql, Long.class, nameId, today);
 
-
 		// 存在するなら → そのレコードに退勤を記録
 		if (!ids.isEmpty()) {
-		    String update = "UPDATE attendances SET checkout_time = ? WHERE attendance_id = ?";
-		    db.update(update, java.sql.Time.valueOf(nowtime), ids.get(0));
+			String update = "UPDATE attendances SET checkout_time = ? WHERE attendance_id = ?";
+			db.update(update, java.sql.Time.valueOf(nowtime), ids.get(0));
 		} else {
-		    // 出勤なし → 今日のレコードを新規作成（出勤 = null、退勤 = 現在時刻）
-		    String insert = "INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES (?, null, ?, ?)";
-		    db.update(insert, nameId, java.sql.Time.valueOf(nowtime), today);
+			// 出勤なし → 今日のレコードを新規作成（出勤 = null、退勤 = 現在時刻）
+			String insert = "INSERT INTO attendances (name_id, checkin_time, checkout_time, date) VALUES (?, null, ?, ?)";
+			db.update(insert, nameId, java.sql.Time.valueOf(nowtime), today);
 		}
-		
-		
-		 // フォーマットパターンを定義
-		 DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
-	     DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
 
-	     // LocalDate と LocalTime をフォーマット
-	     String formattedDate = today.format(dateFormatter);
-	     String formattedTime = nowtime.format(timeFormatter);
+		// フォーマットパターンを定義
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
 
-	     // 日付と時間を結合
-	     return formattedDate + " " + formattedTime;
+		// LocalDate と LocalTime をフォーマット
+		String formattedDate = today.format(dateFormatter);
+		String formattedTime = nowtime.format(timeFormatter);
+
+		// 日付と時間を結合
+		return formattedDate + " " + formattedTime;
 	}
-
 
 	//		 勤怠データを更新（管理者のみ）
 
@@ -145,77 +137,74 @@ public class AttendancesDAO {
 	//	JDBCへの接続
 
 	public Connection getConnection() throws SQLException {
-        return dataSource.getConnection(); // ここで自動的にプールされた Connection を取得するにゃ！
-    }
-	
+		return dataSource.getConnection(); // ここで自動的にプールされた Connection を取得するにゃ！
+	}
+
 	//	出勤ボタンを押したとき、出勤済みか判定
 	public boolean hasCheckedInToday(Long nameId) {
-	    String sql = """
-	        SELECT COUNT(*) FROM attendances
-	        WHERE name_id = ? AND date = ? AND checkin_time IS NOT NULL
-	    """;
+		String sql = """
+				    SELECT COUNT(*) FROM attendances
+				    WHERE name_id = ? AND date = ? AND checkin_time IS NOT NULL
+				""";
 
-	    try (Connection conn = getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-	        stmt.setLong(1, nameId);
-	        stmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+			stmt.setLong(1, nameId);
+			stmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
 
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            return rs.next() && rs.getInt(1) > 0;
-	        }
+			try (ResultSet rs = stmt.executeQuery()) {
+				return rs.next() && rs.getInt(1) > 0;
+			}
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
-	
+
 	public boolean forgotCheckedInToday(Long nameId) {
-	    String sql = "SELECT COUNT(*) FROM attendances WHERE name_id = ? AND date = CURRENT_DATE AND checkout_time IS NOT NULL";
-	    Integer count = db.queryForObject(sql, Integer.class, nameId);
-	    return count != null && count > 0;
+		String sql = "SELECT COUNT(*) FROM attendances WHERE name_id = ? AND date = CURRENT_DATE AND checkout_time IS NOT NULL";
+		Integer count = db.queryForObject(sql, Integer.class, nameId);
+		return count != null && count > 0;
 	}
-	
 
-//	退勤ボタンを押したとき、退勤済みか判定
+	//	退勤ボタンを押したとき、退勤済みか判定
 	public boolean hasCheckedoutToday(Long nameId) {
-	    String sql = """
-	        SELECT COUNT(*) FROM attendances
-	        WHERE name_id = ? AND date = ? AND checkout_time IS NOT NULL
-	    """;
+		String sql = """
+				    SELECT COUNT(*) FROM attendances
+				    WHERE name_id = ? AND date = ? AND checkout_time IS NOT NULL
+				""";
 
-	    try (Connection conn = getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-	        stmt.setLong(1, nameId);
-	        stmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
+			stmt.setLong(1, nameId);
+			stmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
 
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            return rs.next() && rs.getInt(1) > 0;
-	        }
+			try (ResultSet rs = stmt.executeQuery()) {
+				return rs.next() && rs.getInt(1) > 0;
+			}
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
-	
-		 
-//	 従業員データを削除（管理者のみ）
-	 
-	public void deleteDB(Long attendanceId) {  
-	    String sql = "DELETE FROM attendances WHERE attendance_id = ?";  
-	    db.update(sql, attendanceId);
-	    System.out.println("勤怠データを削除しました: attendanceId = " + attendanceId);
+
+	//	 従業員データを削除（管理者のみ）
+
+	public void deleteDB(Long attendanceId) {
+		String sql = "DELETE FROM attendances WHERE attendance_id = ?";
+		db.update(sql, attendanceId);
+		System.out.println("勤怠データを削除しました: attendanceId = " + attendanceId);
 	}
-		
 
 	// 勤怠一覧取得 - 最新の打刻順で表示
 	public List<AttendancesEntity> readAllAttendanceDb() {
 		String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
 				"FROM attendances a " +
-				"INNER JOIN hourly_wages h ON a.name_id = h.name_id " +
+				"LEFT JOIN hourly_wages h ON a.name_id = h.name_id " +
 				"ORDER BY a.attendance_id DESC";
 
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
@@ -234,37 +223,31 @@ public class AttendancesDAO {
 
 			resultDb2.add(entitydb);
 		}
-		
+
 		return resultDb2;
 	}
 
-		
-		// stampsテーブルの変更時間をattendancesに適用
-		public void updateWorkTime(Long stampId) {
-			// stamp_idに紐づくデータ取得
-			String selectSql = "SELECT pre_checkin_time, pre_checkout_time, attendance_id FROM stamps WHERE stamp_id = ?";
-			Map<String, Object> result = db.queryForMap(selectSql, stampId);
+	// stampsテーブルの変更時間をattendancesに適用
+	public void updateWorkTime(Long stampId) {
+		// stamp_idに紐づくデータ取得
+		String selectSql = "SELECT pre_checkin_time, pre_checkout_time, attendance_id FROM stamps WHERE stamp_id = ?";
+		Map<String, Object> result = db.queryForMap(selectSql, stampId);
 
-			// Mapから個別の値を取り出す
-			Time preCheckinTime = (Time) result.get("pre_checkin_time");
-			Time preCheckoutTime = (Time) result.get("pre_checkout_time");
-			Long attendanceId = ((Number) result.get("attendance_id")).longValue(); // Number → Long にキャスト
+		// Mapから個別の値を取り出す
+		Time preCheckinTime = (Time) result.get("pre_checkin_time");
+		Time preCheckoutTime = (Time) result.get("pre_checkout_time");
+		Long attendanceId = ((Number) result.get("attendance_id")).longValue(); // Number → Long にキャスト
 
-			// attendancesテーブルの更新
-			String updateSql = "UPDATE attendances SET checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
-			db.update(updateSql, preCheckinTime, preCheckoutTime, attendanceId);
- 
-		
+		// attendancesテーブルの更新
+		String updateSql = "UPDATE attendances SET checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
+		db.update(updateSql, preCheckinTime, preCheckoutTime, attendanceId);
 
-		
 	}
 
-		
 	//打刻変更（管理者のみ）
 	public void managerUpdateDB(AttendanceChangeForm form) {
-		
-		String sql = "UPDATE attendances SET name_id = ?, checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
 
+		String sql = "UPDATE attendances SET name_id = ?, checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
 
 		db.update(
 				sql,
@@ -272,8 +255,20 @@ public class AttendancesDAO {
 				form.getPreCheckinTimeAsSqlTime(), // java.sql.Time に変換
 				form.getPreCheckoutTimeAsSqlTime(), // java.sql.Time に変換
 				form.getAttendanceId());
-		
+
 	}
-		
+
+	public AttendancesEntity findById(Long attendanceId) {
+		String sql = "SELECT * FROM attendances WHERE attendance_id = ?";
+		return db.queryForObject(sql, (rs, rowNum) -> {
+			AttendancesEntity entity = new AttendancesEntity();
+			entity.setAttendanceId(rs.getLong("attendance_id"));
+			entity.setNameId(rs.getLong("name_id"));
+			entity.setCheckinTime(rs.getTime("checkin_time"));
+			entity.setCheckoutTime(rs.getTime("checkout_time"));
+			entity.setDate(rs.getDate("date"));
+			return entity;
+		}, attendanceId);
+	}
 
 }

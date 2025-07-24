@@ -83,15 +83,12 @@ public class AttendanceController {
         try {
             Long attendanceId = Long.valueOf(requestData.get("attendanceId").toString());
             attendanceService.deleteAttendance(attendanceId);
-
             response.put("success", true);
             response.put("message", "削除が完了しました");
-
         } catch (Exception e) {
             response.put("success", false);
             response.put("message", "削除に失敗しました: " + e.getMessage());
         }
-
         return response;
     }
 
