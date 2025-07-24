@@ -53,7 +53,7 @@
 				<td class="date" th:text="${employee.date}">日付</td>
                 <td class="checkin" th:text="${employee.checkinTime != null ? employee.checkinTime : '-'}">-</td>
                 <td class="checkout" th:text="${employee.checkoutTime != null ? employee.checkoutTime : '-'}">-</td>
-                S
+                
                 <!-- 管理者モード：編集・削除ボタン -->
                 <td th:if="${mode == 'manager'}">
                     <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
