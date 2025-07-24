@@ -1,5 +1,6 @@
 package com.kintai.Controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +44,20 @@ public class AttendanceController {
         } else {
             model.addAttribute("mode", "employee");
         }
-  
 
         // データベースから従業員データを取得
-        List<AttendancesEntity> employeeList = attendanceService.getAllAttendanceData();
-        model.addAttribute("employeeList", employeeList);
+        List<AttendancesEntity> employeeList = attendanceService.getAllAttendanceData();      
+        List<Map<String, Object>> attendanceViewList = new ArrayList<>();
+        
+        for (AttendancesEntity attendance : employeeList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("attendance", attendance);
+            map.put("status", attendanceService.getAttendanceStatus(attendance));
+            attendanceViewList.add(map);
+        }
+
+        model.addAttribute("attendanceList", attendanceViewList);
+        
 
         return "attendance";
     }
