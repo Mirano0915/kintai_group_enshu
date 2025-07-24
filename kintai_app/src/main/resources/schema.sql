@@ -2,6 +2,7 @@ CREATE TABLE hourly_wages (
   name_id BIGINT NOT NULL AUTO_INCREMENT,
   name VARCHAR(30) NOT NULL,
   hourly_wage INT NOT NULL DEFAULT 1000,
+  is_retired BOOLEAN DEFAULT FALSE,
   PRIMARY KEY (name_id)
 );
 
