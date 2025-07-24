@@ -45,11 +45,6 @@ public class AttendanceService {
 		attendancesDAO.checkout(nameId);
 	}
 
-	// 勤怠データを削除（管理者のみ）- attendance_idを使用
-	public void deleteAttendance(Long attendanceId) {
-		attendancesDAO.deleteDB(attendanceId);
-	}
-
 	// 変更申請を送信
 	public void submitChangeRequest(AttendanceChangeForm changeForm) {
 		stampsDAO.insertAttendanceTime(changeForm);
@@ -58,9 +53,9 @@ public class AttendanceService {
 	// 出勤状況を判定（出勤済み、退勤済み、未出勤）
 	public String getAttendanceStatus(AttendancesEntity attendance) {
 
-		if (!hourlyWagesDAO.existsByNameId(attendance.getNameId())) {
-			return "退職";
-		}
+		if (hourlyWagesDAO.isRetired(attendance.getNameId())) {
+            return "退職";
+        }
 
 		if (attendance.getDate() == null) {
 			return "未入力"; // 念のため日付未登録をカバー
@@ -87,4 +82,15 @@ public class AttendanceService {
 		}
 
 	}
+	
+	public void deleteAttendance(Long attendanceId) {
+	    AttendancesEntity entity = attendancesDAO.findById(attendanceId);
+	    if (entity != null) {
+	        Long nameId = entity.getNameId();
+
+	        // 退職フラグによる論理削除
+	        hourlyWagesDAO.retireByNameId(nameId);
+	    }
+	}
+	
 }

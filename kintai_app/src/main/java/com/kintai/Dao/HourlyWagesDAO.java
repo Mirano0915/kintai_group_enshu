@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -110,9 +111,28 @@ public class HourlyWagesDAO {
 
 	}
 
+	//nameIDを取得
 	public boolean existsByNameId(Long nameId) {
 		String sql = "SELECT COUNT(*) FROM hourly_wages WHERE name_id = ?";
 		Integer count = db.queryForObject(sql, Integer.class, nameId);
 		return count != null && count > 0;
+	}
+	
+	//退職済みかどうか調べる
+	 public Boolean isRetired(Long nameId) {
+	        String sql = "SELECT is_retired FROM hourly_wages WHERE name_id = ?";
+	        try {
+	            return db.queryForObject(sql, Boolean.class, nameId);
+	        } catch (EmptyResultDataAccessException e) {
+	            // データが存在しない場合（完全に退職済みなど）も "退職" とみなすなら true を返してもOK
+	            return true;
+	        }
+	    }
+	
+	
+	//nameIDから退職済みかどうかをtrueにする
+	public void retireByNameId(Long nameId) {
+	    String sql = "UPDATE hourly_wages SET is_retired = TRUE WHERE name_id = ?";
+	    db.update(sql, nameId);
 	}
 }
