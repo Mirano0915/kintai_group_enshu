@@ -28,26 +28,26 @@
 	<br>
 	<!-- フィルター表单 - 管理者のみ表示 -->
 	<div th:if="${mode == 'manager'}">
-	    <form th:action="@{/attendance}" method="get">
-	        <input type="hidden" name="mode" th:value="${mode}">
-	        
-	        <label for="filterName">名前:</label>
-	        <select id="filterName" name="filterName">
-	            <option value="">全ての従業員</option>
-	            <option th:each="empName : ${employeeNames}" 
-	                    th:value="${empName}" 
-	                    th:text="${empName}"
-	                    th:selected="${empName == currentFilterName}"></option>
-	        </select>
-	        
-	        <label for="filterDate">日付:</label>
-	        <input type="date" id="filterDate" name="filterDate" th:value="${currentFilterDate}">
-	        
-	        <button type="submit">検索</button>
-	        <a th:href="@{/attendance(mode=${mode})}">
-	            <button type="button">リセット</button>
-	        </a>
-	    </form>
+	<form th:action="@{/attendance}" method="get">
+	<input type="hidden" name="mode" th:value="${mode}">
+
+	<label for="filterName">名前:</label>
+	<select id="filterName" name="filterName">
+	<option value="">全ての従業員</option>
+	<option th:each="empName : ${employeeNames}"
+	th:value="${empName}"
+	th:text="${empName}"
+	th:selected="${empName == currentFilterName}"></option>
+	</select>
+
+	<label for="filterDate">日付:</label>
+	<input type="date" id="filterDate" name="filterDate" th:value="${currentFilterDate}">
+
+	<button type="submit">検索</button>
+	<a th:href="@{/attendance(mode=${mode})}">
+	<button type="button">リセット</button>
+	</a>
+	</form>
 	</div>
 
 	<br>

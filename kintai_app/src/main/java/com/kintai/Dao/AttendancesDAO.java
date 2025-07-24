@@ -227,7 +227,7 @@ public class AttendancesDAO {
 	public List<AttendancesEntity> readAllAttendanceDb(String name, LocalDate date) {
 	    String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
 	                 "FROM attendances a " +
-	                 "INNER JOIN hourly_wages h ON a.name_id = h.name_id ";
+	                 "LEFT JOIN hourly_wages h ON a.name_id = h.name_id ";
 	    
 	    List<Object> params = new ArrayList<>();
 	    
@@ -235,42 +235,42 @@ public class AttendancesDAO {
 	    if (name != null && !name.isEmpty() && !name.trim().isEmpty() && date != null) {
 	        sql += "WHERE h.name = ? AND a.date = ? ";
 	        params.add(name.trim());
-	        params.add(java.sql.Date.valueOf(date)); // 将LocalDate转换为sql.Date
-	        System.out.println("Filter: name AND date");
+	        params.add(java.sql.Date.valueOf(date)); // LocalDateをsql.Dateに変換
+	        System.out.println("フィルター: 名前と日付の両方");
 	    } else if (name != null && !name.isEmpty() && !name.trim().isEmpty()) {
 	        sql += "WHERE h.name = ? ";
 	        params.add(name.trim());
-	        System.out.println("Filter: name only");
+	        System.out.println("フィルター: 名前のみ");
 	    } else if (date != null) {
 	        sql += "WHERE a.date = ? ";
 	        params.add(java.sql.Date.valueOf(date)); 
-	        System.out.println("Filter: date only");
+	        System.out.println("フィルター: 日付のみ");
 	    } else {
-	        System.out.println("Filter: none (all data)");
+	        System.out.println("フィルター: なし（全データ）");
 	    }
 	    
 	    sql += "ORDER BY a.attendance_id DESC";
 
 	    List<Map<String, Object>> resultDb1 = params.isEmpty() ? 
-	    	    db.queryForList(sql) : 
-	    	    db.queryForList(sql, params.toArray());
-		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
+	        db.queryForList(sql) : 
+	        db.queryForList(sql, params.toArray());
+	    List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
 
-		for (Map<String, Object> result1 : resultDb1) {
-			AttendancesEntity entitydb = new AttendancesEntity();
+	    for (Map<String, Object> result1 : resultDb1) {
+	        AttendancesEntity entitydb = new AttendancesEntity();
 
-			entitydb.setAttendanceId(
-					result1.get("attendance_id") != null ? ((Number) result1.get("attendance_id")).longValue() : null);
-			entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
-			entitydb.setName((String) result1.get("name"));
-			entitydb.setCheckinTime((java.sql.Time) result1.get("checkin_time"));
-			entitydb.setCheckoutTime((java.sql.Time) result1.get("checkout_time"));
-			entitydb.setDate((java.sql.Date) result1.get("date"));
+	        entitydb.setAttendanceId(
+	                result1.get("attendance_id") != null ? ((Number) result1.get("attendance_id")).longValue() : null);
+	        entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
+	        entitydb.setName((String) result1.get("name"));
+	        entitydb.setCheckinTime((java.sql.Time) result1.get("checkin_time"));
+	        entitydb.setCheckoutTime((java.sql.Time) result1.get("checkout_time"));
+	        entitydb.setDate((java.sql.Date) result1.get("date"));
 
-			resultDb2.add(entitydb);
-		}
-		
-		return resultDb2;
+	        resultDb2.add(entitydb);
+	    }
+	    
+	    return resultDb2;
 	}
 
 		

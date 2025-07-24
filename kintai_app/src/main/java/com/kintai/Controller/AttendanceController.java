@@ -1,6 +1,7 @@
 package com.kintai.Controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,12 @@ public class AttendanceController {
         // 日付文字列をLocalDateに変換
         LocalDate date = null;
         if (filterDate != null && !filterDate.isEmpty()) {
-            date = LocalDate.parse(filterDate);
+            try {
+                date = LocalDate.parse(filterDate);
+                System.out.println("解析された日付: " + date);
+            } catch (Exception e) {
+                System.out.println("日付解析エラー: " + e.getMessage());
+            }
         }
         
         // フィルター条件に応じて適切なServiceメソッドを呼び出し
@@ -73,7 +79,17 @@ public class AttendanceController {
             employeeList = attendanceService.getAllAttendanceData();
         }
         
-        model.addAttribute("employeeList", employeeList);
+        // 同事のように包装对象を作成
+        List<Map<String, Object>> attendanceViewList = new ArrayList<>();
+        for (AttendancesEntity attendance : employeeList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("attendance", attendance);
+            map.put("status", attendanceService.getAttendanceStatus(attendance));
+            attendanceViewList.add(map);
+        }
+        
+        // 正确的属性名で渡す
+        model.addAttribute("attendanceList", attendanceViewList);
         
         // フィルター用の従業員名リストを取得
         List<String> employeeNames = attendanceService.getAllEmployeeNames();
