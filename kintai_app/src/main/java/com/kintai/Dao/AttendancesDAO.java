@@ -51,6 +51,18 @@ public class AttendancesDAO {
 		}
 		return resultDb2;
 	}
+	
+//	全ての従業員名を取得 (フィルター用) 
+	public List<String> getAllEmployeeNames() {
+	    List<AttendancesEntity> entities = readNameDb(); 
+	    List<String> names = new ArrayList<>();
+	    
+	    for (AttendancesEntity entity : entities) {
+	        names.add(entity.getName());
+	    }
+	    
+	    return names;
+	}
 
 	//出勤処理
 	public String checkin(Long nameId) {
@@ -212,11 +224,27 @@ public class AttendancesDAO {
 		
 
 	// 勤怠一覧取得 - 最新の打刻順で表示
-	public List<AttendancesEntity> readAllAttendanceDb() {
-		String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
-				"FROM attendances a " +
-				"INNER JOIN hourly_wages h ON a.name_id = h.name_id " +
-				"ORDER BY a.attendance_id DESC";
+	public List<AttendancesEntity> readAllAttendanceDb(String name, LocalDate date) {
+	    String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
+	                 "FROM attendances a " +
+	                 "INNER JOIN hourly_wages h ON a.name_id = h.name_id ";
+	    
+	    List<Object> params = new ArrayList<>();
+	    
+	    // 日付と名前フィルターの分岐
+	    if (name != null && !name.isEmpty() && date != null) {
+	        sql += "WHERE h.name = ? AND a.date = ? ";
+	        params.add(name);
+	        params.add(java.sql.Date.valueOf(date));
+	    } else if (name != null && !name.isEmpty()) {
+	        sql += "WHERE h.name = ? ";
+	        params.add(name);
+	    } else if (date != null) {
+	        sql += "WHERE a.date = ? ";
+	        params.add(java.sql.Date.valueOf(date));
+	    }
+	    
+	    sql += "ORDER BY a.attendance_id DESC";
 
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
