@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -269,6 +270,29 @@ public class AttendancesDAO {
 			entity.setDate(rs.getDate("date"));
 			return entity;
 		}, attendanceId);
+	}
+
+	
+	//退勤Idから出退勤時間を取得
+	public AttendanceChangeForm setCheckTime(Long attendanceId) {
+		String sql = "SELECT checkin_time, checkout_time FROM attendances WHERE attendance_id = ?";
+		Map<String, Object> result = db.queryForMap(sql, attendanceId);
+
+		   // SimpleDateFormat で時間を文字列に変換
+	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+	    // checkin_time と checkout_time を取得
+	    String checkinTime = result.get("checkin_time") != null ? sdf.format(result.get("checkin_time")) : "";
+	    String checkoutTime = result.get("checkout_time") != null ? sdf.format(result.get("checkout_time")) : "";
+
+		
+		AttendanceChangeForm form = new AttendanceChangeForm();
+		// フォームオブジェクトにセット
+		form.setPreCheckinTime(checkinTime);
+		form.setPreCheckoutTime(checkoutTime);
+		
+		return form;
+
 	}
 
 }

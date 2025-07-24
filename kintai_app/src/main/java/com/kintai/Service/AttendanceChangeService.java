@@ -26,18 +26,19 @@ public class AttendanceChangeService {
 	
 	//変更後の出勤・退勤時間、コメントを入力
 	public void attendanceRegister(AttendanceChangeForm f) {
-//		f.setPreCheckinTime(f.getPreCheckinTime());
-//		f.setPreCheckoutTime(f.getPreCheckoutTime());
-//		f.setComment(comment);
 		stampsDAO.insertAttendanceTime(f);
 
 	}
 	
-	
+	//出勤退勤時間の変更（管理者のみ）
 	public void managerUpdateDB(AttendanceChangeForm f) {
-//		f.setPreCheckinTime(preCheckinTime);
-//		f.setPreCheckoutTime(preCheckoutTime);
-//		attendancesDAO.managerUpdateDB(f);
+		attendancesDAO.managerUpdateDB(f);
 	}
+	
+	
 
+	//退勤Idから出勤時間と退勤時間を取得
+	public AttendanceChangeForm setCheckTime(Long attendanceId) {
+		return attendancesDAO.setCheckTime(attendanceId);
+	}
 }
