@@ -1,89 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>勤怠管理</title>
-</head>
-<body>
-    <!-- 管理者画面の場合 -->
-    <h1 th:if="${mode == 'manager'}">勤怠管理（管理者画面）</h1>
-    <!-- 従業員画面の場合 -->
-    <h1 th:if="${mode == 'employee'}">勤怠管理（従業員画面）</h1>
-    
-    <div>
-        <!-- 管理者の場合は従業員の追加ボタン -->
-        <span th:if="${mode == 'manager'}">
-            <a th:href="@{/add-employee}">
-                <button type="button">従業員の追加</button>
-            </a>
-        </span>
-        
-        <!-- 管理者と従業員モードによって遷移URL変わる -->
-        <a th:if="${mode == 'manager'}" th:href="@{/manager}">管理者ページに戻る</a>
-        <a th:if="${mode == 'employee'}" th:href="@{/}">メインページに戻る</a>
-    </div>
-    
-    <br>
-    
-    <table border="1" id="attendanceTable">
-        <thead>
-            <tr>
-                <th>名前</th>
-                <th>状況</th>
-				<th>日付</th>
-                <th>出勤時刻</th>
-                <th>退勤時刻</th>
-                <!-- 管理者モードの場合は編集・削除ボタン -->
-                <th th:if="${mode == 'manager'}">編集</th>
-                <th th:if="${mode == 'manager'}">削除</th>
-                <!-- 従業員モードの場合は編集ボタンのみ -->
-                <th th:if="${mode == 'employee'}">編集</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- データベースからの実際の従業員データを表示 -->
-            <tr th:each="employee : ${employeeList}">
-                <td class="name" th:text="${employee.name}">名前</td>
-                <td class="status">
-                    <!-- 出勤状況の判定 -->
-                    <span th:if="${employee.checkinTime == null}">未出勤</span>
-                    <span th:if="${employee.checkinTime != null && employee.checkoutTime == null}">出勤中</span>
-                    <span th:if="${employee.checkinTime != null && employee.checkoutTime != null}">退勤済み</span>
-                </td>
-				<td class="date" th:text="${employee.date}">日付</td>
-                <td class="checkin" th:text="${employee.checkinTime != null ? employee.checkinTime : '-'}">-</td>
-                <td class="checkout" th:text="${employee.checkoutTime != null ? employee.checkoutTime : '-'}">-</td>
-                
-                <!-- 管理者モード：編集・削除ボタン -->
-                <td th:if="${mode == 'manager'}">
-                    <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-	                  <input type="hidden" name="attendanceId" th:value="${employee.attendanceId}">
-                        <button type="submit">編集</button>
-                    </form>
-                </td>
-                <td th:if="${mode == 'manager'}">
-                    <button onclick="deleteAttendance(this)" 
-                            th:data-attendance-id="${employee.attendanceId}" 
-                            th:data-name="${employee.name}">削除</button>
-                </td>
-                
-                <!-- 従業員モード：編集ボタンのみ -->
-                <td th:if="${mode == 'employee'}">
-                    <form th:action="@{/attendance-change-form}" method="get" style="display: inline;">
-                        <input type="hidden" name="attendanceId" th:value="${employee.attendanceId}">
-                        <button type="submit">編集</button>
-                    </form>
-                </td>
-            </tr>
-            
-            <!-- データがない場合 -->
-            <tr th:if="${employeeList == null or #lists.isEmpty(employeeList)}">
-                <td th:colspan="${mode == 'manager' ? 6 : 5}" style="text-align: center;">従業員データがありません</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <!-- 管理者モードの場合のみJavaScriptファイルを読み込み -->
-    <script th:if="${mode == 'manager'}" th:src="@{/js/attendance.js}"></script>
+<head>
+	<meta charset="UTF-8">
+	<title>勤怠管理</title>
+</head>
+
+<body>
+	<!-- 管理者画面の場合 -->
+	<h1 th:if="${mode == 'manager'}">勤怠管理（管理者画面）</h1>
+	<!-- 従業員画面の場合 -->
+	<h1 th:if="${mode == 'employee'}">勤怠管理（従業員画面）</h1>
+
+	<div>
+		<!-- 管理者の場合は従業員の追加ボタン -->
+		<span th:if="${mode == 'manager'}">
+			<a th:href="@{/add-employee}">
+				<button type="button">従業員の追加</button>
+			</a>
+		</span>
+
+		<!-- 管理者と従業員モードによって遷移URL変わる -->
+		<a th:if="${mode == 'manager'}" th:href="@{/manager}">管理者ページに戻る</a>
+		<a th:if="${mode == 'employee'}" th:href="@{/}">メインページに戻る</a>
+	</div>
+
+	<br>
+
+	<table border="1" id="attendanceTable">
+		<thead>
+			<tr>
+				<th>名前</th>
+				<th>状況</th>
+				<th>日付</th>
+				<th>出勤時刻</th>
+				<th>退勤時刻</th>
+				<!-- 管理者モードの場合は編集・削除ボタン -->
+				<th th:if="${mode == 'manager'}">編集</th>
+				<th th:if="${mode == 'manager'}">削除</th>
+				<!-- 従業員モードの場合は編集ボタンのみ -->
+				<th th:if="${mode == 'employee'}">編集</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- データベースからの実際の従業員データを表示 -->
+			<tr th:each="item : ${attendanceList}">
+				<td th:text="${item.attendance.name}">名前</td>
+				<td th:text="${item.status}">状況</td>
+				<td th:text="${item.attendance.date}">日付</td>
+				<td th:text="${item.attendance.checkinTime != null ? item.attendance.checkinTime : '-'}">出勤</td>
+				<td th:text="${item.attendance.checkoutTime != null ? item.attendance.checkoutTime : '-'}">退勤</td>
+
+				<!-- 編集・削除ボタン（mode に応じて） -->
+				<td th:if="${mode == 'manager'}">
+					<form th:action="@{/attendance-change-form}" method="get">
+						<input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
+						<button type="submit">編集</button>
+					</form>
+				</td>
+				<td th:if="${mode == 'manager'}">
+					<button onclick="deleteAttendance(this)" th:data-attendance-id="${item.attendance.attendanceId}"
+						th:data-name="${item.attendance.name}">削除</button>
+				</td>
+				<td th:if="${mode == 'employee'}">
+					<form th:action="@{/attendance-change-form}" method="get">
+						<input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
+						<button type="submit">編集</button>
+					</form>
+				</td>
+			</tr>
+
+
+			<!-- データがない場合 -->
+			<tr th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
+				<td th:colspan="${mode == 'manager' ? 6 : 5}" style="text-align: center;">従業員データがありません</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!-- 管理者モードの場合のみJavaScriptファイルを読み込み -->
+	<script th:if="${mode == 'manager'}" th:src="@{/js/attendance.js}"></script>
 </body>
+
 </html>
+

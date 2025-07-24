@@ -102,4 +102,9 @@ public class StampsDAO {
 		return db.queryForObject(sql, Integer.class);
 	}
 	
+	public void deleteByNameId(Long nameId) {
+	    String sql = "DELETE FROM hourly_wages WHERE name_id = ?";
+	    db.update(sql, nameId);
+	}
+	
 }
