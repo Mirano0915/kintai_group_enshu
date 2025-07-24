@@ -30,10 +30,30 @@ public class AttendanceService {
 
 	}
 
-	// 勤怠データ一覧を取得 (attendance_idで管理)
-	public List<AttendancesEntity> getAllAttendanceData() {
-		return attendancesDAO.readAllAttendanceDb();
-	}
+	 // 勤怠データ一覧を取得 - 名前と日付の両方でフィルタリング
+	 public List<AttendancesEntity> getAllAttendanceDataBothFilters(String name, LocalDate date) {
+	     return attendancesDAO.readAllAttendanceDb(name, date);
+	 }
+
+	 // 勤怠データ一覧を取得 - 従業員名でフィルタリング
+	 public List<AttendancesEntity> getAttendanceByName(String name) {
+	     return attendancesDAO.readAllAttendanceDb(name, null);
+	 }
+
+	 // 勤怠データ一覧を取得 - 日付でフィルタリング
+	 public List<AttendancesEntity> getAttendanceByDate(LocalDate date) {
+	     return attendancesDAO.readAllAttendanceDb(null, date);
+	 }
+	 
+	//勤怠データ一覧を取得 - フィルターなし（全件表示）
+	 public List<AttendancesEntity> getAllAttendanceData() {
+	     return attendancesDAO.readAllAttendanceDb(null, null);
+	 }
+
+	 // フィルター用のドロップダウンメニューで使用
+	 public List<String> getAllEmployeeNames() {
+	     return attendancesDAO.getAllEmployeeNames();
+	 }
 
 	// 出勤処理
 	public void checkin(Long nameId) {
