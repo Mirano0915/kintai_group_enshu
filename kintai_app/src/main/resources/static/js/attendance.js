@@ -7,7 +7,7 @@ function deleteAttendance(button) {
     const attendanceId = button.getAttribute('data-attendance-id');
     const name = button.getAttribute('data-name');
     
-    if (confirm('本当に ' + name + 'さん を削除しますか？')) {
+    if (confirm('本当に ' + name + 'さんは退職しましたか？')) {
         // 実際のAJAX呼び出し
         fetch('/api/delete-attendance', {
             method: 'POST',
