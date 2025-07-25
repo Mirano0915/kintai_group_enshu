@@ -40,14 +40,20 @@ public class AddEmployeeController {
         }
 
         try {
-            // 従業員を追加
-            addEmployeeService.addEmployee(payrollForm);
-            model.addAttribute("successMessage", "従業員が正常に追加されました");
-            model.addAttribute("payrollForm", new PayrollForm()); 
+            // 従業員を追加（同姓同名チェック付き）
+            boolean success = addEmployeeService.addEmployee(payrollForm);
+            
+            if (success) {
+                model.addAttribute("successMessage", "従業員が正常に追加されました");
+                model.addAttribute("payrollForm", new PayrollForm()); 
+            } else {
+                model.addAttribute("errorMessage", "同姓同名の従業員が既に存在します");
+            }
+            
         } catch (Exception e) {
             model.addAttribute("errorMessage", "従業員の追加に失敗しました: " + e.getMessage());
         }
-
+        
         return "addEmployee";
     }
 }
