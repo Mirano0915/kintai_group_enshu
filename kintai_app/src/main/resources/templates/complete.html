@@ -6,12 +6,12 @@
 </head>
 <body>
 
+	<p th:text="${checkTime}"></p>
 	
 	<p th:if="${type == 'checkin'}" th:text="${employeeName} + 'さんの出勤登録が完了しました！'"></p>
-	<p th:if="${type == 'checkout'}" th:text="${employeeName} + 'さんの出勤登録が完了しました！'"></p>
+	<p th:if="${type == 'checkout'}" th:text="${employeeName} + 'さんの退勤登録が完了しました！'"></p>
 		
-	<
-	p th:text="'登録時刻: ' + ${checkTime}"></p>
+	
 	<a href="/">メインページに戻る</a>
 	
 	
