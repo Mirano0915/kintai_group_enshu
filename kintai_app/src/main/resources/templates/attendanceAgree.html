@@ -41,11 +41,15 @@
 
 				<!--			申請があるとき-->
 				<tr th:each="request : ${changeRequests}" th:attr="data-stamp-id=${request.stampId}">
-					<td th:text="${request.name}"></td>
-					<td th:text="${request.checkinTime}"></td>
-					<td th:text="${request.checkoutTime}"></td>
-					<td th:text="${request.preCheckinTime}"></td>
-					<td th:text="${request.preCheckoutTime}"></td>
+				<td th:text="${request.name}"></td>
+				<td th:text="${request.checkinTime != null ? 
+									    #temporals.format(request.checkinTime.toLocalTime(), 'HH:mm') : '-'}"></td>
+				<td th:text="${request.checkoutTime != null ? 
+									    #temporals.format(request.checkoutTime.toLocalTime(), 'HH:mm') : '-'}"></td>
+				<td th:text="${request.preCheckinTime != null ? 
+									    #temporals.format(request.preCheckinTime.toLocalTime(), 'HH:mm') : '-'}"></td>
+				<td th:text="${request.preCheckoutTime != null ? 
+									    #temporals.format(request.preCheckoutTime.toLocalTime(), 'HH:mm') : '-'}"></td>
 					<td th:text="${request.date}"></td>
 					<td th:text="${request.comment}"></td>
 					<td>
