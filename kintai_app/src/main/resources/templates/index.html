@@ -3,6 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/css/test.css">
 	<title>勤怠管理システム</title>
 </head>
 
@@ -18,7 +19,7 @@
 			</select>
 		</div>
 
-		<div>
+		<div class="center-buttons">
 			<button type="submit" formaction="/checkin">出勤</button>
 			<div th:if="${errorMessage}" style="color: red;">
 				<p th:text="${errorMessage}"></p>
