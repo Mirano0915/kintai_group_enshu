@@ -5,6 +5,8 @@ import java.sql.Time;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 
+import com.kintai.Interface.EmployeeGroup;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,11 +25,14 @@ public class AttendanceChangeForm {
 	@NotBlank(message = "必須入力")
 	private String preCheckoutTime;
 
-	@NotBlank(message = "変更理由を入力してください！")
+	@NotBlank(message = "変更理由を入力してください！", groups = EmployeeGroup.class)
 	private String comment;
 	
 	private String checkinTime;
 	private String checkouttime;
+
+	
+	private String employeeName;
 
 	
 	//入力フォームから受け取る時間がString型なのでTime型に変換
