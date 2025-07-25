@@ -37,18 +37,40 @@ public class HourlyWagesDAO {
 
 	//勤怠テーブルと時給テーブルを内部結合して読み取り
 	public List<HourlyWagesEntity> readDb() {
-		String sql = "SELECT hourly_wages.name, hourly_wages.hourly_wage, " + //name_id、名前、時給を従業員ごとにSELECT
-				"SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) AS total_work_minutes, "
-				+ //合計出勤時間を算出
-				"SUM(CASE WHEN attendances.checkin_time >= '22:00:00' THEN TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time) ELSE 0 END) AS night_work_minutes, "
-				+ //深夜労働時間を算出
-				"COUNT(*) AS days_worked, " + //出勤回数
-				"COUNT(*) * (210 + 250) AS transportation, " + //賄い代 + 交通費算出
-				"(SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) * hourly_wages.hourly_wage / 60) + (COUNT(*) * 210) AS total_amount "
-				+ //月給算出
-				"FROM attendances " +
-				"INNER JOIN hourly_wages ON attendances.name_id = hourly_wages.name_id " +
-				"GROUP BY attendances.name_id, hourly_wages.name_id";
+		String sql = "SELECT hourly_wages.name, hourly_wages.hourly_wage, " +
+			    "SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) AS total_work_minutes, " + // 合計出勤時間を算出
+
+			    "SUM(CASE WHEN attendances.checkin_time < TIME '22:00:00' AND attendances.checkout_time > TIME '22:00:00' THEN " +
+			    "TIMESTAMPDIFF(MINUTE, TIME '22:00:00', attendances.checkout_time) " +
+			    "WHEN attendances.checkin_time >= TIME '22:00:00' THEN " +
+			    "TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time) " +
+			    "ELSE 0 END) AS night_work_minutes, " + // 深夜労働時間を算出
+
+			    "COUNT(*) AS days_worked, " + // 出勤回数
+
+			    "COUNT(*) * (210 + 250) AS transportation, " + // 賄い代 + 交通費算出
+
+			    // 深夜労働時間を除いた給与
+			    "(SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) - " +
+			    "SUM(CASE WHEN attendances.checkin_time < TIME '22:00:00' AND attendances.checkout_time > TIME '22:00:00' THEN " +
+			    "TIMESTAMPDIFF(MINUTE, TIME '22:00:00', attendances.checkout_time) " +
+			    "WHEN attendances.checkin_time >= TIME '22:00:00' THEN " +
+			    "TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time) " +
+			    "ELSE 0 END)) * hourly_wages.hourly_wage / 60 + " +
+
+			    // 深夜労働時間の給与
+			    "SUM(CASE WHEN attendances.checkin_time < TIME '22:00:00' AND attendances.checkout_time > TIME '22:00:00' THEN " +
+			    "TIMESTAMPDIFF(MINUTE, TIME '22:00:00', attendances.checkout_time) " +
+			    "WHEN attendances.checkin_time >= TIME '22:00:00' THEN " +
+			    "TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time) " +
+			    "ELSE 0 END) * hourly_wages.hourly_wage / 60 * 1.25 + " +
+
+			    "(COUNT(*) * (210 + 250)) AS total_amount " + // 合計給与
+
+			    "FROM attendances " +
+			    "INNER JOIN hourly_wages ON attendances.name_id = hourly_wages.name_id " +
+			    "GROUP BY attendances.name_id, hourly_wages.name_id";
+
 
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 
