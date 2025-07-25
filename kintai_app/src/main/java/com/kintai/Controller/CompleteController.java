@@ -13,7 +13,7 @@ public class CompleteController {
     public String showCompletePage(
             @RequestParam("type") String type,
             @RequestParam("employeeName") String name,
-            @RequestParam("checkTime") String checkTime,
+            @RequestParam(value = "checkTime", required = false) String checkTime,
             Model model) {
 
         model.addAttribute("type", type);

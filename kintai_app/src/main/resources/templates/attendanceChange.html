@@ -14,6 +14,7 @@
 	
 	
 	<form th:action="@{/completeChange}" th:object="${form}" method="post">
+		<input type="hidden" name="employeeName" th:value="${employeeName}" />
 		<input type="hidden" name="attendanceId" th:field="*{attendanceId}">
 		<input type="hidden" name="nameId" th:field="*{nameId}"> 
 <!--		inputのvalueは最終的にvalue="${targetNameId}"になる-->
