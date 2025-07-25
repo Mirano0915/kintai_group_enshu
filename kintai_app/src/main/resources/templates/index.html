@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -28,37 +27,28 @@
 		</div>
 	</form>
 
-	<div>	
-		
+	<div>
+
 		<form th:action="@{/auth}" method="get">
-		    <button type="submit">管理者ページへ</button>
+			<button type="submit">管理者ページへ</button>
 		</form>
 
-				 
+
 		<form th:action="@{/attendance}" method="get">
-				<button type="submit">打刻管理ページへ</button>
-			</form>
-		
+			<button type="submit">打刻管理ページへ</button>
+		</form>
+
 
 	</div>
 	</div>
-	
-	
+
+
 	<p>現在の日時: <span id="datetime"></span></p>
-	
-	<script>
-		function updateDateTime(){
-			const now = new Date();
-			const date = now.toLocaleDateString();
-			const time = now.toLocaleTimeString();
-			document.getElementById('datetime').textContent = date + ' ' + time;
-		}
-		
-		updateDateTime();
-		setInterval(updateDateTime, 1000);
-	 </script>
-	
-	
+
+
+
 </body>
+
+<script th:src="@{/js/index.js}"></script>
 
 </html>
