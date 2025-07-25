@@ -90,12 +90,18 @@ public class HourlyWagesDAO {
 					: 0);
 			int totalWorkHour = totalWorkMinutes / 60;
 			int minutesRemaining = totalWorkMinutes % 60;
-			System.out.println(totalWorkHour + "時間" + entitydb.getName());
 			entitydb.setTotalWorkingTime(totalWorkHour + "時間" + minutesRemaining + "分");
 
-			entitydb.setNightWorkingTime(
-					result1.get("night_work_minutes") != null ? ((Number) result1.get("night_work_minutes")).intValue()
-							: 0);
+			
+			int nightWorkMinutes = (result1.get("night_work_minutes") != null
+					? ((Number) result1.get("night_work_minutes")).intValue()
+					: 0);
+			totalWorkHour = nightWorkMinutes / 60;
+			minutesRemaining = nightWorkMinutes % 60;
+			entitydb.setNightWorkingTime(totalWorkHour + "時間" + minutesRemaining + "分");
+//			entitydb.setNightWorkingTime(
+//					result1.get("night_work_minutes") != null ? ((Number) result1.get("night_work_minutes")).intValue()
+//							: 0);
 			entitydb.setDaysWorked(
 					result1.get("days_worked") != null ? ((Number) result1.get("days_worked")).intValue() : 0);
 			entitydb.setTransportation(
