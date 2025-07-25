@@ -62,10 +62,10 @@
 				<th>出勤時刻</th>
 				<th>退勤時刻</th>
 				<!-- 管理者モードの場合は編集・削除ボタン -->
-				<th th:if="${mode == 'manager'}">編集</th>
-				<th th:if="${mode == 'manager'}">削除</th>
+				<th th:if="${mode == 'manager'}"></th>
+				<th th:if="${mode == 'manager'}"></th>
 				<!-- 従業員モードの場合は編集ボタンのみ -->
-				<th th:if="${mode == 'employee'}">編集</th>
+				<th th:if="${mode == 'employee'}"></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -74,27 +74,35 @@
 				<td th:text="${item.attendance.name}">名前</td>
 				<td th:text="${item.status}">状況</td>
 				<td th:text="${item.attendance.date}">日付</td>
-				<td th:text="${item.attendance.checkinTime != null ? item.attendance.checkinTime : '-'}">出勤</td>
-				<td th:text="${item.attendance.checkoutTime != null ? item.attendance.checkoutTime : '-'}">退勤</td>
+				<!-- 秒数を消すバージョン -->
+								<td th:text="${item.attendance.checkinTime != null ? 
+								    #temporals.format(item.attendance.checkinTime.toLocalTime(), 'HH:mm') : '-'}">出勤</td>
+								<td th:text="${item.attendance.checkoutTime != null ? 
+								    #temporals.format(item.attendance.checkoutTime.toLocalTime(), 'HH:mm') : '-'}">退勤</td>
 
-				<!-- 編集・削除ボタン（mode に応じて） -->
-				<td th:if="${mode == 'manager'}">
-					<form th:action="@{/attendance-change-form}" method="get">
-						<input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
-						<button type="submit">編集</button>
-					</form>
-				</td>
-				<td th:if="${mode == 'manager'}">
-					<button onclick="deleteAttendance(this)" th:data-attendance-id="${item.attendance.attendanceId}"
-						th:data-name="${item.attendance.name}">削除</button>
-				</td>
-				<td th:if="${mode == 'employee'}">
-					<form th:action="@{/attendance-change-form}" method="get">
-						<input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
-						<button type="submit">編集</button>
-					</form>
-				</td>
-			</tr>
+
+									<!-- 編集・削除ボタン（退職かどうかごとに応じて） -->
+									<td th:if="${mode == 'manager'}">
+									    <span th:if="${item.status == '退職'}">-</span>
+									    <form th:if="${item.status != '退職'}" th:action="@{/attendance-change-form}" method="get">
+									        <input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
+									        <button type="submit">編集</button>
+									    </form>
+									</td>
+									<td th:if="${mode == 'manager'}">
+									    <span th:if="${item.status == '退職'}">-</span>
+									    <button th:if="${item.status != '退職'}" onclick="deleteAttendance(this)" 
+									            th:data-attendance-id="${item.attendance.attendanceId}"
+									            th:data-name="${item.attendance.name}">退職</button>
+									</td>
+									<td th:if="${mode == 'employee'}">
+									    <span th:if="${item.status == '退職'}">-</span>
+									    <form th:if="${item.status != '退職'}" th:action="@{/attendance-change-form}" method="get">
+									        <input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
+									        <button type="submit">編集</button>
+									    </form>
+									</td>
+									</tr>
 
 
 			<!-- データがない場合 -->
