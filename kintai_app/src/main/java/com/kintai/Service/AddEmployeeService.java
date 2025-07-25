@@ -1,28 +1,28 @@
 package com.kintai.Service;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.kintai.Dao.HourlyWagesDAO;
 import com.kintai.Form.PayrollForm;
 
 @Service
 public class AddEmployeeService {
 
-    private final JdbcTemplate db;
+    private final HourlyWagesDAO hourlyWagesDAO;
 
-    public AddEmployeeService(JdbcTemplate db) {
-        this.db = db;
+    public AddEmployeeService(HourlyWagesDAO hourlyWagesDAO) {
+        this.hourlyWagesDAO = hourlyWagesDAO;
     }
 
-    // 従業員を追加
-    public void addEmployee(PayrollForm payrollForm) {
-        String sql = "INSERT INTO hourly_wages (name, hourly_wage) VALUES (?, ?)";
+ // 従業員を追加（同姓同名チェック付き）
+    public boolean addEmployee(PayrollForm payrollForm) {
+        // 同姓同名チェック
+        if (hourlyWagesDAO.existsByName(payrollForm.getName())) {
+            return false; // 同姓同名が存在する場合はfalseを返す
+        }
         
-        db.update(sql, 
-                 payrollForm.getName(), 
-                 payrollForm.getHourlyWage());
-        
-        System.out.println("新しい従業員を追加しました: " + payrollForm.getName() + 
-                          " (時給: " + payrollForm.getHourlyWage() + "円)");
+        // 同姓同名がない場合は追加処理
+        hourlyWagesDAO.addEmployee(payrollForm.getName(), payrollForm.getHourlyWage());
+        return true; // 追加成功
     }
 }

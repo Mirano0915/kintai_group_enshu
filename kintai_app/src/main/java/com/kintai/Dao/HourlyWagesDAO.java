@@ -165,4 +165,20 @@ public class HourlyWagesDAO {
 	    String sql = "UPDATE hourly_wages SET is_retired = TRUE WHERE name_id = ?";
 	    db.update(sql, nameId);
 	}
+	
+	// 従業員を追加する
+	public void addEmployee(String name, int hourlyWage) {
+	    String sql = "INSERT INTO hourly_wages (name, hourly_wage, is_retired) VALUES (?, ?, FALSE)";
+	    db.update(sql, name, hourlyWage);
+	    System.out.println("新しい従業員を追加しました: " + name + " (時給: " + hourlyWage + "円)");
+	}
+	
+//    従業員名前の重複をチェック
+	public boolean existsByName(String name) {
+	    String sql = "SELECT COUNT(*) FROM hourly_wages WHERE name = ? AND is_retired = FALSE";
+	    Integer count = db.queryForObject(sql, Integer.class, name);
+	    return count != null && count > 0;
+	}
+	                                         
+	
 }
