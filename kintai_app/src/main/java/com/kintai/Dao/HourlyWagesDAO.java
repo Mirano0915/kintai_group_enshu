@@ -36,7 +36,8 @@ public class HourlyWagesDAO {
 	}
 
 	//勤怠テーブルと時給テーブルを内部結合して読み取り
-	public List<HourlyWagesEntity> readDb() {
+	public List<HourlyWagesEntity> readDb(String month) {
+		
 		String sql = "SELECT hourly_wages.name, hourly_wages.hourly_wage, " +
 			    "SUM(TIMESTAMPDIFF(MINUTE, attendances.checkin_time, attendances.checkout_time)) AS total_work_minutes, " + // 合計出勤時間を算出
 
@@ -69,10 +70,11 @@ public class HourlyWagesDAO {
 
 			    "FROM attendances " +
 			    "INNER JOIN hourly_wages ON attendances.name_id = hourly_wages.name_id " +
+			    "WHERE MONTH(attendances.date) = ? " +
 			    "GROUP BY attendances.name_id, hourly_wages.name_id";
 
 
-		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
+		List<Map<String, Object>> resultDb1 = db.queryForList(sql, month);
 
 		List<HourlyWagesEntity> resultDb2 = new ArrayList<HourlyWagesEntity>();//従業員ごとの給与情報を入れておくリスト
 
@@ -90,12 +92,18 @@ public class HourlyWagesDAO {
 					: 0);
 			int totalWorkHour = totalWorkMinutes / 60;
 			int minutesRemaining = totalWorkMinutes % 60;
-			System.out.println(totalWorkHour + "時間" + entitydb.getName());
 			entitydb.setTotalWorkingTime(totalWorkHour + "時間" + minutesRemaining + "分");
 
-			entitydb.setNightWorkingTime(
-					result1.get("night_work_minutes") != null ? ((Number) result1.get("night_work_minutes")).intValue()
-							: 0);
+			
+			int nightWorkMinutes = (result1.get("night_work_minutes") != null
+					? ((Number) result1.get("night_work_minutes")).intValue()
+					: 0);
+			totalWorkHour = nightWorkMinutes / 60;
+			minutesRemaining = nightWorkMinutes % 60;
+			entitydb.setNightWorkingTime(totalWorkHour + "時間" + minutesRemaining + "分");
+//			entitydb.setNightWorkingTime(
+//					result1.get("night_work_minutes") != null ? ((Number) result1.get("night_work_minutes")).intValue()
+//							: 0);
 			entitydb.setDaysWorked(
 					result1.get("days_worked") != null ? ((Number) result1.get("days_worked")).intValue() : 0);
 			entitydb.setTransportation(

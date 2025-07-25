@@ -15,7 +15,7 @@ public class HourlyWagesEntity {
 	private boolean isRetired;
 	
 	private String totalWorkingTime;
-	private int nightWorkingTime;
+	private String nightWorkingTime;
 	private int daysWorked;
 	private int transportation;
 	private int totalAmount;
