@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -51,23 +52,24 @@ public class AttendancesDAO {
 		}
 		return resultDb2;
 	}
-	
-//	全ての従業員名を取得 (フィルター用) 
+
+	//	全ての従業員名を取得 (フィルター用) 
 	public List<String> getAllEmployeeNames() {
-	    List<AttendancesEntity> entities = readNameDb(); 
-	    List<String> names = new ArrayList<>();
-	    
-	    for (AttendancesEntity entity : entities) {
-	        names.add(entity.getName());
-	    }
-	    
-	    return names;
+		List<AttendancesEntity> entities = readNameDb();
+		List<String> names = new ArrayList<>();
+
+		for (AttendancesEntity entity : entities) {
+			names.add(entity.getName());
+		}
+
+		return names;
 	}
 
 	//出勤処理
 	public String checkin(Long nameId) {
 		System.out.println("出勤処理を行いました");
 
+		//DBへの登録
 		LocalTime nowtime = LocalTime.now();
 		LocalDate today = LocalDate.now();
 
@@ -77,16 +79,12 @@ public class AttendancesDAO {
 		db.update("INSERT INTO attendances (name_id, checkin_time, date) VALUES(?,?,?)", nameId,
 				java.sql.Time.valueOf(nowtime), java.sql.Date.valueOf(today));
 
-		// フォーマットパターンを定義
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+		// 表示用フォーマット
+		LocalDateTime now = LocalDateTime.of(today, nowtime);
 
-		// LocalDate と LocalTime をフォーマット
-		String formattedDate = today.format(dateFormatter);
-		String formattedTime = nowtime.format(timeFormatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年M月d日（E）HH時mm分", Locale.JAPANESE);
 
-		// 日付と時間を結合
-		return formattedDate + " " + formattedTime;
+		return now.format(formatter);
 	}
 
 	//退勤処理
@@ -111,15 +109,11 @@ public class AttendancesDAO {
 		}
 
 		// フォーマットパターンを定義
-		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPANESE);
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.JAPANESE);
+		LocalDateTime now = LocalDateTime.of(today, nowtime);
 
-		// LocalDate と LocalTime をフォーマット
-		String formattedDate = today.format(dateFormatter);
-		String formattedTime = nowtime.format(timeFormatter);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy年M月d日（E）HH時mm分", Locale.JAPANESE);
 
-		// 日付と時間を結合
-		return formattedDate + " " + formattedTime;
+		return now.format(formatter);
 	}
 
 	//		 勤怠データを更新（管理者のみ）
@@ -214,54 +208,53 @@ public class AttendancesDAO {
 	}
 
 	// 勤怠一覧取得 - 最新の打刻順で表示
-		public List<AttendancesEntity> readAllAttendanceDb(String name, LocalDate date) {
-		    String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
-		                 "FROM attendances a " +
-		                 "LEFT JOIN hourly_wages h ON a.name_id = h.name_id ";
-		    
-		    List<Object> params = new ArrayList<>();
-		    
-		    // 日付と名前フィルターの分岐
-		    if (name != null && !name.isEmpty() && !name.trim().isEmpty() && date != null) {
-		        sql += "WHERE h.name = ? AND a.date = ? ";
-		        params.add(name.trim());
-		        params.add(java.sql.Date.valueOf(date)); // LocalDateをsql.Dateに変換
-		        System.out.println("フィルター: 名前と日付の両方");
-		    } else if (name != null && !name.isEmpty() && !name.trim().isEmpty()) {
-		        sql += "WHERE h.name = ? ";
-		        params.add(name.trim());
-		        System.out.println("フィルター: 名前のみ");
-		    } else if (date != null) {
-		        sql += "WHERE a.date = ? ";
-		        params.add(java.sql.Date.valueOf(date)); 
-		        System.out.println("フィルター: 日付のみ");
-		    } else {
-		        System.out.println("フィルター: なし（全データ）");
-		    }
-		    
-		    sql += "ORDER BY a.attendance_id DESC";
+	public List<AttendancesEntity> readAllAttendanceDb(String name, LocalDate date) {
+		String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
+				"FROM attendances a " +
+				"LEFT JOIN hourly_wages h ON a.name_id = h.name_id ";
 
-		    List<Map<String, Object>> resultDb1 = params.isEmpty() ? 
-		        db.queryForList(sql) : 
-		        db.queryForList(sql, params.toArray());
-		    List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
+		List<Object> params = new ArrayList<>();
 
-		    for (Map<String, Object> result1 : resultDb1) {
-		        AttendancesEntity entitydb = new AttendancesEntity();
-
-		        entitydb.setAttendanceId(
-		                result1.get("attendance_id") != null ? ((Number) result1.get("attendance_id")).longValue() : null);
-		        entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
-		        entitydb.setName((String) result1.get("name"));
-		        entitydb.setCheckinTime((java.sql.Time) result1.get("checkin_time"));
-		        entitydb.setCheckoutTime((java.sql.Time) result1.get("checkout_time"));
-		        entitydb.setDate((java.sql.Date) result1.get("date"));
-
-		        resultDb2.add(entitydb);
-		    }
-		    
-		    return resultDb2;
+		// 日付と名前フィルターの分岐
+		if (name != null && !name.isEmpty() && !name.trim().isEmpty() && date != null) {
+			sql += "WHERE h.name = ? AND a.date = ? ";
+			params.add(name.trim());
+			params.add(java.sql.Date.valueOf(date)); // LocalDateをsql.Dateに変換
+			System.out.println("フィルター: 名前と日付の両方");
+		} else if (name != null && !name.isEmpty() && !name.trim().isEmpty()) {
+			sql += "WHERE h.name = ? ";
+			params.add(name.trim());
+			System.out.println("フィルター: 名前のみ");
+		} else if (date != null) {
+			sql += "WHERE a.date = ? ";
+			params.add(java.sql.Date.valueOf(date));
+			System.out.println("フィルター: 日付のみ");
+		} else {
+			System.out.println("フィルター: なし（全データ）");
 		}
+
+		sql += "ORDER BY a.attendance_id DESC";
+
+		List<Map<String, Object>> resultDb1 = params.isEmpty() ? db.queryForList(sql)
+				: db.queryForList(sql, params.toArray());
+		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
+
+		for (Map<String, Object> result1 : resultDb1) {
+			AttendancesEntity entitydb = new AttendancesEntity();
+
+			entitydb.setAttendanceId(
+					result1.get("attendance_id") != null ? ((Number) result1.get("attendance_id")).longValue() : null);
+			entitydb.setNameId(result1.get("name_id") != null ? ((Number) result1.get("name_id")).longValue() : null);
+			entitydb.setName((String) result1.get("name"));
+			entitydb.setCheckinTime((java.sql.Time) result1.get("checkin_time"));
+			entitydb.setCheckoutTime((java.sql.Time) result1.get("checkout_time"));
+			entitydb.setDate((java.sql.Date) result1.get("date"));
+
+			resultDb2.add(entitydb);
+		}
+
+		return resultDb2;
+	}
 
 	// stampsテーブルの変更時間をattendancesに適用
 	public void updateWorkTime(Long stampId) {
@@ -307,25 +300,23 @@ public class AttendancesDAO {
 		}, attendanceId);
 	}
 
-	
 	//退勤Idから出退勤時間を取得
 	public AttendanceChangeForm setCheckTime(Long attendanceId) {
 		String sql = "SELECT checkin_time, checkout_time FROM attendances WHERE attendance_id = ?";
 		Map<String, Object> result = db.queryForMap(sql, attendanceId);
 
-		   // SimpleDateFormat で時間を文字列に変換
-	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		// SimpleDateFormat で時間を文字列に変換
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-	    // checkin_time と checkout_time を取得
-	    String checkinTime = result.get("checkin_time") != null ? sdf.format(result.get("checkin_time")) : "";
-	    String checkoutTime = result.get("checkout_time") != null ? sdf.format(result.get("checkout_time")) : "";
+		// checkin_time と checkout_time を取得
+		String checkinTime = result.get("checkin_time") != null ? sdf.format(result.get("checkin_time")) : "";
+		String checkoutTime = result.get("checkout_time") != null ? sdf.format(result.get("checkout_time")) : "";
 
-		
 		AttendanceChangeForm form = new AttendanceChangeForm();
 		// フォームオブジェクトにセット
 		form.setPreCheckinTime(checkinTime);
 		form.setPreCheckoutTime(checkoutTime);
-		
+
 		return form;
 
 	}
