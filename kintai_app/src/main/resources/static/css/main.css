@@ -1,4 +1,5 @@
-/* Reset and base styles */
+/* リセットとベーススタイル */
+
 * {
     margin: 0;
     padding: 0;
@@ -13,6 +14,7 @@ body {
     padding: 20px;
     line-height: 1.6;
 }
+
 
 /* Header */
 h1 {
@@ -31,9 +33,7 @@ p {
     color: #0069FB;
 }
 
-#datetime {
-    font-weight: 600;
-}
+
 
 /* Form container */
 form {
@@ -44,6 +44,7 @@ form {
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 105, 251, 0.1);
     border: 2px solid rgba(0, 105, 251, 0.1);
+    animation: fadeIn 0.5s ease-out;
 }
 
 /* Label styling */
@@ -73,144 +74,4 @@ select:focus {
     outline: none;
     border-color: #0069FB;
     box-shadow: 0 0 0 3px rgba(0, 105, 251, 0.1);
-}
-
-/* Button container */
-.center-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin: 25px 0;
-    flex-wrap: wrap;
-}
-
-/* Main action buttons (出勤/退勤) */
-.center-buttons > button {
-    background-color: #0069FB;
-    color: #FFFFFF;
-    border: none;
-    width: 120px;
-    height: 120px;
-    font-size: 1.5rem;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0, 105, 251, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.center-buttons > button:hover {
-    background-color: #0052CC;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 105, 251, 0.4);
-}
-
-.center-buttons > button:active {
-    transform: translateY(0);
-}
-
-/* Error message */
-.center-buttons div {
-    flex-basis: 100%;
-    text-align: center;
-}
-
-/* Navigation buttons container */
-body > div:first-of-type {
-    max-width: 600px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-}
-
-/* Navigation form reset */
-body > div:first-of-type > form {
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    margin: 0;
-    animation: none;
-}
-
-/* Navigation buttons (管理者ページへ/打刻管理ページへ) */
-body > div:first-of-type button {
-    background-color: #0069FB;
-    color: #FFFFFF;
-    border: 2px solid #0069FB;
-    padding: 12px 24px;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    min-width: 160px;
-}
-
-body > div:first-of-type button:hover {
-    background-color: #FFFFFF;
-    color: #0069FB;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    body {
-        padding: 15px;
-    }
-    
-    h1 {
-        font-size: 1.5rem;
-        margin-bottom: 20px;
-    }
-    
-    form {
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-    
-    .center-buttons {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .center-buttons > button {
-        width: 100px;
-        height: 100px;
-        font-size: 1.3rem;
-    }
-    
-    body > div:first-of-type {
-        flex-direction: row;
-        justify-content: center;
-        gap: 15px;
-    }
-    
-    body > div:first-of-type button {
-        min-width: 140px;
-    }
-}
-
-/* Subtle animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-form {
-    animation: fadeIn 0.5s ease-out;
 }

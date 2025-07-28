@@ -4,11 +4,16 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/index.css">
 	<title>勤怠管理システム</title>
 </head>
 
 <body>
 	<h1>勤怠管理システム（メインページ）</h1>
+	
+	<div>
+				<p>現在の日時: <span id="datetime"></span></p>
+	</div>
 
 	<p>現在の日時: <span id="datetime"></span></p>
 	
@@ -43,12 +48,8 @@
 
 
 	</div>
-	</div>
-
-
-
-</body>
-
+  
+  
 <script th:src="@{/js/index.js}"></script>
 
 </html>

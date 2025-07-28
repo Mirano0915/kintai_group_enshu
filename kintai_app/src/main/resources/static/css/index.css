@@ -1,0 +1,197 @@
+/* ヘッダー */
+h1 {
+    text-align: center;
+    color: #0069FB;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* 現在の日時 */
+p {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 40px; /* フォームとの間にスペースを追加 */
+    font-size: 1.1rem;
+    color: #0069FB;
+}
+
+#datetime {
+    font-weight: 600;
+}
+
+/* フォームコンテナ */
+form {
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 105, 251, 0.1);
+    border: 2px solid rgba(0, 105, 251, 0.1);
+}
+
+/* ラベルスタイル */
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #0069FB;
+    font-size: 1.1rem;
+}
+
+/* セレクトドロップダウン */
+select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #0069FB;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #0069FB;
+    background-color: #FFFFFF;
+    margin-bottom: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+select:focus {
+    outline: none;
+    border-color: #0069FB;
+    box-shadow: 0 0 0 3px rgba(0, 105, 251, 0.1);
+}
+
+/* ボタンコンテナ */
+.center-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 25px 0;
+    flex-wrap: wrap;
+}
+
+/* メインアクションボタン（出勤/退勤） */
+.center-buttons > button {
+    background-color: #0069FB;
+    color: #FFFFFF;
+    border: none;
+    width: 120px;
+    height: 120px;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 105, 251, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.center-buttons > button:hover {
+    background-color: #0052CC;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 105, 251, 0.4);
+}
+
+.center-buttons > button:active {
+    transform: translateY(0);
+}
+
+/* エラーメッセージ */
+.center-buttons div {
+    flex-basis: 100%;
+    text-align: center;
+}
+
+/* ナビゲーションボタンコンテナ - 修正！ */
+body > div:nth-of-type(2) {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+/* ナビゲーションフォームリセット - 修正！ */
+body > div:nth-of-type(2) > form {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+    animation: none;
+}
+
+/* ナビゲーションボタン（管理者ページへ/打刻管理ページへ） - 修正！ */
+body > div:nth-of-type(2) button {
+    background-color: #0069FB;
+    color: #FFFFFF;
+    border: 2px solid #0069FB;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    min-width: 160px;
+}
+
+body > div:nth-of-type(2) button:hover {
+    background-color: #FFFFFF;
+    color: #0069FB;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    
+    form {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .center-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .center-buttons > button {
+        width: 100px;
+        height: 100px;
+        font-size: 1.3rem;
+    }
+    
+    body > div:nth-of-type(2) {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    body > div:nth-of-type(2) button {
+        min-width: 140px;
+    }
+}
+
+/* 微細なアニメーション */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+form {
+    animation: fadeIn 0.5s ease-out;
+}
