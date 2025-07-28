@@ -2,7 +2,6 @@ package com.kintai.Form;
 
 import java.sql.Time;
 
-import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
 
 import com.kintai.Interface.EmployeeGroup;
@@ -45,12 +44,23 @@ public class AttendanceChangeForm {
         return Time.valueOf(preCheckoutTime + ":00");
     }
     
-    @AssertTrue(message = "出勤時間は退勤時間より前である必要があります！")
-    public boolean isCheckinBeforeCheckout() {
+ 
+//    退勤時間は出勤時間後の入力を判定
+    public boolean isValidTimeRange() {
+        if (preCheckinTime == null || preCheckinTime.isEmpty() || 
+            preCheckoutTime == null || preCheckoutTime.isEmpty()) {
+            return true; 
+        }
+        
         try {
-            return getPreCheckinTimeAsSqlTime().before(getPreCheckoutTimeAsSqlTime());
+            Time checkinTime = getPreCheckinTimeAsSqlTime();
+            Time checkoutTime = getPreCheckoutTimeAsSqlTime();
+            
+            // 時間比較（java.sql.Time implements Comparable）
+            return checkoutTime.compareTo(checkinTime) >= 0;
         } catch (Exception e) {
-            return false; // 例外（nullや不正フォーマット）ならfalseで失敗にゃ
+            return false; // 時間が間違いました
         }
     }
-}
+  }
+
