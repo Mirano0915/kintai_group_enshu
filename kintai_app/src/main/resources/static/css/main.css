@@ -1,0 +1,15 @@
+/* リセットとベーススタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IPAexGothic', 'IPA Gothic', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    background-color: #FFFFFF;
+    color: #0069FB;
+    min-height: 100vh;
+    padding: 20px;
+    line-height: 1.6;
+}
