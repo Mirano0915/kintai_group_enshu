@@ -2,8 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<title>給与計算</title>
+
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="/css/main.css">
+    <title>給与計算</title>
 </head>
 
 <body>
@@ -31,6 +33,7 @@
 		</select>
 		<button type="submit">検索</button>
 	</form>
+
 
 	<div th:if="${not #lists.isEmpty(payrollList)}">
 		<table border="1">
@@ -63,6 +66,7 @@
 	<div th:if="${#lists.isEmpty(payrollList)}">
 		<p style="margin-top: 20px;">この月の記録はありません</p>
 	</div>
+
 </body>
 
 </html>

@@ -1,20 +1,4 @@
-/* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'IPAexGothic', 'IPA Gothic', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-    background-color: #FFFFFF;
-    color: #0069FB;
-    min-height: 100vh;
-    padding: 20px;
-    line-height: 1.6;
-}
-
-/* Header */
+/* ヘッダー */
 h1 {
     text-align: center;
     color: #0069FB;
@@ -23,10 +7,11 @@ h1 {
     font-weight: 600;
 }
 
-/* Current date/time */
+/* 現在の日時 */
 p {
     text-align: center;
     margin-top: 30px;
+    margin-bottom: 40px; /* フォームとの間にスペースを追加 */
     font-size: 1.1rem;
     color: #0069FB;
 }
@@ -35,7 +20,7 @@ p {
     font-weight: 600;
 }
 
-/* Form container */
+/* フォームコンテナ */
 form {
     max-width: 600px;
     margin: 0 auto 30px auto;
@@ -46,7 +31,7 @@ form {
     border: 2px solid rgba(0, 105, 251, 0.1);
 }
 
-/* Label styling */
+/* ラベルスタイル */
 label {
     display: block;
     margin-bottom: 10px;
@@ -55,7 +40,7 @@ label {
     font-size: 1.1rem;
 }
 
-/* Select dropdown */
+/* セレクトドロップダウン */
 select {
     width: 100%;
     padding: 12px 16px;
@@ -75,7 +60,7 @@ select:focus {
     box-shadow: 0 0 0 3px rgba(0, 105, 251, 0.1);
 }
 
-/* Button container */
+/* ボタンコンテナ */
 .center-buttons {
     display: flex;
     justify-content: center;
@@ -85,7 +70,7 @@ select:focus {
     flex-wrap: wrap;
 }
 
-/* Main action buttons (出勤/退勤) */
+/* メインアクションボタン（出勤/退勤） */
 .center-buttons > button {
     background-color: #0069FB;
     color: #FFFFFF;
@@ -113,14 +98,14 @@ select:focus {
     transform: translateY(0);
 }
 
-/* Error message */
+/* エラーメッセージ */
 .center-buttons div {
     flex-basis: 100%;
     text-align: center;
 }
 
-/* Navigation buttons container */
-body > div:first-of-type {
+/* ナビゲーションボタンコンテナ - 修正！ */
+body > div:nth-of-type(2) {
     max-width: 600px;
     margin: 0 auto;
     display: flex;
@@ -130,8 +115,8 @@ body > div:first-of-type {
     margin-bottom: 30px;
 }
 
-/* Navigation form reset */
-body > div:first-of-type > form {
+/* ナビゲーションフォームリセット - 修正！ */
+body > div:nth-of-type(2) > form {
     background: none;
     border: none;
     box-shadow: none;
@@ -140,8 +125,8 @@ body > div:first-of-type > form {
     animation: none;
 }
 
-/* Navigation buttons (管理者ページへ/打刻管理ページへ) */
-body > div:first-of-type button {
+/* ナビゲーションボタン（管理者ページへ/打刻管理ページへ） - 修正！ */
+body > div:nth-of-type(2) button {
     background-color: #0069FB;
     color: #FFFFFF;
     border: 2px solid #0069FB;
@@ -154,19 +139,15 @@ body > div:first-of-type button {
     min-width: 160px;
 }
 
-body > div:first-of-type button:hover {
+body > div:nth-of-type(2) button:hover {
     background-color: #FFFFFF;
     color: #0069FB;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
 }
 
-/* Responsive design */
+/* レスポンシブデザイン */
 @media (max-width: 768px) {
-    body {
-        padding: 15px;
-    }
-    
     h1 {
         font-size: 1.5rem;
         margin-bottom: 20px;
@@ -188,18 +169,18 @@ body > div:first-of-type button:hover {
         font-size: 1.3rem;
     }
     
-    body > div:first-of-type {
+    body > div:nth-of-type(2) {
         flex-direction: row;
         justify-content: center;
         gap: 15px;
     }
     
-    body > div:first-of-type button {
+    body > div:nth-of-type(2) button {
         min-width: 140px;
     }
 }
 
-/* Subtle animations */
+/* 微細なアニメーション */
 @keyframes fadeIn {
     from {
         opacity: 0;
