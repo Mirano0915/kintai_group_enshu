@@ -195,3 +195,33 @@ body > div:nth-of-type(2) button:hover {
 form {
     animation: fadeIn 0.5s ease-out;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+header {
+    display: flex;
+    justify-content: center;  /* ロゴを中央に配置 */
+    align-items: center;      /* 垂直方向に中央揃え */
+    background-color: #0069FB; /* 青色 */
+    padding: 20px;            /* ヘッダー内に余白を追加 */
+    color: white;             /* テキストを白色に */
+}
