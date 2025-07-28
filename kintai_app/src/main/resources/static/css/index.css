@@ -156,6 +156,7 @@ header {
     background-color: #0069FB; /* 青色 */
     padding: 20px; /* ヘッダー内に余白を追加 */
     color: white; /* テキストを白色に */
+}
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
@@ -206,4 +207,3 @@ header {
 form {
     animation: fadeIn 0.5s ease-out;
 }
-
