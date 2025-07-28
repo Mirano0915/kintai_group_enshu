@@ -5,17 +5,21 @@
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="/css/main.css">
 	<link rel="stylesheet" href="/css/index.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 	<title>勤怠管理システム</title>
 </head>
 
 <body>
+	<header>
+		
+	</header>
+	
 	<h1>勤怠管理システム（メインページ）</h1>
 	
 	<div>
-				<p>現在の日時: <span id="datetime"></span></p>
+				<p> <span id="datetime"></span></p>
 	</div>
 
-	<p>現在の日時: <span id="datetime"></span></p>
 	
 	<form method="post">
 		<div>
@@ -27,11 +31,17 @@
 		</div>
 
 		<div class="center-buttons">
-			<button type="submit" formaction="/checkin">出勤</button>
-			<div th:if="${errorMessage}" style="color: red;">
-				<p th:text="${errorMessage}"></p>
-			</div>
-			<button type="submit" formaction="/checkout">退勤</button>
+		<button type="submit" formaction="/checkin">
+		    <i class="fas fa-briefcase"></i>
+		    出勤
+		</button>
+		<div th:if="${errorMessage}" style="color: red;">
+		<p th:text="${errorMessage}"></p>
+		</div>
+		<button type="submit" formaction="/checkout">
+		    <i class="fas fa-user-times"></i>
+		    退勤
+		</button>
 		</div>
 	</form>
 
