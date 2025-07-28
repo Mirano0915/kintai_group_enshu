@@ -27,95 +27,95 @@
 	</div>
 
 	<br>
-	
+
 	<!-- フィルター表单 - 管理者のみ表示 -->
-		<div th:if="${mode == 'manager'}">
+	<div th:if="${mode == 'manager'}">
 		<form th:action="@{/attendance}" method="get">
-		<input type="hidden" name="mode" th:value="${mode}">
+			<input type="hidden" name="mode" th:value="${mode}">
 
-		<label for="filterName">名前:</label>
-		<select id="filterName" name="filterName">
-		<option value="">全ての従業員</option>
-		<option th:each="empName : ${employeeNames}"
-		th:value="${empName}"
-		th:text="${empName}"
-		th:selected="${empName == currentFilterName}"></option>
-		</select>
+			<label for="filterName">名前:</label>
+			<select id="filterName" name="filterName">
+				<option value="">全ての従業員</option>
+				<option th:each="empName : ${employeeNames}" th:value="${empName}" th:text="${empName}"
+					th:selected="${empName == currentFilterName}"></option>
+			</select>
 
-		<label for="filterDate">日付:</label>
-		<input type="date" id="filterDate" name="filterDate" th:value="${currentFilterDate}">
+			<label for="filterDate">日付:</label>
+			<input type="date" id="filterDate" name="filterDate" th:value="${currentFilterDate}">
 
-		<button type="submit">検索</button>
-		<a th:href="@{/attendance(mode=${mode})}">
-		<button type="button">リセット</button>
-		</a>
+			<button type="submit">検索</button>
+			<a th:href="@{/attendance(mode=${mode})}">
+				<button type="button">リセット</button>
+			</a>
 		</form>
-		</div>
+	</div>
 
-		<br>
+	<br>
 
-	<table border="1" id="attendanceTable">
-		<thead>
-			<tr>
-				<th>名前</th>
-				<th>状況</th>
-				<th>日付</th>
-				<th>出勤時刻</th>
-				<th>退勤時刻</th>
-				<!-- 管理者モードの場合は編集・削除ボタン -->
-				<th th:if="${mode == 'manager'}"></th>
-				<th th:if="${mode == 'manager'}"></th>
-				<!-- 従業員モードの場合は編集ボタンのみ -->
-				<th th:if="${mode == 'employee'}"></th>
-			</tr>
-		</thead>
-		<tbody>
-			<!-- データベースからの実際の従業員データを表示 -->
-			<tr th:each="item : ${attendanceList}">
-				<td th:text="${item.attendance.name}">名前</td>
-				<td th:text="${item.status}">状況</td>
-				<td th:text="${item.attendance.date}">日付</td>
-				<!-- 秒数を消すバージョン -->
-								<td th:text="${item.attendance.checkinTime != null ? 
+	<div th:if="${not #lists.isEmpty(attendanceList)}">
+
+		<table border="1" id="attendanceTable">
+			<thead>
+				<tr>
+					<th>名前</th>
+					<th>状況</th>
+					<th>日付</th>
+					<th>出勤時刻</th>
+					<th>退勤時刻</th>
+					<!-- 管理者モードの場合は編集・削除ボタン -->
+					<th th:if="${mode == 'manager'}"></th>
+					<th th:if="${mode == 'manager'}"></th>
+					<!-- 従業員モードの場合は編集ボタンのみ -->
+					<th th:if="${mode == 'employee'}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- データベースからの実際の従業員データを表示 -->
+				<tr th:each="item : ${attendanceList}">
+					<td th:text="${item.attendance.name}">名前</td>
+					<td th:text="${item.status}">状況</td>
+					<td th:text="${item.attendance.date}">日付</td>
+					<!-- 秒数を消すバージョン -->
+					<td th:text="${item.attendance.checkinTime != null ? 
 								    #temporals.format(item.attendance.checkinTime.toLocalTime(), 'HH:mm') : '-'}">出勤</td>
-								<td th:text="${item.attendance.checkoutTime != null ? 
+					<td th:text="${item.attendance.checkoutTime != null ? 
 								    #temporals.format(item.attendance.checkoutTime.toLocalTime(), 'HH:mm') : '-'}">退勤</td>
 
 
-									<!-- 編集・削除ボタン（退職かどうかごとに応じて） -->
-									<td th:if="${mode == 'manager'}">
-									    <span th:if="${item.status == '退職'}">-</span>
-									    <form th:if="${item.status != '退職'}" th:action="@{/attendance-change-form}" method="get">
-									        <input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
-									        <button type="submit">編集</button>
-									    </form>
-									</td>
-									<td th:if="${mode == 'manager'}">
-									    <span th:if="${item.status == '退職'}">-</span>
-									    <button th:if="${item.status != '退職'}" onclick="deleteAttendance(this)" 
-									            th:data-attendance-id="${item.attendance.attendanceId}"
-									            th:data-name="${item.attendance.name}">退職</button>
-									</td>
-									<td th:if="${mode == 'employee'}">
-									    <span th:if="${item.status == '退職'}">-</span>
-									    <form th:if="${item.status != '退職'}" th:action="@{/attendance-change-form}" method="get">
-									        <input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
-									        <button type="submit">編集</button>
-									    </form>
-									</td>
-									</tr>
+					<!-- 編集・削除ボタン（退職かどうかごとに応じて） -->
+					<td th:if="${mode == 'manager'}">
+						<span th:if="${item.status == '退職'}">-</span>
+						<form th:if="${item.status != '退職'}" th:action="@{/attendance-change-form}" method="get">
+							<input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
+							<button type="submit">編集</button>
+						</form>
+					</td>
+					<td th:if="${mode == 'manager'}">
+						<span th:if="${item.status == '退職'}">-</span>
+						<button th:if="${item.status != '退職'}" onclick="deleteAttendance(this)"
+							th:data-attendance-id="${item.attendance.attendanceId}"
+							th:data-name="${item.attendance.name}">退職</button>
+					</td>
+					<td th:if="${mode == 'employee'}">
+						<span th:if="${item.status == '退職'}">-</span>
+						<form th:if="${item.status != '退職'}" th:action="@{/attendance-change-form}" method="get">
+							<input type="hidden" name="attendanceId" th:value="${item.attendance.attendanceId}">
+							<button type="submit">編集</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
 
-			<!-- データがない場合 -->
-			<tr th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
-				<td th:colspan="${mode == 'manager' ? 6 : 5}" style="text-align: center;">従業員データがありません</td>
-			</tr>
-		</tbody>
-	</table>
+	<!-- データがない場合 -->
+	<div th:if="${attendanceList == null or #lists.isEmpty(attendanceList)}">
+		勤怠情報がありません
+	</div>
 
 	<!-- 管理者モードの場合のみJavaScriptファイルを読み込み -->
 	<script th:if="${mode == 'manager'}" th:src="@{/js/attendance.js}"></script>
 </body>
 
 </html>
-
