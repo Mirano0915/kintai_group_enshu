@@ -32,16 +32,24 @@ function showPendingPopup(count) {
     // ポップアップ要素を作成
     const popup = document.createElement('div');
     popup.id = 'pending-popup';
-    popup.innerHTML = `
-        <div>
-            <span onclick="closePendingPopup()" style="cursor: pointer; float: right; font-weight: bold;">&times;</span>
-            <p>承認待ちの打刻変更が${count}件あります</p>
-        </div>
-    `;
+	popup.innerHTML = `
+	  <div class="popup-inner">
+	    <p>承認待ちの打刻変更が ${count} 件あります</p>
+	    <span onclick="closePendingPopup()" class="close-button">&times;</span>
+	  </div>
+	`;
 
-    // ページの最初に追加
-    document.body.insertBefore(popup, document.body.firstChild);
+
+    // <h1>タグの後ろに挿入（←ポイント！）
+    const h1 = document.querySelector('h1');
+    if (h1) {
+        h1.insertAdjacentElement('afterend', popup);
+    } else {
+        // h1が見つからない場合は fallback
+        document.body.insertBefore(popup, document.body.firstChild);
+    }
 }
+
 
 // ポップアップを閉じる
 function closePendingPopup() {

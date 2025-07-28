@@ -1,0 +1,52 @@
+.container{
+	margin-top: 10%;
+	
+}
+
+.label{
+	font-weight: 400;
+	font-size: 30px;
+	position: relative;
+	bottom: 7px;
+}
+
+.namae,
+.jikyu {
+	display: flex;
+	flex-direction: row;/* ← 横並びにする */
+	
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 16px;
+	margin-left: 100px;
+}
+
+.add_button{
+	display: block;
+	/* 水平方向の中央配置 */
+	text-align: center;
+}
+
+.form {
+
+	padding: 10px 14px;
+	border: 2px solid #0069FB;
+	border-radius: 8px;
+	font-size: 1rem;
+	color: #0069FB;
+	background-color: #FFFFFF;
+	margin-bottom: 25px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.link {
+	display: block;
+	/* インライン要素をブロックに */
+	margin: 30px auto;
+	/* 水平方向の中央配置 */
+	text-align: center;
+	width: fit-content;
+	font-size: 26px;
+	margin-top: 10%;
+}

@@ -3,27 +3,30 @@
 <head>
     <meta charset="UTF-8">
 	<link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/manager.css">
     <title>管理者画面</title>
 </head>
 <body>
     <h1>管理者画面（管理者ページ）</h1>
 
-    <form th:action="@{/attendanceAgree}" method="get">
-        <button type="submit">打刻変更確認</button>
+	<div class="buttons">
+    <form th:action="@{/attendanceAgree}" method="get" >
+        <button type="submit" id="attendanceAgree">打刻変更<br>確認</button>
     </form>
 
-    <form th:action="@{/payroll}" method="get">
-        <button type="submit">給与計算</button>
+    <form th:action="@{/payroll}" method="get" >
+        <button type="submit" id="payroll"> 給与 <br>計算</button>
     </form>
 
     <form th:action="@{/attendance}" method="get">
-        <input type="hidden" name="mode" value="manager">
-        <button type="submit">勤怠管理</button>
+        <input type="hidden" name="mode" value="manager" >
+        <button type="submit" id="attendance"> 勤怠 <br>管理</button>
     </form>
+	</div>
 	
 
 
-    <a href="/logout">ログアウト</a>
+    <a href="/logout" class="link">ログアウト</a>
 
 	
 	<script th:src="@{/js/manager.js}"></script>

@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="/css/main.css">
-<title>登録完了画面</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/complete.css">
+	<title>登録完了画面</title>
 </head>
+
 <body>
 
-	<p th:text="${checkTime}"></p>
-	
-	<p th:if="${type == 'checkin'}" th:text="${employeeName} + 'さんの出勤登録が完了しました！'"></p>
-	<p th:if="${type == 'checkout'}" th:text="${employeeName} + 'さんの退勤登録が完了しました！'"></p>
+	<p th:text="${checkTime}" class="time"></p>
 
-	
-	<p th:if="${type == 'update'}" th:text='出勤情報を変更しました'></p>
-			
+	<p th:if="${type == 'checkin'}" th:text="${employeeName} + 'さんの出勤登録が完了しました！'" class="complete"></p>
+	<p th:if="${type == 'checkout'}" th:text="${employeeName} + 'さんの退勤登録が完了しました！'" class="complete"></p>
+	<p th:if="${type == 'update'}" th:text='出勤情報を変更しました' class="complete"></p>
+
 
 	<!-- 出勤・退勤の場合はメインページへ -->
-	<a th:if="${type == 'checkin' or type == 'checkout'}" href="/">メインページに戻る</a>
+	<a th:if="${type == 'checkin' or type == 'checkout'}" href="/" class="link">メインページに戻る</a>
 
 	<!-- 更新の場合は勤怠管理ページへ -->
-	<a th:if="${type == 'update'}" href="/attendance">勤怠管理ページに戻る</a>
+	<a th:if="${type == 'update'}" href="/attendance" class="link">勤怠管理ページに戻る</a>
 
 
-	
+
 </body>
+
 </html>

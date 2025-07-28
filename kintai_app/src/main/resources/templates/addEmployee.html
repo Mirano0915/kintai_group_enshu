@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
 	<link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/addEmployee.css">
     <title>従業員の追加</title>
 </head>
 <body>
@@ -20,35 +21,35 @@
         <strong th:text="${errorMessage}"></strong>
     </div>
     
-    <form th:action="@{/add-employee}" th:object="${payrollForm}" method="post">
+    <form th:action="@{/add-employee}" th:object="${payrollForm}" method="post" class="container">
         
-        <div>
-            <label for="name">名前:</label>
-            <input type="text" th:field="*{name}" id="name">
+        <div class="namae">
+            <label for="name" class="label">名前:</label>
+            <input type="text" th:field="*{name}" id="name" class="form">
             <!-- バリデーションエラー表示 -->
             <div th:if="${#fields.hasErrors('name')}">
                 <span th:errors="*{name}"></span>
             </div>
         </div>
         
-        <div>
-            <label for="hourlyWage">時給:</label>
-            <input type="number" th:field="*{hourlyWage}" id="hourlyWage">
-            <span>円</span>
+        <div class="jikyu">
+            <label for="hourlyWage" class="label">時給:</label>
+            <input type="number" th:field="*{hourlyWage}" id="hourlyWage" class="form">
+            <span class="label">円</span>
             <!-- バリデーションエラー表示 -->
             <div th:if="${#fields.hasErrors('hourlyWage')}">
                 <span th:errors="*{hourlyWage}"></span>
             </div>
         </div>
         
-        <div>
+        <div class="add_button">
             <input type="submit" value="従業員を追加">
         </div>
         
     </form>
 	
 	
-	<div>
+	<div class="link">
 	    <a href="/attendance">勤怠管理ページに戻る</a>
 	</div>
     

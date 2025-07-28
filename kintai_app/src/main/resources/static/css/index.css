@@ -148,6 +148,7 @@ body > div:nth-of-type(2) button:hover {
     box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
 }
 
+
 header {
     display: flex;
     justify-content: center; /* ロゴを中央に配置 */
@@ -155,4 +156,54 @@ header {
     background-color: #0069FB; /* 青色 */
     padding: 20px; /* ヘッダー内に余白を追加 */
     color: white; /* テキストを白色に */
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+    
+    form {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .center-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .center-buttons > button {
+        width: 100px;
+        height: 100px;
+        font-size: 1.3rem;
+    }
+    
+    body > div:nth-of-type(2) {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    body > div:nth-of-type(2) button {
+        min-width: 140px;
+    }
 }
+
+/* 微細なアニメーション */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+form {
+    animation: fadeIn 0.5s ease-out;
+}
+
