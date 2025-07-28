@@ -14,7 +14,7 @@
 	<!-- 従業員画面の場合 -->
 	<h1 th:if="${mode == 'employee'}">勤怠管理（従業員画面）</h1>
 
-	<div>
+	<div class="link">
 		<!-- 管理者の場合は従業員の追加ボタン -->
 		<span th:if="${mode == 'manager'}">
 			<a th:href="@{/add-employee}">
@@ -23,7 +23,7 @@
 		</span>
 
 		<!-- 管理者と従業員モードによって遷移URL変わる -->
-		<a th:if="${mode == 'manager'}" th:href="@{/manager}">管理者ページに戻る</a>
+		<a th:if="${mode == 'manager'}" th:href="@{/manager}" >管理者ページに戻る</a>
 		<a th:if="${mode == 'employee'}" th:href="@{/}">メインページに戻る</a>
 	</div>
 
