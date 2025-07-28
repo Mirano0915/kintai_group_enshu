@@ -1,3 +1,17 @@
+/*フォント*/
+@font-face {
+  font-family: 'IPAexGothic';
+  src: url('/fonts/ipaexg.ttf') format('truetype');
+}
+
+/*各ページで使うときは、以下のように記述*/
+
+/*body {*/
+/*  font-family: 'IPAGothic', sans-serif;*/
+/*  font-weight: bold;*/
+/*}*/
+
+
 /* リセットとベーススタイル */
 
 * {
@@ -8,7 +22,7 @@
 
 body {
     font-family: 'IPAexGothic', 'IPA Gothic', 'Hiragino Sans', 'Yu Gothic', sans-serif;
-    background-color: #FFFFFF;
+	background-color: #FFFFFF;
     color: #0069FB;
     min-height: 100vh;
     padding: 20px;
@@ -20,7 +34,7 @@ body {
 h1 {
     text-align: center;
     color: #0069FB;
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-bottom: 30px;
     font-weight: 600;
 }

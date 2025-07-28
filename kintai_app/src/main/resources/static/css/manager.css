@@ -1,0 +1,121 @@
+
+
+.buttons {
+
+	flex-direction: row;
+	/* ← 横並びにする */
+	display: flex;
+	align-items: center;
+	gap: 12%;
+	/* 各ボタンの間隔を15%に指定 */
+	margin: auto;
+	justify-content: center;
+	margin-top: 120px;
+	
+
+}
+
+/*main.htmlを打ち消す用*/
+form {
+	all: unset;
+}
+
+#attendanceAgree,
+#payroll,
+#attendance {
+	background-color: #0069FB;
+	color: #FFFFFF;
+	border: 2px solid #0069FB;
+	padding: 12px 24px;
+	font-size: 1rem;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-weight: 900;
+	font-size: 60px;
+	min-width: 160px;
+
+	width: 320px;
+	height: 260px;
+
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* ホバーで色が逆転（青文字＋白背景） */
+#attendanceAgree:hover,
+#payroll:hover,
+#attendance:hover {
+	background-color: #FFFFFF;
+	color: #0069FB;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
+}
+
+
+
+
+.link {
+	display: block;
+	/* インライン要素をブロックに */
+	margin: 30px auto;
+	/* 水平方向の中央配置 */
+	text-align: center;
+	width: fit-content;
+	font-size: 26px;
+	margin-top: 10%;
+}
+
+#pending-popup {
+  background-color: rgba(0, 105, 251, 0.08); /* ごく薄い青色 */
+  border: 2px solid #0069FB;
+  padding: 16px 24px;
+  margin-top: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 105, 251, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 内側をFlexboxで整理して、閉じるボタンとテキストの距離を調整 */
+.popup-inner {
+
+  display: flex;
+  justify-content: center; /* 横軸中央寄せ */
+  align-items: center;
+  gap: 16px; /* メッセージと×の距離を調整 */
+  position: relative;
+}
+
+/* 閉じるボタンを右側に寄せる */
+.close-button {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #0069FB;
+  cursor: pointer;
+}
+.popup-inner p {
+  margin: 0;
+  text-align: center;
+  font-size: 30px;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* 下からスライドアップ */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#pending-popup {
+  animation: fadeUp 0.6s ease-out;
+}
+

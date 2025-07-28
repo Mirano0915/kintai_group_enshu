@@ -83,7 +83,7 @@ public class IndexController {
 		String checkTime = indexService.checkout(nameId);
 
 		// 完了画面に渡す情報を一時保存（リダイレクト用）
-		redirectAttributes.addAttribute("type", "checkput");
+		redirectAttributes.addAttribute("type", "checkout");
 		redirectAttributes.addAttribute("employeeName", name);
 		redirectAttributes.addAttribute("checkTime", checkTime);
 
