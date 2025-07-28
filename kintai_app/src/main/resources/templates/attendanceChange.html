@@ -20,7 +20,11 @@
 	  <p>出勤時間<input type="time" name="preCheckinTime" th:field="*{preCheckinTime}"></p>
 	  <p>退勤時間<input type="time" name="preCheckoutTime" th:field="*{preCheckoutTime}"></p>
 	  
-	  
+ <!--	 バリデーションエラー表示-->
+	  <div th:if="${#fields.hasErrors('preCheckoutTime')}">
+	      <span th:errors="*{preCheckoutTime}">退勤エラーメッセージがここに表示されます</span>
+	  </div>
+
 	  
 	  <p th:if="${mode == 'employee'}">変更理由<input type="text" name="comment" th:field="*{comment}"></p>
 <!--	  バリデーションエラー表示-->

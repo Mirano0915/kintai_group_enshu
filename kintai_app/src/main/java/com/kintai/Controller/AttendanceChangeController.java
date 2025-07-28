@@ -71,6 +71,20 @@ public class AttendanceChangeController {
 
 		String name = form.getEmployeeName();
 		
+		if (!form.isValidTimeRange()) {
+		    bindingResult.rejectValue("preCheckoutTime", "", "退勤時間が出勤時間より早いため、編集できません");
+		    
+		    // 管理者かどうかチェック（エラー表示用）
+		    boolean isManager = authService.isManagerLoggedIn(session);
+		    if (isManager) {
+		        model.addAttribute("mode", "manager");
+		    } else {
+		        model.addAttribute("mode", "employee");
+		    }
+		    model.addAttribute("form", form);
+		    return "attendanceChange";
+		}
+		
 		// 管理者かどうかチェック
 		boolean isManager = authService.isManagerLoggedIn(session);
 
