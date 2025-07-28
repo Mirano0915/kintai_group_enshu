@@ -1,0 +1,22 @@
+.complete,
+.link {
+	font-family: "IPAexGothic", sans-serif;
+	font-weight: 580;
+	/* 少し太めにする */
+}
+
+.complete {
+	margin-top: 30%;
+	font-size: 38px;
+}
+
+.link {
+	display: block;
+	/* インライン要素をブロックに */
+	margin: 30px auto;
+	/* 水平方向の中央配置 */
+	text-align: center;
+	width: fit-content;
+	font-size: 26px;
+	margin-top: 10%;
+}
