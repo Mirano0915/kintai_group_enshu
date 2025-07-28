@@ -7,10 +7,6 @@
 </head>
 <body>
     <h1>管理者画面（管理者ページ）</h1>
-    
-    <div>
-        <a href="/logout">ログアウト</a>
-    </div>
 
     <form th:action="@{/attendanceAgree}" method="get">
         <button type="submit">打刻変更確認</button>
@@ -24,6 +20,11 @@
         <input type="hidden" name="mode" value="manager">
         <button type="submit">勤怠管理</button>
     </form>
+	
+
+
+    <a href="/logout">ログアウト</a>
+
 	
 	<script th:src="@{/js/manager.js}"></script>
 </body>
