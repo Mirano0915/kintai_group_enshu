@@ -22,28 +22,29 @@
 			<input type="hidden" name="nameId" th:field="*{nameId}">
 			<!--		inputのvalueは最終的にvalue="${targetNameId}"になる-->
 			<p class="shukkin">
-				<label for="preCheckinTime">出勤時間</label>
-				<input type="time" id="preCheckinTime" name="preCheckinTime" th:field="*{preCheckinTime}" class="form">
+				<label for="preCheckinTime">出勤時間:</label>
+				<input type="time" id="preCheckinTime" name="preCheckinTime" th:field="*{preCheckinTime}" 
+				class="form" required>
 			</p>
 
 			<p class="taikin">
-				<label for="preCheckoutTime">退勤時間</label>
+				<label for="preCheckoutTime">退勤時間:</label>
 				<input type="time" id="preCheckoutTime" name="preCheckoutTime" th:field="*{preCheckoutTime}"
-					class="form">
+					class="form" required>
 			</p>
 			<!--	 バリデーションエラー表示-->
 			<div th:if="${#fields.hasErrors('preCheckoutTime')}">
-				<span th:errors="*{preCheckoutTime}">退勤エラーメッセージがここに表示されます</span>
+				<span th:errors="*{preCheckoutTime}" class="error_message">退勤エラーメッセージがここに表示されます</span>
 			</div>
 
 
 			<p class="reason" th:if="${mode == 'employee'}">
-				<label for="comment">変更理由</label>
+				<label for="comment">変更理由:</label>
 				<input type="text" id="comment" name="comment" th:field="*{comment}" class="form">
 			</p>
 			<!--	  バリデーションエラー表示-->
 			<div th:if="${#fields.hasErrors('comment')}">
-				<span th:errors="*{comment}">エラーメッセージがここに表示されます</span>
+				<span th:errors="*{comment}" class="error_message">エラーメッセージがここに表示されます</span>
 			</div>
 
 

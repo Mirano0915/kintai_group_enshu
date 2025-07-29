@@ -1,12 +1,22 @@
 .container {
-	margin-top: 10%;
-
+	margin-top:5%;
+	align-items: center;
 }
 
+label {
+	font-weight: 400;
+	font-size: 30px;
+	position: relative;
+	bottom: 7px;
+}
 
 .shukkin,
 .taikin,
 .reason {
+
+	margin: 0 auto;
+
+
 	display: grid;
 	grid-template-columns: auto 1fr;
 	align-items: center;
@@ -31,8 +41,12 @@
 	cursor: pointer;
 	transition: all 0.3s ease;
 	width: 100%;
-	max-width: 200px;
+	max-width: 120px;
 	/* 時間入力の最大幅を抑える */
+}
+
+form>div:last-of-type {
+	text-align: center;
 }
 
 /* 理由入力だけ個別に幅を広めに設定 */
@@ -41,14 +55,33 @@
 }
 
 
-.add_button {
+
+.submit_button {
+
 	display: block;
-	/* 水平方向の中央配置 */
 	text-align: center;
+	margin: 0 auto;
+
+	background-color: #0069FB;
+	color: #FFFFFF;
+	border: 2px solid #0069FB;
+	padding: 12px 24px;
+	font-size: 26px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-weight: 600;
+	min-width: 120px;
+	min-height: 50px;
 }
 
+.submit_button:hover {
+	background-color: #FFFFFF;
+	color: #0069FB;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
+}
 
-.submit_button {}
 
 .link {
 	display: block;
@@ -58,5 +91,14 @@
 	text-align: center;
 	width: fit-content;
 	font-size: 26px;
-	margin-top: 10%;
+	margin-top: 2%;
+}
+
+
+/*ここがまだ*/
+.error_message {
+  color: red;
+  font-size: 1.2rem;
+  min-height: 20px;           /* これで高さ揃え＆崩れ防止 */
+  grid-column: 1 / span 2;    /* グリッド2列にまたがらせると美しい */
 }
