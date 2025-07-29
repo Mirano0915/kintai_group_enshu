@@ -1,5 +1,3 @@
-
-
 .buttons {
 
 	flex-direction: row;
@@ -11,7 +9,7 @@
 	margin: auto;
 	justify-content: center;
 	margin-top: 120px;
-	
+
 
 }
 
@@ -69,54 +67,70 @@ form {
 }
 
 #pending-popup {
-background-color: rgba(16, 185, 129, 0.08); /* ごく薄い緑色に変更 */
-border: 2px solid #10b981; /* 緑のボーダーに変更 */
-padding: 16px 24px;
-margin-top: 16px;
-border-radius: 8px;
-box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1); /* 緑のシャドウに変更 */
-max-width: 600px;
-margin-left: auto;
-margin-right: auto;
-animation: fadeIn 0.3s ease-in-out;
+	background-color: rgba(16, 185, 129, 0.08);
+	/* ごく薄い緑色に変更 */
+	border: 2px solid #10b981;
+	/* 緑のボーダーに変更 */
+	padding: 16px 24px;
+	margin-top: 16px;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+	/* 緑のシャドウに変更 */
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	animation: fadeIn 0.3s ease-in-out;
 }
 
 /* 内側をFlexboxで整理して、閉じるボタンとテキストの距離を調整 */
 .popup-inner {
 
-  display: flex;
-  justify-content: center; /* 横軸中央寄せ */
-  align-items: center;
-  gap: 16px; /* メッセージと×の距離を調整 */
-  position: relative;
+	display: flex;
+	justify-content: center;
+	/* 横軸中央寄せ */
+	align-items: center;
+	gap: 16px;
+	/* メッセージと×の距離を調整 */
+	position: relative;
 }
 
 /* 閉じるボタンを右側に寄せる */
 .close-button {
-font-size: 1.5rem;
-font-weight: bold;
-color:black;
-cursor: pointer;
+	font-size: 2.2rem;
+	font-weight: bold;
+	color: rgb(0, 64, 64);
+	cursor: pointer;
 }
 
 .popup-inner p {
-margin: 0;
-text-align: center;
-font-size: 30px;
-color: #10b981; /* 緑色のアクセントカラーに変更 */
+	margin: 0;
+	text-align: center;
+	font-size: 30px;
+	color: #10b981;
+	/* 緑色のアクセントカラーに変更 */
 }
 
-@keyframes fadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px); /* 下からスライドアップ */
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+a.popup-inner {
+	text-decoration: none;
+	/* 下線を消す */
+	color: inherit;
+	/* 文字色を継承 */
+
 }
 
-#pending-popup {
-  animation: fadeUp 0.6s ease-out;
-}
+	@keyframes fadeUp {
+		0% {
+			opacity: 0;
+			transform: translateY(20px);
+			/* 下からスライドアップ */
+		}
+
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	#pending-popup {
+		animation: fadeUp 0.6s ease-out;
+	}
