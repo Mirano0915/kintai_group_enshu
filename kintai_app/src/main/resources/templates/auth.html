@@ -9,10 +9,6 @@
 <body>
     <h1>管理者ログイン</h1>
 
-    <!-- エラーメッセージ表示 -->
-    <div th:if="${error}">
-        <p th:text="${error}" style="color: red;"></p>
-    </div>
 
     <!-- ログインフォーム -->
     <form th:action="@{/auth}" method="post">
@@ -25,6 +21,11 @@
             <button type="submit">ログイン</button>
         </div>
     </form>
+	
+	<!-- エラーメッセージ表示 -->
+	<div class="validation-message" th:if="${error}">
+	<p th:text="${error}"></p>
+	</div>
 
     <div class="center-URL">
         <a href="/">メインページに戻る</a>

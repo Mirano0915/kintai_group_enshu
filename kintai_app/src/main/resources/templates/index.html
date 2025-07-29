@@ -2,62 +2,61 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="/css/main.css">
-	<link rel="stylesheet" href="/css/index.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-	<title>勤怠管理システム</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<title>勤怠管理システム</title>
 </head>
 
 <body>
-	<header></header>
-	
-	<h1>勤怠管理システム（メインページ）</h1>
-	
-	<div>
-				<p> <span id="datetime"></span></p>
-	</div>
+<header></header>
 
-	
-	<form method="post">
-		<div>
-			<label for="employeeName">名前を選んでください</label>
-			<select id="employeeName" name="employeeName" required>
-				<option value="">選択してください</option>
-				<option th:each="entity : ${nameList}" th:value="${entity.name}" th:text="${entity.name}"></option>
-			</select>
-		</div>
+<h1>勤怠管理システム（メインページ）</h1>
 
-		<div class="center-buttons">
-		<button type="submit" formaction="/checkin">
-		    <i class="fas fa-briefcase"></i>
-		    出勤
-		</button>
-		<div th:if="${errorMessage}" style="color: red;">
-		<p th:text="${errorMessage}"></p>
-		</div>
-		<button type="submit" formaction="/checkout">
-		    <i class="fas fa-user-times"></i>
-		    退勤
-		</button>
-		</div>
-	</form>
+<div>
+<p> <span id="datetime"></span></p>
+</div>
 
-	<div>
+<form method="post">
+<div>
+<label for="employeeName">名前を選んでください</label>
+<select id="employeeName" name="employeeName" required>
+<option value="">選択してください</option>
+<option th:each="entity : ${nameList}" th:value="${entity.name}" th:text="${entity.name}"></option>
+</select>
+</div>
 
-		<form th:action="@{/auth}" method="get">
-			<button type="submit">管理者ページへ</button>
-		</form>
+<div class="center-buttons">
+<button type="submit" formaction="/checkin">
+<i class="fas fa-briefcase"></i>
+出勤
+</button>
+<button type="submit" formaction="/checkout">
+<i class="fas fa-user-times"></i>
+退勤
+</button>
+</div>
 
+<!-- Validation message moved outside and below the buttons -->
+<div class="validation-message" th:if="${errorMessage}">
+<p th:text="${errorMessage}"></p>
+</div>
+</form>
 
-		<form th:action="@{/attendance}" method="get">
-			<button type="submit">打刻管理ページへ</button>
-		</form>
+<div>
 
+<form th:action="@{/auth}" method="get">
+<button type="submit">管理者ページへ</button>
+</form>
 
-	</div>
-  
-  
+<form th:action="@{/attendance}" method="get">
+<button type="submit">打刻管理ページへ</button>
+</form>
+
+</div>
+
 <script th:src="@{/js/index.js}"></script>
 
+</body>
 </html>

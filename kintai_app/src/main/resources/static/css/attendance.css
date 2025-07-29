@@ -1,72 +1,230 @@
-/* テーブルの基本スタイル */
-table {
-    width: 80%;  /* テーブルの幅を80%に設定 */
-    margin: 0 auto;  /* テーブルを中央に配置 */
-    border-collapse: collapse; /* セルの境界線を結合して、重複をなくす */
-    font-size: 1.2rem;  /* フォントサイズを小さくする */
-	border-radius: 12px;  /* テーブルの角を丸くする */
-	overflow: hidden;  /* 丸角がきれいに見えるようにする */
-}
-
-/* テーブルのヘッダー */
-th {
-    background-color: #0069FB;  /* ヘッダーの背景色 */
-    color: white;  /* ヘッダーのテキスト色 */
-    padding: 6px 8px;  /* ヘッダーセルの内側余白を小さく */
-    text-align: center;  /* ヘッダーセル内のテキストを中央揃え */
-    font-size: 1rem;  /* ヘッダーの文字サイズ */
-	border-radius: 12px 12px 0 0;  /* 上部の角を丸くする */
-	font-size: 1.2rem;  /* フォントサイズを小さくする */
-	border: 1px solid rgba(0, 105, 251, 0.3);  /* ヘッダーの境界線色（薄く） */
-}
-
-/* テーブルのデータセル */
-td {
-    padding: 6px 8px;  /* データセルの内側余白を小さく */
-    border: 1px solid rgba(0, 105, 251, 0.2);  /* セルの境界線色を薄く */
-    text-align: center;  /* データセル内のテキストを中央揃え */
-	border-radius: 0 0 12px 12px;  /* 下部の角を丸くする */
-	background-color: #f9f9f9;  /* セルの背景色 */
-}
-
-/* 偶数行の背景色 */
-tr:nth-child(even) {
-    background-color: #f1f1f1;  /* 偶数行の背景色 */
-}
-
-/* ホバー時に行の背景色を変更 */
-tr:hover {
-    background-color: #e0e0e0;  /* ホバー時の背景色 */
-}
-
-
-button {
-    font-size: 1.2rem;  /* ボタンの文字サイズを少し大きく */
-    padding: 12px 24px;  /* ボタンの内側余白を少し広めに */
-    border-radius: 8px;  /* ボタンの角を丸める */
-    border: 2px solid #10B981;  /* ボタンの境界線色を背景色に合わせる */
-    background-color: #10B981;  /* ボタンの背景色 */
-    color: white;  /* ボタンの文字色 */
-    transition: all 0.3s ease;  /* ホバー時のスムーズな変化 */
-    width: 100%;  /* ボタンの幅を親要素に合わせて100%に設定 */
-}
-
-/* ボタンホバー時のスタイル */
-button:hover {
-    background-color: #0b8c68;  /* ホバー時の背景色を少し暗くする */
-    border-color: #0b8c68;  /* 境界線色をホバー時に背景色に合わせて変更 */
-    transform: translateY(-2px);  /* ボタンが少し浮き上がるように */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* ホバー時に影をつけて立体感を出す */
-}
-
-
-
-/* Form container */
+/* フォームの基本スタイル - main.cssを上書き */
 form {
-    max-width: 100%;              /* 最大幅を100%に設定して画面幅に合わせる */
-    margin: 0;                    /* マージンを0に設定 */
-    background-color: transparent; /* 背景色を透明に */
-    padding: 0;                   
-	
-	}
+    all: unset;
+    display: block;
+    margin: 20px 0;
+}
 
+/* ページレイアウト */
+body {
+    font-family: 'IPAGothic', sans-serif;
+    font-weight: 600;
+    padding: 20px;
+}
+
+/* ヘッダー部分 - タイトル中央、リンク右上 */
+.header-container {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.header-container h1 {
+    margin: 0;
+    text-align: center; /* タイトルを完全に中央配置 */
+    position: relative;
+}
+
+.header-container .link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 18px;
+    text-decoration: underline;
+    color: #0069FB;
+    margin-top: 40px; /* タイトルの下の行に配置 */
+}
+
+/* フィルターコンテナ - main.cssのformスタイルを適用 */
+.filter-form-container {
+    max-width: 800px; /* 少し大きめに設定してフィルター要素が収まるように */
+    margin: 0 auto 30px auto;
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 105, 251, 0.1);
+    border: 2px solid rgba(0, 105, 251, 0.1);
+}
+
+/* フィルター部分（名前と日付を中央に配置、完全に同じライン） */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 80px;
+    margin: 20px 0;
+    padding: 0;
+}
+
+.filter-left {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.filter-right {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.filter-container label {
+    font-size: 20px;
+    color: #0069FB;
+    margin: 0;
+    white-space: nowrap;
+    line-height: 1;
+    vertical-align: baseline;
+}
+
+.filter-container select,
+.filter-container input[type="date"] {
+    padding: 12px 16px;
+    border: 2px solid #0069FB;
+    border-radius: 4px;
+    font-size: 18px;
+    min-width: 160px;
+    height: 50px;
+    box-sizing: border-box;
+    vertical-align: baseline;
+}
+
+/* ボタン部分（検索＋リセットを中央に配置、間隔あり、大きく） */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* 間隔をさらに増やす */
+    margin: 20px 0;
+}
+
+.button-container button {
+    padding: 12px 24px; /* パディングを大きく */
+    font-size: 20px; /* フォントサイズを大きく */
+    border-radius: 8px; /* 角を少し大きく */
+    border: 2px solid #10B981;
+    background-color: #10B981;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 100px; /* 最小幅を設定 */
+}
+
+.button-container button:hover {
+    background-color: #0b8c68;
+    border-color: #0b8c68;
+}
+
+/* 従業員追加ボタン - 中央配置、大きく、ホバー効果追加 */
+.add-employee-container {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.add-employee-container button {
+padding: 15px 30px;
+font-size: 20px;
+border-radius: 8px;
+border: 2px solid #0069FB;
+background-color: #0069FB;
+color: white;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+
+.add-employee-container button:hover {
+background-color: #FFFFFF; /* 白背景に変更 */
+color: #0069FB; /* 青文字に変更 */
+border-color: #0069FB; /* 青ボーダー維持 */
+transform: translateY(-1px); /* 少し浮き上がる効果 */
+box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3); /* 青の影を追加 */
+}
+
+/* テーブルスタイル */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 30px; /* テーブル文字サイズを30pxに変更 */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+th {
+    background-color: #0069FB;
+    color: white;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 30px; /* ヘッダー文字サイズを30pxに変更 */
+    border: 1px solid rgba(0, 105, 251, 0.3);
+}
+
+td {
+    padding: 10px 8px;
+    border: 1px solid rgba(0, 105, 251, 0.2);
+    text-align: center;
+    background-color: #f9f9f9;
+    font-size: 30px; /* データセル文字サイズを30pxに変更 */
+}
+
+tr:nth-child(even) {
+    background-color: #f1f1f1;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* テーブル内のボタン */
+td button {
+    padding: 6px 12px; /* ボタンサイズを少し大きく */
+    font-size: 24px; /* ボタン文字サイズも大きく */
+    border-radius: 4px;
+    border: 1px solid #10B981;
+    background-color: #10B981;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+td button:hover {
+    background-color: #0b8c68;
+    border-color: #0b8c68;
+}
+
+/* データなしメッセージ */
+.no-data {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+    margin: 40px 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+        width: fit-content;
+    }
+    
+    table {
+        font-size: 12px;
+    }
+    
+    th, td {
+        padding: 6px 4px;
+    }
+}
