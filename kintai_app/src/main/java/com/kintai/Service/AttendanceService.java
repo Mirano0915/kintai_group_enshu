@@ -45,6 +45,7 @@ public class AttendanceService {
 	     return attendancesDAO.readAllAttendanceDb(null, date);
 	 }
 	 
+	 
 	//勤怠データ一覧を取得 - フィルターなし（全件表示）
 	 public List<AttendancesEntity> getAllAttendanceData() {
 	     return attendancesDAO.readAllAttendanceDb(null, null);
