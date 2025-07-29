@@ -13,12 +13,12 @@
     <!-- ログインフォーム -->
     <form th:action="@{/auth}" method="post">
         <div>
-            <label for="password">パスワード:</label>
+            <label for="password" class="password">パスワード:</label>
             <input type="password" id="password" name="password" required>
         </div>
         
         <div>
-            <button type="submit">ログイン</button>
+            <button type="submit" class="login">ログイン</button>
         </div>
     </form>
 	
@@ -28,7 +28,7 @@
 	</div>
 
     <div class="center-URL">
-        <a href="/">メインページに戻る</a>
+        <a href="/" class="link">メインページに戻る</a>
     </div>
 
 </body>
