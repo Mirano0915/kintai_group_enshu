@@ -102,3 +102,22 @@ form>div:last-of-type {
   min-height: 20px;           /* これで高さ揃え＆崩れ防止 */
   grid-column: 1 / span 2;    /* グリッド2列にまたがらせると美しい */
 }
+
+/* バリデーションスタイル */
+.validation-message {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.validation-message p {
+    color: #e53e3e; 
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 12px 16px;
+    background-color: rgba(229, 62, 62, 0.1);
+    border: 1px solid rgba(229, 62, 62, 0.3);
+    border-radius: 8px;
+    display: inline-block;
+}
