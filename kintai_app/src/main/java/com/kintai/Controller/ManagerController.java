@@ -37,8 +37,8 @@ public class ManagerController {
       return "manager";
   }
     
+  
 //    AJAX用 - 承認待ち件数取得API
-        
     @GetMapping("/api/pending-count")
     @ResponseBody
     public Map<String, Integer> getPendingCount(HttpSession session) {
