@@ -39,6 +39,6 @@ public class AttendanceChangeService {
 
 	//退勤Idから出勤時間と退勤時間を取得
 	public AttendanceChangeForm setCheckTime(Long attendanceId) {
-		return attendancesDAO.setCheckTime(attendanceId);
+		return attendancesDAO.getCheckTime(attendanceId);
 	}
 }

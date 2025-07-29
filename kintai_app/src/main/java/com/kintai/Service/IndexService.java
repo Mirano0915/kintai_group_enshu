@@ -19,7 +19,7 @@ public class IndexService {
 	
 	//従業員の名前取得
 	public void readName(Model model) {
-		List<AttendancesEntity>resultDb = attendancesDAO.readNameDb();
+		List<AttendancesEntity>resultDb = attendancesDAO.getEmployeeName();
 		model.addAttribute("nameList", resultDb);
 	}
 	
