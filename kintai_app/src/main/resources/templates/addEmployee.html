@@ -27,8 +27,8 @@
             <label for="name" class="label">名前:</label>
             <input type="text" th:field="*{name}" id="name" class="form">
             <!-- バリデーションエラー表示 -->
-            <div th:if="${#fields.hasErrors('name')}">
-                <span th:errors="*{name}"></span>
+            <div th:if="${#fields.hasErrors('name')}" class="error_div">
+                <span th:errors="*{name}" class="error-message"></span>
             </div>
         </div>
         
@@ -37,13 +37,13 @@
             <input type="number" th:field="*{hourlyWage}" id="hourlyWage" class="form">
             <span class="label">円</span>
             <!-- バリデーションエラー表示 -->
-            <div th:if="${#fields.hasErrors('hourlyWage')}">
-                <span th:errors="*{hourlyWage}"></span>
+            <div th:if="${#fields.hasErrors('hourlyWage')}" class="error_div">
+                <span th:errors="*{hourlyWage}"  class="error-message"></span>
             </div>
         </div>
         
-        <div class="add_button">
-            <input type="submit" value="従業員を追加">
+        <div class="tsuika">
+            <input type="submit" value="追加" class="add_button">
         </div>
         
     </form>
