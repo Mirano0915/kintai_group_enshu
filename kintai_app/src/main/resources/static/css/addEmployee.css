@@ -1,9 +1,21 @@
-.container{
-	margin-top: 10%;
-	
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.label{
+form{
+	max-width: 800px;
+}
+
+.container {
+	margin-top: 10%;
+	align-items: center;
+	width: 2000px;
+}
+
+.label {
 	font-weight: 400;
 	font-size: 30px;
 	position: relative;
@@ -13,18 +25,22 @@
 .namae,
 .jikyu {
 	display: flex;
-	flex-direction: row;/* ← 横並びにする */
-	
+	flex-direction: row;
+	/* ← 横並びにする */
+
 	align-items: center;
 	gap: 8px;
 	margin-bottom: 16px;
-	margin-left: 100px;
+	margin-left: 170px;
+
+
 }
 
-.add_button{
+
+.add_button {
 	display: block;
-	/* 水平方向の中央配置 */
 	text-align: center;
+	margin: 0 auto;
 }
 
 .form {
@@ -38,6 +54,29 @@
 	margin-bottom: 25px;
 	cursor: pointer;
 	transition: all 0.3s ease;
+
+}
+
+
+.add_button {
+	background-color: #0069FB;
+	color: #FFFFFF;
+	border: 2px solid #0069FB;
+	padding: 12px 24px;
+	font-size: 26px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-weight: 600;
+	min-width: 120px;
+	min-height: 50px;
+}
+
+.add_button:hover {
+	background-color: #FFFFFF;
+	color: #0069FB;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
 }
 
 .link {
@@ -49,4 +88,16 @@
 	width: fit-content;
 	font-size: 26px;
 	margin-top: 10%;
+}
+
+
+.error-message {
+  color: red;
+  font-size: 1.2rem;
+  min-height: 20px;           /* これで高さ揃え＆崩れ防止 */
+  grid-column: 1 / span 2;    /* グリッド2列にまたがらせると美しい */
+}
+
+.error_div{
+	padding-bottom: 20px;
 }

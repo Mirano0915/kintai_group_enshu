@@ -1,0 +1,104 @@
+.container {
+	margin-top:5%;
+	align-items: center;
+}
+
+label {
+	font-weight: 400;
+	font-size: 30px;
+	position: relative;
+	bottom: 7px;
+}
+
+.shukkin,
+.taikin,
+.reason {
+
+	margin: 0 auto;
+
+
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 16px;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 600px;
+	font-weight: 400;
+	font-size: 1.8rem;
+	/* フォントを少し大きく */
+}
+
+.form {
+	padding: 10px 14px;
+	border: 2px solid #0069FB;
+	border-radius: 8px;
+	font-size: 1.2rem;
+	color: #0069FB;
+	background-color: #FFFFFF;
+	margin-bottom: 25px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	width: 100%;
+	max-width: 120px;
+	/* 時間入力の最大幅を抑える */
+}
+
+form>div:last-of-type {
+	text-align: center;
+}
+
+/* 理由入力だけ個別に幅を広めに設定 */
+.reason .form {
+	max-width: 60%;
+}
+
+
+
+.submit_button {
+
+	display: block;
+	text-align: center;
+	margin: 0 auto;
+
+	background-color: #0069FB;
+	color: #FFFFFF;
+	border: 2px solid #0069FB;
+	padding: 12px 24px;
+	font-size: 26px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	font-weight: 600;
+	min-width: 120px;
+	min-height: 50px;
+}
+
+.submit_button:hover {
+	background-color: #FFFFFF;
+	color: #0069FB;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
+}
+
+
+.link {
+	display: block;
+	/* インライン要素をブロックに */
+	margin: 30px auto;
+	/* 水平方向の中央配置 */
+	text-align: center;
+	width: fit-content;
+	font-size: 26px;
+	margin-top: 2%;
+}
+
+
+/*ここがまだ*/
+.error_message {
+  color: red;
+  font-size: 1.2rem;
+  min-height: 20px;           /* これで高さ揃え＆崩れ防止 */
+  grid-column: 1 / span 2;    /* グリッド2列にまたがらせると美しい */
+}
