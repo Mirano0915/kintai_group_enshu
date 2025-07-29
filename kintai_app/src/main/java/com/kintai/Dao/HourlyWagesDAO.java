@@ -179,6 +179,11 @@ public class HourlyWagesDAO {
 	    Integer count = db.queryForObject(sql, Integer.class, name);
 	    return count != null && count > 0;
 	}
-	                                         
+	               
+	
+//	public void deleteByNameId(Long nameId) {
+//	    String sql = "DELETE FROM hourly_wages WHERE name_id = ?";
+//	    db.update(sql, nameId);
+//	}
 	
 }

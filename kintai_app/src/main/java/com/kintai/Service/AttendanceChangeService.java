@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.kintai.Dao.AttendancesDAO;
 import com.kintai.Dao.StampsDAO;
+import com.kintai.Entity.AttendancesEntity;
 import com.kintai.Form.AttendanceChangeForm;
 
 @Service
@@ -20,7 +21,9 @@ public class AttendanceChangeService {
 
 	//attendanceIdからnameIdを取得
 	public Long getNameId(Long attendanceId) {
-		return stampsDAO.readNameId(attendanceId);
+		AttendancesEntity entity = new AttendancesEntity();
+		entity = attendancesDAO.findById(attendanceId);
+		return entity.getNameId();
 	}
 
 	
