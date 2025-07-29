@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -43,18 +44,22 @@ public class AttendanceController {
         // 管理者かどうかチェック
         boolean isManager = authService.isManagerLoggedIn(session);
 
+        int month = 0;
+        LocalDate date = null;
         // 管理者なら"manager"、そうでなければ"employee"
         if (isManager) {
-            model.addAttribute("mode", "manager");
+        	model.addAttribute("mode", "manager");
+        	
+           
         } else {
             model.addAttribute("mode", "employee");
+            month = LocalDate.now().getMonthValue();
+            
         }
-
-        // フィルターに応じてデータを取得
-        List<AttendancesEntity> employeeList;
+        
         
         // 日付文字列をLocalDateに変換
-        LocalDate date = null;
+        
         if (filterDate != null && !filterDate.isEmpty()) {
             try {
                 date = LocalDate.parse(filterDate);
@@ -63,6 +68,11 @@ public class AttendanceController {
                 System.out.println("日付解析エラー: " + e.getMessage());
             }
         }
+
+        // フィルターに応じてデータを取得
+        List<AttendancesEntity> employeeList;
+        
+       
         
         // フィルター条件に応じて適切なServiceメソッドを呼び出し
         if (filterName != null && !filterName.isEmpty() && date != null) {
@@ -79,6 +89,25 @@ public class AttendanceController {
             employeeList = attendanceService.getAllAttendanceData();
         }
         
+        //従業員の場合今月分だけにする
+        if (!isManager) {
+            // 今月の月と年を取得
+            LocalDate now = LocalDate.now();
+            int currentMonth = now.getMonthValue();
+            int currentYear = now.getYear();
+
+            // 今月分のデータのみフィルタリング
+            employeeList = employeeList.stream()
+                .filter(attendance -> {
+                    // java.sql.Date から LocalDate へ変換
+                    LocalDate attendanceDate = attendance.getDate().toLocalDate();
+                    // 今月と今年のデータのみ残す
+                    return attendanceDate.getMonthValue() == currentMonth && attendanceDate.getYear() == currentYear;
+                })
+                .collect(Collectors.toList());
+        }
+
+        
         
         List<Map<String, Object>> attendanceViewList = new ArrayList<>();
         for (AttendancesEntity attendance : employeeList) {
@@ -87,6 +116,9 @@ public class AttendanceController {
             map.put("status", attendanceService.getAttendanceStatus(attendance));
             attendanceViewList.add(map);
         }
+        
+        
+       
         
         // 正确的属性名で渡す
         model.addAttribute("attendanceList", attendanceViewList);

@@ -162,18 +162,24 @@ table {
     font-size: 18px; /* Reduced from 30px to make it more compact */
     border-radius: 8px;
     overflow: hidden;
+
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     font-weight: 400; /* Normal weight, not too heavy */
+
 }
 
 th {
     background-color: #0069FB;
+
     color: white;
     padding: 15px 8px; /* Increased vertical padding for taller headers */
+
     text-align: center;
     font-size: 18px; /* Reduced from 30px */
     border: 1px solid rgba(0, 105, 251, 0.3);
+
     font-weight: 500; /* Medium weight for headers */
+
 }
 
 td {
@@ -181,12 +187,14 @@ td {
     border: 1px solid rgba(0, 105, 251, 0.2);
     text-align: center;
     background-color: #f9f9f9;
+
     font-size: 18px; /* Reduced from 30px */
     color: #333333; /* Soft dark gray instead of pure black - easier on eyes */
     font-weight: 400; /* Normal weight */
     line-height: 1.4; /* Better line spacing */
     vertical-align: middle; /* Center content vertically */
     height: 60px;
+
 }
 
 tr:nth-child(even) {
@@ -204,16 +212,19 @@ td button {
     border-radius: 4px;
     border: 1px solid #10B981;
     background-color: #10B981;
-    color: white;
+    color: white; /* ボタンの文字色を白に設定 */
     cursor: pointer;
     transition: all 0.3s ease;
+
     font-weight: 400; /* Normal weight */
+
 }
 
 td button:hover {
     background-color: #0b8c68;
     border-color: #0b8c68;
 }
+
 
 /* 退職ボタンを赤色にする  */
 td button[onclick*="deleteAttendance"] {
@@ -229,6 +240,7 @@ td button[onclick*="deleteAttendance"]:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
 }
+
 
 /* データなしメッセージ */
 .no-data {
