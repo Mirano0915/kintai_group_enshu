@@ -135,7 +135,7 @@ public class AttendanceController {
     }
 
 
-    // AJAX削除API（管理者のみ）
+    // AJAX削除処理API（管理者のみ）
     @PostMapping("/api/delete-attendance")
     @ResponseBody
     public Map<String, Object> deleteAttendanceAjax(@RequestBody Map<String, Object> requestData,
@@ -164,9 +164,4 @@ public class AttendanceController {
         return response;
     }
 
-    // メインページに戻る
-    @GetMapping("/back-to-main")
-    public String backToMain() {
-        return "redirect:/";
-    }
 }
