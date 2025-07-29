@@ -4,74 +4,70 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="/css/main.css">
-	<title>打刻変更申請一覧</title>
-
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/attendanceAgree.css">
+<title>打刻変更申請一覧</title>
 </head>
 
 <body>
-	<h1>打刻変更申請一覧</h1>
+	<header></header>
+<!-- ヘッダー部分 - タイトルと戻るリンク -->
+<div class="header-container">
+    <h1>打刻変更申請一覧</h1>
+    <a href="/manager" class="link">管理者ページに戻る</a>
+</div>
 
-	<div>
-		<a href="/manager">管理者ページに戻る</a>
-	</div>
+<!-- 承認・却下の処理を確認できるようのbox-->
+<div id="message-box"></div>
 
-	<!--		承認・却下の処理を確認できるようのbox-->
-	<div id="message-box"></div>
+<!-- 申請があるときだけテーブルを表示 -->
+<div th:if="${not #lists.isEmpty(changeRequests)}">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>従業員名</th>
+                <th>出勤時間</th>
+                <th>退勤時間</th>
+                <th>変更後の出勤時間</th>
+                <th>変更後の退勤時間</th>
+                <th>日付</th>
+                <th>変更理由</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- 申請があるとき-->
+            <tr th:each="request : ${changeRequests}" th:attr="data-stamp-id=${request.stampId}">
+                <td th:text="${request.name}"></td>
+                <td th:text="${request.checkinTime != null ?
+                #temporals.format(request.checkinTime.toLocalTime(), 'HH:mm') : '-'}"></td>
+                <td th:text="${request.checkoutTime != null ?
+                #temporals.format(request.checkoutTime.toLocalTime(), 'HH:mm') : '-'}"></td>
+                <td th:text="${request.preCheckinTime != null ?
+                #temporals.format(request.preCheckinTime.toLocalTime(), 'HH:mm') : '-'}"></td>
+                <td th:text="${request.preCheckoutTime != null ?
+                #temporals.format(request.preCheckoutTime.toLocalTime(), 'HH:mm') : '-'}"></td>
+                <td th:text="${request.date}"></td>
+                <td th:text="${request.comment}"></td>
+                <td>
+                    <button type="button" class="approve-btn">承認</button>
+                </td>
+                <td>
+                    <button type="button" class="deny-btn">却下</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
-	<!-- 申請があるときだけテーブルを表示 -->
-	<div 	th:if="${not #lists.isEmpty(changeRequests)}">
-
-		<table border="1">
-			<thead>
-				<tr>
-					<th>従業員名</th>
-					<th>出勤時間</th>
-					<th>退勤時間</th>
-					<th>変更後の出勤時間</th>
-					<th>変更後の退勤時間</th>
-					<th>日付</th>
-					<th>変更理由</th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody>
-
-
-				<!--			申請があるとき-->
-				<tr th:each="request : ${changeRequests}" th:attr="data-stamp-id=${request.stampId}">
-				<td th:text="${request.name}"></td>
-				<td th:text="${request.checkinTime != null ? 
-									    #temporals.format(request.checkinTime.toLocalTime(), 'HH:mm') : '-'}"></td>
-				<td th:text="${request.checkoutTime != null ? 
-									    #temporals.format(request.checkoutTime.toLocalTime(), 'HH:mm') : '-'}"></td>
-				<td th:text="${request.preCheckinTime != null ? 
-									    #temporals.format(request.preCheckinTime.toLocalTime(), 'HH:mm') : '-'}"></td>
-				<td th:text="${request.preCheckoutTime != null ? 
-									    #temporals.format(request.preCheckoutTime.toLocalTime(), 'HH:mm') : '-'}"></td>
-					<td th:text="${request.date}"></td>
-					<td th:text="${request.comment}"></td>
-					<td>
-						<button type="button" class="approve-btn">承認</button>
-					</td>
-					<td>
-						<button type="button" class="deny-btn">却下</button>
-					</td>
-				</tr>
-
-			</tbody>
-
-		</table>
-	</div>
-
-	<!--			申請がないとき-->
-	<div th:if="${#lists.isEmpty(changeRequests)}">
-		<p style="margin-top: 20px;">申請はありません</p>
-	</div>
-</body>
+<!-- 申請がないとき-->
+<div class="no-data" th:if="${#lists.isEmpty(changeRequests)}">
+    申請はありません
+</div>
 
 <script src="/js/attendanceAgree.js"></script>
+</body>
 
 </html>

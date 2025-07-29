@@ -160,14 +160,7 @@ body > div:nth-of-type(2) button:hover {
     box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
 }
 
-header {
-    display: flex;
-    justify-content: center; /* ロゴを中央に配置 */
-    align-items: center; /* 垂直方向に中央揃え */
-    background-color: #0069FB; /* 青色 */
-    padding: 20px; /* ヘッダー内に余白を追加 */
-    color: white; /* テキストを白色に */
-}
+
 
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
