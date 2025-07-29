@@ -33,10 +33,10 @@ function showPendingPopup(count) {
     const popup = document.createElement('div');
     popup.id = 'pending-popup';
 	popup.innerHTML = `
-	  <div class="popup-inner">
+	  <a href="/attendanceAgree" class="popup-inner">
 	    <p>承認待ちの打刻変更が ${count} 件あります</p>
-	    <span onclick="closePendingPopup()" class="close-button">&times;</span>
-	  </div>
+	    <span class="close-button" onclick="closePendingPopup(event)">&times;</span>
+	  </a>
 	`;
 
 
@@ -52,7 +52,9 @@ function showPendingPopup(count) {
 
 
 // ポップアップを閉じる
-function closePendingPopup() {
+function closePendingPopup(event) {
+    event.stopPropagation();     // 親へのイベント伝播を防ぐ
+    event.preventDefault();      // デフォルトのリンク挙動を防ぐ
     const popup = document.getElementById('pending-popup');
     if (popup) {
         popup.remove();
