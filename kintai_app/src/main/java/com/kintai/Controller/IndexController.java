@@ -89,5 +89,19 @@ public class IndexController {
 
 		return "redirect:/complete";
 	}
+	
+	
+	 @GetMapping("/complete")
+	    public String showCompletePage(
+	            @RequestParam("type") String type,
+	            @RequestParam("employeeName") String name,
+	            @RequestParam(value = "checkTime", required = false) String checkTime,
+	            Model model) {
+
+	        model.addAttribute("type", type);
+	        model.addAttribute("employeeName", name);
+	        model.addAttribute("checkTime", checkTime);
+	        return "complete";
+	    }
 
 }
