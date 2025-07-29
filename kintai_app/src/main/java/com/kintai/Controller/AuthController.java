@@ -19,17 +19,15 @@ public class AuthController {
         this.authService = authService;
     }
 
-    /**
-     * ログイン画面表示
-     */
+    
+//     ログイン画面表示
     @GetMapping("/auth")
     public String showAuth() {
         return "auth";
     }
 
-    /**
-     * 管理者ログイン処理
-     */
+    
+//      管理者ログイン処理
     @PostMapping("/auth")
     public String processAuth(@RequestParam("password") String password, 
                             HttpSession session, 
@@ -47,26 +45,24 @@ public class AuthController {
         }
     }
 
-    /**
-     * ログアウト処理
-     */
+    
+//     ログアウト処理  
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logoutAuth(HttpSession session) {
         authService.logout(session);
         return "redirect:/";
     }
 
-    /**
-     * 管理者画面表示（シンプル版）
-     */
-    @GetMapping("/manager")
-    public String showManagerPage(HttpSession session) {
-        
-        // 管理者ログインチェック
-        if (!authService.isManagerLoggedIn(session)) {
-            return "redirect:/auth";
-        }
-        
-        return "manager";
-    }
+    
+//      管理者画面表示（シンプル版）
+//    @GetMapping("/manager")
+//    public String showManagerPage(HttpSession session) {
+//        
+//        // 管理者ログインチェック
+//        if (!authService.isManagerLoggedIn(session)) {
+//            return "redirect:/auth";
+//        }
+//        
+//        return "manager";
+//    }
 }
