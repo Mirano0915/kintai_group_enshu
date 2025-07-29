@@ -10,7 +10,6 @@
 	justify-content: center;
 	margin-top: 120px;
 
-
 }
 
 /*main.htmlを打ち消す用*/
@@ -67,10 +66,6 @@ form {
 	margin-bottom: 40px;
 	fill: #ffffff; /* 初期色 */
 	  transition: fill 0.3s ease;
-}
-
-img:hover {
-	fill: #0069FB; /* ホバー時の色 */
 }
 
 
