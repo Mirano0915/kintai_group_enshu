@@ -7,10 +7,9 @@ h1 {
     font-weight: 600;
 }
 
-
 #datetime {
     font-weight: 700;
-    font-size: 3.2rem; /* 2.2rem から 3.2rem に変更 */
+    font-size: 3.2rem;
     color: #0069FB; /* 青色のメインカラー */
     display: block;
     margin-top: 8px;
@@ -100,10 +99,23 @@ font-size: 2.5rem;
     transform: translateY(0);
 }
 
-/* エラーメッセージ */
-.center-buttons div {
-    flex-basis: 100%;
+/* バリデーションスタイル */
+.validation-message {
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.validation-message p {
+    color: #e53e3e; 
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 12px 16px;
+    background-color: rgba(229, 62, 62, 0.1);
+    border: 1px solid rgba(229, 62, 62, 0.3);
+    border-radius: 8px;
+    display: inline-block;
 }
 
 /* ナビゲーションボタンコンテナ - 修正！ */
@@ -148,7 +160,6 @@ body > div:nth-of-type(2) button:hover {
     box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3);
 }
 
-
 header {
     display: flex;
     justify-content: center; /* ロゴを中央に配置 */
@@ -189,6 +200,11 @@ header {
     
     body > div:nth-of-type(2) button {
         min-width: 140px;
+    }
+    
+    .validation-message p {
+        font-size: 1rem;
+        padding: 10px 12px;
     }
 }
 

@@ -69,16 +69,16 @@ form {
 }
 
 #pending-popup {
-  background-color: rgba(0, 105, 251, 0.08); /* ごく薄い青色 */
-  border: 2px solid #0069FB;
-  padding: 16px 24px;
-  margin-top: 16px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 105, 251, 0.1);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  animation: fadeIn 0.3s ease-in-out;
+background-color: rgba(16, 185, 129, 0.08); /* ごく薄い緑色に変更 */
+border: 2px solid #10b981; /* 緑のボーダーに変更 */
+padding: 16px 24px;
+margin-top: 16px;
+border-radius: 8px;
+box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1); /* 緑のシャドウに変更 */
+max-width: 600px;
+margin-left: auto;
+margin-right: auto;
+animation: fadeIn 0.3s ease-in-out;
 }
 
 /* 内側をFlexboxで整理して、閉じるボタンとテキストの距離を調整 */
@@ -93,15 +93,17 @@ form {
 
 /* 閉じるボタンを右側に寄せる */
 .close-button {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0069FB;
-  cursor: pointer;
+font-size: 1.5rem;
+font-weight: bold;
+color:black;
+cursor: pointer;
 }
+
 .popup-inner p {
-  margin: 0;
-  text-align: center;
-  font-size: 30px;
+margin: 0;
+text-align: center;
+font-size: 30px;
+color: #10b981; /* 緑色のアクセントカラーに変更 */
 }
 
 @keyframes fadeUp {
@@ -118,4 +120,3 @@ form {
 #pending-popup {
   animation: fadeUp 0.6s ease-out;
 }
-
