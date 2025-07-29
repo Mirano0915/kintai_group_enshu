@@ -21,7 +21,7 @@ body > *:not(header) {
 /* ヘッダー部分 - タイトル中央、リンク右上 */
 .header-container {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     margin-top: 20px; /* Add top margin since we removed body padding */
 }
 
@@ -34,7 +34,7 @@ body > *:not(header) {
 .header-container .link {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 180px;
     font-size: 18px;
     text-decoration: underline;
     color: #0069FB;
@@ -157,7 +157,7 @@ body > *:not(header) {
 table {
     width: 100%;
     max-width: 1200px; /* Limit table width */
-    margin: 20px auto; /* Center the table */
+    margin: 40px auto 20px auto;
     border-collapse: collapse;
     font-size: 18px; /* Reduced from 30px to make it more compact */
     border-radius: 8px;
@@ -220,9 +220,13 @@ td button {
 
 }
 
+/* 編集ボタンのホバー効果 */
 td button:hover {
-    background-color: #0b8c68;
-    border-color: #0b8c68;
+    background-color: #FFFFFF; /* 白背景に変更 */
+    color: #10B981; /* 緑文字に変更 */
+    border-color: #10B981; /* 緑ボーダー維持 */
+    transform: translateY(-1px); /* 浮き上がる効果追加 */
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); /* 緑の影を追加 */
 }
 
 
