@@ -19,7 +19,7 @@
 	<div class="buttons">
 		<form th:action="@{/attendanceAgree}" method="get">
 			<button type="submit" id="attendanceAgree">
-				<img src="/img/hanko.png" alt="打刻変更確認" class="hanko"/>
+				<img src="/img/hanko.svg" alt="打刻変更確認" class="hanko"/>
 				<span class="buttonText">
 					打刻変更
 					<span class="lineBreak">確認</span>
@@ -29,14 +29,14 @@
 
 		<form th:action="@{/payroll}" method="get">
 			<button type="submit" id="payroll">
-				<img src="/img/money.png" alt="給与計算" />
+				<img src="/img/money.svg" alt="給与計算" />
 				給与計算</button>
 		</form>
 
 		<form th:action="@{/attendance}" method="get">
 			<input type="hidden" name="mode" value="manager">
 			<button type="submit" id="attendance">
-				<img src="/img/calender.png" alt="勤怠管理" />
+				<img src="/img/calender.svg" alt="勤怠管理" />
 				勤怠管理</button>
 		</form>
 	</div>

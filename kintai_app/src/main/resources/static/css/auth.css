@@ -1,3 +1,5 @@
+
+
 /* ナビゲーションボタン（管理者ページへ/打刻管理ページへ） */
 body button {
 background-color: #0069FB;
@@ -40,7 +42,7 @@ text-align: center;
 
 /* メインコンテナ - Modified to work with header */
 body {
-font-family: 'IPAexGothic', 'IPA Gothic', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+font-family: 'IPAexGothic', sans-serif;
 background-color: #FFFFFF;
 color: #0069FB;
 min-height: 100vh;
@@ -111,4 +113,25 @@ background-color: rgba(229, 62, 62, 0.1);
 border: 1px solid rgba(229, 62, 62, 0.3);
 border-radius: 8px;
 display: inline-block;
+}
+
+
+.link {
+	display: block;
+	/* インライン要素をブロックに */
+	margin: 30px auto;
+	/* 水平方向の中央配置 */
+	text-align: center;
+	width: fit-content;
+	font-size: 26px;
+	margin-top: 10%;
+}
+
+.password{
+	font-size: 26px;
+}
+
+.login {
+	font-size: 24px;
+	font-weight: 700;
 }
