@@ -60,3 +60,41 @@ function closePendingPopup(event) {
         popup.remove();
     }
 }
+   
+
+//ホバーの画像
+const hoverImages = [
+  {
+    buttonId: 'attendanceAgree',
+    imageId: 'money',
+    normal: '/img/hanko.png',
+    hover: '/img/hanko-blue.png'
+  },
+  {
+    buttonId: 'payroll',
+    imageId: 'hanko',
+    normal: '/img/money.png',
+    hover: '/img/money-blue.png'
+  },
+  {
+    buttonId: 'attendance',
+    imageId: 'calender',
+    normal: '/img/calender.png',
+    hover: '/img/calender-blue.png'
+  }
+];
+
+hoverImages.forEach(({ buttonId, imageId, normal, hover }) => {
+  const button = document.getElementById(buttonId);
+  const img = document.getElementById(imageId);
+
+  if (button && img) {
+    button.addEventListener('mouseenter', () => {
+      img.src = hover;
+    });
+
+    button.addEventListener('mouseleave', () => {
+      img.src = normal;
+    });
+  }
+});
