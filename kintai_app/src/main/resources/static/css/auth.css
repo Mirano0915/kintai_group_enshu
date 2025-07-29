@@ -38,18 +38,36 @@ transition: all 0.3s ease;
 text-align: center;
 }
 
-/* メインコンテナ - すべてを中央に配置 */
+/* メインコンテナ - Modified to work with header */
 body {
 font-family: 'IPAexGothic', 'IPA Gothic', 'Hiragino Sans', 'Yu Gothic', sans-serif;
 background-color: #FFFFFF;
 color: #0069FB;
 min-height: 100vh;
-padding: 20px;
+padding: 0; /* REMOVED padding that was causing white space */
 line-height: 1.6;
+/* REMOVED flex centering that was pushing header down */
+}
+
+/* Content wrapper - everything except header */
+body > *:not(header) {
+padding: 20px; /* Move padding to content, not body */
+}
+
+/* Create a wrapper for centering content (except header) */
+body {
+display: flex;
+flex-direction: column;
+}
+
+/* Center the main content area */
+.content-wrapper {
+flex: 1;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
+padding: 20px;
 }
 
 /* フォームコンテナ - 大きく中央配置 */

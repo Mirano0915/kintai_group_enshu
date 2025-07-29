@@ -2,20 +2,27 @@
 form {
     all: unset;
     display: block;
-    margin: 20px 0;
+/*    margin: 5px 0;*/
 }
 
-/* ページレイアウト */
+/* ページレイアウト - REMOVE PADDING FROM BODY */
 body {
     font-family: 'IPAGothic', sans-serif;
     font-weight: 600;
-    padding: 20px;
+    /* padding: 20px; REMOVED - This was causing white space above header */
+}
+
+/* Add padding to content, not body */
+body > *:not(header) {
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 /* ヘッダー部分 - タイトル中央、リンク右上 */
 .header-container {
     position: relative;
     margin-bottom: 30px;
+    margin-top: 20px; /* Add top margin since we removed body padding */
 }
 
 .header-container h1 {
@@ -69,7 +76,7 @@ body {
 
 .filter-container label {
     font-size: 20px;
-    color: #0069FB;
+    color: #10B981; /* 緑色に変更 */
     margin: 0;
     white-space: nowrap;
     line-height: 1;
@@ -79,13 +86,22 @@ body {
 .filter-container select,
 .filter-container input[type="date"] {
     padding: 12px 16px;
-    border: 2px solid #0069FB;
+    border: 2px solid #10B981; /* 緑色のボーダーに変更 */
     border-radius: 4px;
     font-size: 18px;
     min-width: 160px;
     height: 50px;
     box-sizing: border-box;
     vertical-align: baseline;
+    color: #10B981; /* 緑色のテキストに変更 */
+}
+
+/* フォーカス時のスタイルも緑色に */
+.filter-container select:focus,
+.filter-container input[type="date"]:focus {
+    outline: none;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 /* ボタン部分（検索＋リセットを中央に配置、間隔あり、大きく） */
@@ -113,62 +129,72 @@ body {
     border-color: #0b8c68;
 }
 
-/* 従業員追加ボタン - 中央配置、大きく、ホバー効果追加 */
 .add-employee-container {
     margin: 20px 0;
     text-align: center;
 }
 
 .add-employee-container button {
-padding: 15px 30px;
-font-size: 20px;
-border-radius: 8px;
-border: 2px solid #0069FB;
-background-color: #0069FB;
-color: white;
-cursor: pointer;
-transition: all 0.3s ease;
+    padding: 15px 30px;
+    font-size: 20px;
+    border-radius: 8px;
+    border: 2px solid #0069FB;        /* Changed to blue */
+    background-color: #0069FB;        /* Changed to blue */
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .add-employee-container button:hover {
-background-color: #FFFFFF; /* 白背景に変更 */
-color: #0069FB; /* 青文字に変更 */
-border-color: #0069FB; /* 青ボーダー維持 */
-transform: translateY(-1px); /* 少し浮き上がる効果 */
-box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3); /* 青の影を追加 */
+    background-color: #FFFFFF;        /* White background on hover */
+    color: #0069FB;                   /* Blue text on hover */
+    border-color: #0069FB;            /* Blue border on hover */
+    transform: translateY(-1px);      /* Float effect */
+    box-shadow: 0 4px 12px rgba(0, 105, 251, 0.3); /* Blue shadow */
 }
 
-/* テーブルスタイル */
+/* テーブルスタイル - More compact and easier to read */
 table {
     width: 100%;
+    max-width: 1200px; /* Limit table width */
+    margin: 20px auto; /* Center the table */
     border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 30px; /* テーブル文字サイズを30pxに変更 */
+    font-size: 18px; /* Reduced from 30px to make it more compact */
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgb(0, 0, 64);
-    color: rgb(0, 0, 64); /* テーブル全体の文字色を黒に設定 */
-    font-weight: normal; /* 文字を細字に設定 */
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-weight: 400; /* Normal weight, not too heavy */
+
 }
 
 th {
     background-color: #0069FB;
-    color: white; /* ヘッダーの文字色を白に設定 */
-    padding: 12px 8px;
+
+    color: white;
+    padding: 15px 8px; /* Increased vertical padding for taller headers */
+
     text-align: center;
-    font-size: 30px; /* ヘッダー文字サイズを30pxに変更 */
+    font-size: 18px; /* Reduced from 30px */
     border: 1px solid rgba(0, 105, 251, 0.3);
-    font-weight: normal; /* ヘッダーも細字に設定 */
+
+    font-weight: 500; /* Medium weight for headers */
+
 }
 
 td {
-    padding: 10px 8px;
+    padding: 15px 8px; /* Increased vertical padding for taller rows */
     border: 1px solid rgba(0, 105, 251, 0.2);
     text-align: center;
     background-color: #f9f9f9;
-    font-size: 30px; /* データセル文字サイズを30pxに変更 */
-    color: rgb(0, 0, 64); /* データセルの文字色を黒に設定 */
-    font-weight: normal; /* データセルも細字に設定 */
+
+    font-size: 18px; /* Reduced from 30px */
+    color: #333333; /* Soft dark gray instead of pure black - easier on eyes */
+    font-weight: 400; /* Normal weight */
+    line-height: 1.4; /* Better line spacing */
+    vertical-align: middle; /* Center content vertically */
+    height: 60px;
+
 }
 
 tr:nth-child(even) {
@@ -176,20 +202,22 @@ tr:nth-child(even) {
 }
 
 tr:hover {
-    background-color: #e0e0e0;
+    background-color: #e8f4f8; /* Softer hover color */
 }
 
 /* テーブル内のボタン */
 td button {
-    padding: 6px 12px; /* ボタンサイズを少し大きく */
-    font-size: 24px; /* ボタン文字サイズも大きく */
+    padding: 5px 10px; /* More compact button size */
+    font-size: 16px; /* Smaller button text */
     border-radius: 4px;
     border: 1px solid #10B981;
     background-color: #10B981;
     color: white; /* ボタンの文字色を白に設定 */
     cursor: pointer;
     transition: all 0.3s ease;
-    font-weight: normal; /* ボタンの文字も細字に設定 */
+
+    font-weight: 400; /* Normal weight */
+
 }
 
 td button:hover {
@@ -197,6 +225,21 @@ td button:hover {
     border-color: #0b8c68;
 }
 
+
+/* 退職ボタンを赤色にする  */
+td button[onclick*="deleteAttendance"] {
+    border: 1px solid #e53e3e;
+    background-color: #e53e3e;
+    color: white;
+}
+
+td button[onclick*="deleteAttendance"]:hover {
+    background-color: #FFFFFF;
+    color: #e53e3e;
+    border-color: #e53e3e;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
 
 
 /* データなしメッセージ */

@@ -1,0 +1,190 @@
+/* フォームの基本スタイル - main.cssを上書き */
+form {
+all: unset;
+display: block;
+/*margin: 20px 0;*/
+}
+
+/* ページレイアウト - REMOVE PADDING FROM BODY */
+body {
+font-family: 'IPAGothic', sans-serif;
+font-weight: 600;
+/* padding: 20px;  REMOVE THIS - IT CONFLICTS WITH HEADER */
+}
+
+/* Add padding to content, not body */
+body > *:not(header) {
+padding-left: 20px;
+padding-right: 20px;
+}
+
+/* ヘッダー部分 - タイトル中央、リンク右上 */
+.header-container {
+position: relative;
+margin-bottom: 30px;
+margin-top: 20px; /* Add top margin since we removed body padding */
+}
+
+.header-container h1 {
+margin: 0;
+text-align: center;
+position: relative;
+}
+
+.header-container .link {
+position: absolute;
+top: 0;
+right: 0;
+font-size: 18px;
+text-decoration: underline;
+color: #0069FB;
+margin-top: 40px;
+}
+
+/* メッセージボックス */
+#message-box {
+margin: 20px auto;
+max-width: 600px;
+padding: 15px;
+border-radius: 8px;
+text-align: center;
+font-size: 16px;
+display: none;
+}
+
+#message-box.success {
+background-color: rgba(16, 185, 129, 0.1);
+border: 2px solid #10b981;
+color: #10b981;
+display: block;
+}
+
+#message-box.error {
+background-color: rgba(229, 62, 62, 0.1);
+border: 2px solid #e53e3e;
+color: #e53e3e;
+display: block;
+}
+
+/* テーブルスタイル - More compact and easier to read */
+table {
+width: 100%;
+max-width: 1200px; /* Limit table width */
+margin: 20px auto; /* Center the table */
+border-collapse: collapse;
+font-size: 18px; /* Reduced from 24px to make it more compact */
+border-radius: 8px;
+overflow: hidden;
+box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+font-weight: 400; /* Normal weight, not too heavy */
+}
+
+th {
+background-color: #0069FB;
+color: white;
+padding: 15px 8px; /* Increased vertical padding for taller headers */
+text-align: center;
+font-size: 18px; /* Reduced from 24px */
+border: 1px solid rgba(0, 105, 251, 0.3);
+font-weight: 500; /* Medium weight for headers */
+height: 60px; /* Ensure header height matches */
+}
+
+td {
+padding: 15px 8px; /* Increased vertical padding for taller rows */
+border: 1px solid rgba(0, 105, 251, 0.2);
+text-align: center;
+background-color: #f9f9f9;
+font-size: 18px; /* Reduced from 24px */
+color: #333333; /* Soft dark gray instead of pure black - easier on eyes */
+font-weight: 400; /* Normal weight */
+line-height: 1.4; /* Better line spacing */
+vertical-align: middle; /* Center content vertically */
+height: 60px !important; /* Force the height with !important */
+min-height: 60px; /* Ensure minimum height */
+}
+
+tr {
+height: 60px !important; /* Force row height */
+}
+
+tr:nth-child(even) {
+background-color: #f1f1f1;
+}
+
+tr:hover {
+background-color: #e8f4f8; /* Softer hover color */
+}
+
+/* テーブル内のボタン */
+td button {
+padding: 5px 10px; /* More compact button size */
+font-size: 16px; /* Smaller button text */
+border-radius: 4px;
+cursor: pointer;
+transition: all 0.3s ease;
+border: 2px solid;
+font-weight: 400; /* Normal weight */
+}
+
+/* 承認ボタン */
+.approve-btn {
+background-color: #10b981;
+color: white;
+border-color: #10b981;
+}
+
+.approve-btn:hover {
+background-color: #FFFFFF;
+color: #10b981;
+border-color: #10b981;
+transform: translateY(-1px);
+box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* 却下ボタン */
+.deny-btn {
+background-color: #e53e3e;
+color: white;
+border-color: #e53e3e;
+}
+
+.deny-btn:hover {
+background-color: #FFFFFF;
+color: #e53e3e;
+border-color: #e53e3e;
+transform: translateY(-1px);
+box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+/* データなしメッセージ */
+.no-data {
+text-align: center;
+font-size: 16px;
+color: #666;
+margin: 40px 0;
+padding: 20px;
+background-color: #f5f5f5;
+border-radius: 8px;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+.header-container {
+flex-direction: column;
+gap: 10px;
+}
+
+table {
+font-size: 12px;
+}
+
+th, td {
+padding: 6px 4px;
+}
+
+td button {
+padding: 6px 12px;
+font-size: 12px;
+}
+}
