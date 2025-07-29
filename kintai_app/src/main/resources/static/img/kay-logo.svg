@@ -1,0 +1,36 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Transparent background (no background rectangle) -->
+  
+  <!-- Letter K - Made bigger and bolder -->
+  <g fill="white">
+    <!-- K - Vertical line (thicker) -->
+    <rect x="12" y="6" width="5" height="28"/>
+    <!-- K - Top diagonal (bigger and thicker) -->
+    <polygon points="17,6 27,6 19,18 25,18"/>
+    <!-- K - Bottom diagonal (bigger and thicker) -->
+    <polygon points="19,18 25,18 33,34 27,34"/>
+  </g>
+  
+  <!-- Letter A - Made bigger and bolder -->
+  <g fill="white">
+    <!-- A - Left diagonal (thicker) -->
+    <polygon points="36,34 42,34 50,6 44,6"/>
+    <!-- A - Right diagonal (thicker) -->
+    <polygon points="54,6 48,6 56,34 62,34"/>
+    <!-- A - Horizontal bar (thicker) -->
+    <rect x="43" y="19" width="13" height="4"/>
+  </g>
+  
+  <!-- Letter Y - Made bigger and bolder -->
+  <g fill="white">
+    <!-- Y - Left diagonal (thicker) -->
+    <polygon points="68,6 74,6 80,19 74,19"/>
+    <!-- Y - Right diagonal (thicker) -->
+    <polygon points="84,19 78,19 84,6 90,6"/>
+    <!-- Y - Vertical line (thicker) -->
+    <rect x="76" y="19" width="5" height="15"/>
+  </g>
+  
+  <!-- Small accent dot (slightly bigger) -->
+  <circle cx="98" cy="12" r="2.5" fill="#10B981"/>
+</svg>

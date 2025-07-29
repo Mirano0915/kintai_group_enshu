@@ -17,14 +17,20 @@
 /* Header styling */
 header {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* ロゴを左に配置 */
     align-items: center;
     background-color: #01327B;
     padding: 20px;
     color: white;
     width: 100%;
     min-height: 70px;
-    margin: 0; /* Remove any margins */
+    margin: 0;
+}
+
+.logo {
+    height: 40p
+	x; /* 高さを指定 */
+    width: auto; /* 幅は自動調整で比率維持 */
 }
 
 * {
