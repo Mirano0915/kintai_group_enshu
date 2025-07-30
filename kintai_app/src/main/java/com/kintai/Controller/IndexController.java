@@ -34,6 +34,7 @@ public class IndexController {
 		return "index";
 	}
 
+	//出勤処理
 	@RequestMapping("/checkin")
 	public String checkin(
 			@RequestParam("employeeName") String name,
@@ -53,7 +54,7 @@ public class IndexController {
 			return "index";
 		}
 
-		// 出勤処理
+//		出勤登録
 		String checkTime = indexService.checkin(nameId);
 
 		// 完了画面に渡す情報を一時保存（リダイレクト用）
@@ -64,7 +65,9 @@ public class IndexController {
 		return "redirect:/complete";
 	}
 
-	//退勤処理(退勤ボタン)
+	
+	
+	//退勤処理
 	@RequestMapping("/checkout")
 	public String checkout(
 			@RequestParam("employeeName") String name,
@@ -79,7 +82,8 @@ public class IndexController {
 			return "index";
 
 		}
-		// 出勤処理
+		
+//		退勤登録
 		String checkTime = indexService.checkout(nameId);
 
 		// 完了画面に渡す情報を一時保存（リダイレクト用）
@@ -89,5 +93,20 @@ public class IndexController {
 
 		return "redirect:/complete";
 	}
+	
+	
+//	完了画面に名前、時間を表示
+	 @GetMapping("/complete")
+	    public String showCompletePage(
+	            @RequestParam("type") String type,
+	            @RequestParam("employeeName") String name,
+	            @RequestParam(value = "checkTime", required = false) String checkTime,
+	            Model model) {
+
+	        model.addAttribute("type", type);
+	        model.addAttribute("employeeName", name);
+	        model.addAttribute("checkTime", checkTime);
+	        return "complete";
+	    }
 
 }

@@ -60,7 +60,7 @@ public class AttendanceChangeController {
 		return "attendanceChange";
 	}
 
-	//送信処理
+	//変更申請送信処理
 	@PostMapping("/completeChange")
 	public String submitAttendanceForm(
 	    @ModelAttribute("form") AttendanceChangeForm form,

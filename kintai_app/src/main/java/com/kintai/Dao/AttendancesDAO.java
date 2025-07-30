@@ -39,7 +39,7 @@ public class AttendancesDAO {
 	}
 
 	//従業員の名前を取得
-	public List<AttendancesEntity> readNameDb() {
+	public List<AttendancesEntity> getEmployeeName() {
 		String sql = "SELECT * FROM hourly_wages WHERE is_retired = false";
 		List<Map<String, Object>> resultDb1 = db.queryForList(sql);
 		List<AttendancesEntity> resultDb2 = new ArrayList<AttendancesEntity>();
@@ -55,13 +55,12 @@ public class AttendancesDAO {
 
 	//	全ての従業員名を取得 (フィルター用) 
 	public List<String> getAllEmployeeNames() {
-		List<AttendancesEntity> entities = readNameDb();
+		List<AttendancesEntity> entities = getEmployeeName();
 		List<String> names = new ArrayList<>();
 
 		for (AttendancesEntity entity : entities) {
 			names.add(entity.getName());
 		}
-
 		return names;
 	}
 
@@ -88,7 +87,6 @@ public class AttendancesDAO {
 	}
 
 	//退勤処理
-
 	public String checkout(Long nameId) {
 		System.out.println("退勤処理を行いました");
 		LocalTime nowtime = LocalTime.now();
@@ -116,17 +114,19 @@ public class AttendancesDAO {
 		return now.format(formatter);
 	}
 
-	//		 勤怠データを更新（管理者のみ）
 
-	public void updateDB(AttendancesEntity attendance) {
-		String sql = "UPDATE attendances SET checkin_time = ?, checkout_time = ?, date = ? WHERE name_id = ? AND date = ?";
-		db.update(sql,
-				attendance.getCheckinTime(),
-				attendance.getCheckoutTime(),
-				attendance.getDate(),
-				attendance.getNameId(),
-				attendance.getDate() != null ? attendance.getDate() : java.time.LocalDate.now());
-		System.out.println("勤怠データを更新しました: nameId = " + attendance.getNameId());
+	//打刻変更（管理者のみ）
+	public void managerUpdateDB(AttendanceChangeForm form) {
+
+		String sql = "UPDATE attendances SET name_id = ?, checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
+
+		db.update(
+				sql,
+				form.getNameId(),
+				form.getPreCheckinTimeAsSqlTime(), // java.sql.Time に変換
+				form.getPreCheckoutTimeAsSqlTime(), // java.sql.Time に変換
+				form.getAttendanceId());
+
 	}
 
 	//		  新規勤怠データを作成
@@ -141,10 +141,11 @@ public class AttendancesDAO {
 		System.out.println("新規勤怠データを作成しました: nameId = " + attendance.getNameId());
 	}
 
-	//	JDBCへの接続
-
-	public Connection getConnection() throws SQLException {
-		return dataSource.getConnection(); // ここで自動的にプールされた Connection を取得するにゃ！
+	//	 従業員データを削除（管理者のみ）
+	public void deleteDB(Long attendanceId) {
+		String sql = "DELETE FROM attendances WHERE attendance_id = ?";
+		db.update(sql, attendanceId);
+		System.out.println("勤怠データを削除しました: attendanceId = " + attendanceId);
 	}
 
 	//	出勤ボタンを押したとき、出勤済みか判定
@@ -170,6 +171,7 @@ public class AttendancesDAO {
 		}
 	}
 
+	//出勤し忘れているか判定
 	public boolean forgotCheckedInToday(Long nameId) {
 		String sql = "SELECT COUNT(*) FROM attendances WHERE name_id = ? AND date = CURRENT_DATE AND checkout_time IS NOT NULL";
 		Integer count = db.queryForObject(sql, Integer.class, nameId);
@@ -199,14 +201,7 @@ public class AttendancesDAO {
 		}
 	}
 
-	//	 従業員データを削除（管理者のみ）
-
-	public void deleteDB(Long attendanceId) {
-		String sql = "DELETE FROM attendances WHERE attendance_id = ?";
-		db.update(sql, attendanceId);
-		System.out.println("勤怠データを削除しました: attendanceId = " + attendanceId);
-	}
-
+	
 	// 勤怠一覧取得 - 最新の打刻順で表示
 	public List<AttendancesEntity> readAllAttendanceDb(String name, LocalDate date) {
 		String sql = "SELECT a.attendance_id, a.name_id, h.name, a.checkin_time, a.checkout_time, a.date " +
@@ -256,6 +251,7 @@ public class AttendancesDAO {
 		return resultDb2;
 	}
 
+	
 	// stampsテーブルの変更時間をattendancesに適用
 	public void updateWorkTime(Long stampId) {
 		// stamp_idに紐づくデータ取得
@@ -273,35 +269,20 @@ public class AttendancesDAO {
 
 	}
 
-	//打刻変更（管理者のみ）
-	public void managerUpdateDB(AttendanceChangeForm form) {
-
-		String sql = "UPDATE attendances SET name_id = ?, checkin_time = ?, checkout_time = ? WHERE attendance_id = ?";
-
-		db.update(
-				sql,
-				form.getNameId(),
-				form.getPreCheckinTimeAsSqlTime(), // java.sql.Time に変換
-				form.getPreCheckoutTimeAsSqlTime(), // java.sql.Time に変換
-				form.getAttendanceId());
-
-	}
-
+	
+//	勤怠IdからnameIdを取得(AttendanceService)
 	public AttendancesEntity findById(Long attendanceId) {
 		String sql = "SELECT * FROM attendances WHERE attendance_id = ?";
 		return db.queryForObject(sql, (rs, rowNum) -> {
 			AttendancesEntity entity = new AttendancesEntity();
-			entity.setAttendanceId(rs.getLong("attendance_id"));
 			entity.setNameId(rs.getLong("name_id"));
-			entity.setCheckinTime(rs.getTime("checkin_time"));
-			entity.setCheckoutTime(rs.getTime("checkout_time"));
-			entity.setDate(rs.getDate("date"));
 			return entity;
 		}, attendanceId);
 	}
+	
 
-	//退勤Idから出退勤時間を取得
-	public AttendanceChangeForm setCheckTime(Long attendanceId) {
+	//勤怠Idから出退勤時間を取得
+	public AttendanceChangeForm getCheckTime(Long attendanceId) {
 		String sql = "SELECT checkin_time, checkout_time FROM attendances WHERE attendance_id = ?";
 		Map<String, Object> result = db.queryForMap(sql, attendanceId);
 
@@ -319,6 +300,12 @@ public class AttendancesDAO {
 
 		return form;
 
+	}
+	
+
+	//	JDBCへの接続
+	public Connection getConnection() throws SQLException {
+		return dataSource.getConnection(); // ここで自動的にプールされた Connection を取得するにゃ！
 	}
 
 }

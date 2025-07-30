@@ -46,6 +46,7 @@ public class AttendanceAgreeController {
 		return "attendanceAgree";
 	}
 
+	
 	//打刻変更の承認ajax
 	@Transactional
 	@PostMapping("/approve-request")
@@ -60,7 +61,10 @@ public class AttendanceAgreeController {
 	    attendancesDAO.updateWorkTime(stampId);
 	    stampsDAO.deleteAttendanceAgree(stampId);
 
-	    return "変更申請を承認しました";	}
+	    return "変更申請を承認しました";	
+	    
+	}
+	
 	
 	//打刻変更の却下ajax
 	@Transactional

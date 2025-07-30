@@ -6,7 +6,6 @@ import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -26,20 +25,20 @@ public class ManagerController {
     }
 
     
-//      管理者メイン画面表示
-     
-    @GetMapping("/manager-main")
-    public String showManagerPage(HttpSession session, Model model) {
-        
-        // 管理者Session権限验证
-        if (!authService.isManagerLoggedIn(session)) {
-            return "redirect:/auth";
-        }
-        return "manager";
-    }
+//  管理者画面表示
+  @GetMapping("/manager")
+  public String showManagerPage(HttpSession session) {
+      
+      // 管理者ログインチェック
+      if (!authService.isManagerLoggedIn(session)) {
+          return "redirect:/auth";
+      }
+      
+      return "manager";
+  }
     
+  
 //    AJAX用 - 承認待ち件数取得API
-        
     @GetMapping("/api/pending-count")
     @ResponseBody
     public Map<String, Integer> getPendingCount(HttpSession session) {

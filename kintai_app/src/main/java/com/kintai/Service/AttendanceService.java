@@ -104,6 +104,8 @@ public class AttendanceService {
 
 	}
 	
+	
+//	退勤登録
 	public void deleteAttendance(Long attendanceId) {
 	    AttendancesEntity entity = attendancesDAO.findById(attendanceId);
 	    if (entity != null) {

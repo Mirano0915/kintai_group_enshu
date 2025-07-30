@@ -22,6 +22,7 @@ public class StampsDAO {
 		this.db = db;
 	}
 
+	
 	//打刻申請を追加
 	public void insertAttendanceTime(AttendanceChangeForm form) {
 
@@ -37,6 +38,7 @@ public class StampsDAO {
 
 	}
 
+	
 	//打刻申請を削除
 	public void deleteAttendanceAgree(Long stampId) {
 		
@@ -46,8 +48,8 @@ public class StampsDAO {
 
 	}
 
+	
 	//勤怠テーブルと打刻変更テーブルを内部結合
-
 	public List<StampsEntity> showAttendanceAgreeTable() {
 		
 		String sql = "SELECT "
@@ -89,22 +91,15 @@ public class StampsDAO {
 	}
 	
 	
-	public Long readNameId(Long attendanceId) {
-		String sql = "SELECT name_id FROM attendances WHERE attendance_id = ?";
-		
-		return db.queryForObject(sql, Long.class, attendanceId);
-	}
-	
 	
  //	承認待ちの打刻変更申請の件数を取得
 	public int countPendingRequests() {
 		String sql = "SELECT COUNT(*) FROM stamps";
 		return db.queryForObject(sql, Integer.class);
 	}
+
 	
-	public void deleteByNameId(Long nameId) {
-	    String sql = "DELETE FROM hourly_wages WHERE name_id = ?";
-	    db.update(sql, nameId);
-	}
+	
+	
 	
 }
