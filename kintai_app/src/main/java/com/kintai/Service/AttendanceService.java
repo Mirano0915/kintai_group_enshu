@@ -10,7 +10,6 @@ import com.kintai.Dao.AttendancesDAO;
 import com.kintai.Dao.HourlyWagesDAO;
 import com.kintai.Dao.StampsDAO;
 import com.kintai.Entity.AttendancesEntity;
-import com.kintai.Form.AttendanceChangeForm;
 
 @Service
 public class AttendanceService {
@@ -30,16 +29,19 @@ public class AttendanceService {
 
 	}
 
+	
 	 // 勤怠データ一覧を取得 - 名前と日付の両方でフィルタリング
 	 public List<AttendancesEntity> getAllAttendanceDataBothFilters(String name, LocalDate date) {
 	     return attendancesDAO.readAllAttendanceDb(name, date);
 	 }
 
+	 
 	 // 勤怠データ一覧を取得 - 従業員名でフィルタリング
 	 public List<AttendancesEntity> getAttendanceByName(String name) {
 	     return attendancesDAO.readAllAttendanceDb(name, null);
 	 }
 
+	 
 	 // 勤怠データ一覧を取得 - 日付でフィルタリング
 	 public List<AttendancesEntity> getAttendanceByDate(LocalDate date) {
 	     return attendancesDAO.readAllAttendanceDb(null, date);
@@ -51,26 +53,13 @@ public class AttendanceService {
 	     return attendancesDAO.readAllAttendanceDb(null, null);
 	 }
 
+	 
 	 // フィルター用のドロップダウンメニューで使用
 	 public List<String> getAllEmployeeNames() {
 	     return attendancesDAO.getAllEmployeeNames();
 	 }
 
-	// 出勤処理
-	public void checkin(Long nameId) {
-		attendancesDAO.checkin(nameId);
-	}
-
-	// 退勤処理
-	public void checkout(Long nameId) {
-		attendancesDAO.checkout(nameId);
-	}
-
-	// 変更申請を送信
-	public void submitChangeRequest(AttendanceChangeForm changeForm) {
-		stampsDAO.insertAttendanceTime(changeForm);
-	}
-
+	
 	// 出勤状況を判定（出勤済み、退勤済み、未出勤）
 	public String getAttendanceStatus(AttendancesEntity attendance) {
 
@@ -105,7 +94,7 @@ public class AttendanceService {
 	}
 	
 	
-//	退勤登録
+//	退職登録
 	public void deleteAttendance(Long attendanceId) {
 	    AttendancesEntity entity = attendancesDAO.findById(attendanceId);
 	    if (entity != null) {
