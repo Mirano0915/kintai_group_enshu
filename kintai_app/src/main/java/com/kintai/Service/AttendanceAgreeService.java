@@ -14,6 +14,7 @@ public class AttendanceAgreeService {
 	@Autowired
 	private StampsDAO stampsDAO;
 
+	
 	//打刻変更申請の一覧表示
 	public List<StampsEntity> getAttendanceAgreeList() {
 		List<StampsEntity> resultDb2 = stampsDAO.showAttendanceAgreeTable();
