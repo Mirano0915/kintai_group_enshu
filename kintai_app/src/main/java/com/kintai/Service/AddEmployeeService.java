@@ -24,6 +24,6 @@ public class AddEmployeeService {
         
         // 同姓同名がない場合は追加処理
         hourlyWagesDAO.addEmployee(payrollForm.getName(), payrollForm.getHourlyWage());
-        return true; // 追加成功
+        return true; 
     }
 }
