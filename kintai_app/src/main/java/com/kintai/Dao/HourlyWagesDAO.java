@@ -78,6 +78,7 @@ public class HourlyWagesDAO {
 
 		List<HourlyWagesEntity> resultDb2 = new ArrayList<HourlyWagesEntity>();//従業員ごとの給与情報を入れておくリスト
 
+		
 		//データを取得
 		for (Map<String, Object> result1 : resultDb1) {
 			HourlyWagesEntity entitydb = new HourlyWagesEntity();
@@ -117,6 +118,7 @@ public class HourlyWagesDAO {
 
 	}
 
+	
 	//index.html用　idで名前をとってくる
 	public Long getNameIdByName(String name) {
 		String sql = "SELECT name_id FROM hourly_wages WHERE name = ?";
@@ -141,12 +143,6 @@ public class HourlyWagesDAO {
 
 	}
 
-	//nameIDを取得
-	public boolean existsByNameId(Long nameId) {
-		String sql = "SELECT COUNT(*) FROM hourly_wages WHERE name_id = ?";
-		Integer count = db.queryForObject(sql, Integer.class, nameId);
-		return count != null && count > 0;
-	}
 	
 	//退職済みかどうか調べる
 	 public Boolean isRetired(Long nameId) {
@@ -166,12 +162,14 @@ public class HourlyWagesDAO {
 	    db.update(sql, nameId);
 	}
 	
+	
 	// 従業員を追加する
 	public void addEmployee(String name, int hourlyWage) {
 	    String sql = "INSERT INTO hourly_wages (name, hourly_wage, is_retired) VALUES (?, ?, FALSE)";
 	    db.update(sql, name, hourlyWage);
 	    System.out.println("新しい従業員を追加しました: " + name + " (時給: " + hourlyWage + "円)");
 	}
+	
 	
 //    従業員名前の重複をチェック
 	public boolean existsByName(String name) {
@@ -180,10 +178,5 @@ public class HourlyWagesDAO {
 	    return count != null && count > 0;
 	}
 	               
-	
-//	public void deleteByNameId(Long nameId) {
-//	    String sql = "DELETE FROM hourly_wages WHERE name_id = ?";
-//	    db.update(sql, nameId);
-//	}
 	
 }
