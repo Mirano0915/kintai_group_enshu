@@ -14,6 +14,7 @@ public class AddEmployeeService {
         this.hourlyWagesDAO = hourlyWagesDAO;
     }
 
+    
  // 従業員を追加（同姓同名チェック付き）
     public boolean addEmployee(PayrollForm payrollForm) {
         // 同姓同名チェック
@@ -23,6 +24,6 @@ public class AddEmployeeService {
         
         // 同姓同名がない場合は追加処理
         hourlyWagesDAO.addEmployee(payrollForm.getName(), payrollForm.getHourlyWage());
-        return true; // 追加成功
+        return true; 
     }
 }

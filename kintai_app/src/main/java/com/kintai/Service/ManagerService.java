@@ -16,7 +16,6 @@ public class ManagerService {
    
 //      承認待ちの打刻変更申請件数を取得
      public int getPendingRequestCount() {
-    	 
         // StampsDAOから実際の承認待ち申請数を取得
         return stampsDAO.countPendingRequests();
     }
